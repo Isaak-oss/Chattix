@@ -1,8 +1,3 @@
-
 export const Feed = () => {
-  return (
-    <div>
-
-    </div>
-  );
-};
+	return <div></div>
+}

@@ -8,11 +8,13 @@ import { NotFound } from '@pages/NotFound/NotFound.tsx'
 import { Profile } from '@pages/Profile/Profile.tsx'
 import { Settings } from '@pages/Settings/Settings.tsx'
 import { routes } from '@shared/config'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
 const Router = () => {
 	return (
 		<Routes>
+			<Route path="/" element={<Navigate to={routes.authSignIn.path} />} />
+
 			<Route element={<GuestLayout />}>
 				<Route path={routes.authSignIn.path} element={<SignIn />} />
 				<Route path={routes.authSignUp.path} element={<SignUp />} />
