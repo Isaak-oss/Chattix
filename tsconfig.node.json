@@ -21,19 +21,6 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-
-    /* Paths */
-    "baseUrl": ".",
-    "paths": {
-      "@entities/*": ["src/entities/*"],
-      "@pages/*": ["src/pages/*"],
-      "@src/*": ["src/*"],
-      "@app/*": ["src/app/*"],
-      "@widgets/*": ["src/widgets/*"],
-      "@features/*": ["src/features/*"],
-      "@shared/*": ["src/shared/*"],
-      "@styles": ["src/shared/styles/index.scss"],
-    }
   },
   "include": ["vite.config.ts"]
 }

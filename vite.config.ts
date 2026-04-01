@@ -15,7 +15,8 @@ export default defineConfig({
 			'@features': path.resolve(__dirname, './src/features'),
 			'@shared': path.resolve(__dirname, './src/shared'),
 			'@styles': path.resolve(__dirname, './src/shared/styles/index.scss'),
-			'@app': path.resolve(__dirname, './src/app')
+			'@app': path.resolve(__dirname, './src/app'),
+			'@globalTypes': path.resolve(__dirname, './types')
 		}
 	}
 })
