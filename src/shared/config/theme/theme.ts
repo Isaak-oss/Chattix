@@ -1,5 +1,15 @@
 import { createTheme } from '@mui/material'
 
+/*
+	Default Breakpoint:
+
+	xs, extra-small: 0px
+	sm, small: 600px
+	md, medium: 900px
+	lg, large: 1200px
+	xl, extra-large: 1536px
+*/
+
 export let theme = createTheme({
 	palette: {
 		mode: 'light',
@@ -12,20 +22,25 @@ export let theme = createTheme({
 		secondary: {
 			main: '#c9a87c',
 			light: '#d9c4a5',
-			dark: '#a68a5b',
-			contrastText: '#1a1a1a'
+			dark: '#a68a5b'
 		},
 		background: {
 			default: '#f5f3ef',
-			paper: '#fefefe'
+			paper: '#fefefe',
+			semiTransparent: 'rgba(255,255,255,0.05)',
+			semiTransparentHover: 'rgba(255,255,255,0.08)',
+			activeLink: 'rgba(201,168,124,0.15)',
+			activeLinkHover: 'rgba(201,168,124,0.2)'
 		},
 		text: {
 			primary: '#1a1a1a',
-			secondary: '#6b6b6b'
+			secondary: '#6b6b6b',
+			contrastText: 'rgba(245,243,239,0.7)'
 		},
 		divider: 'rgba(26, 26, 26, 0.08)',
 		error: {
-			main: '#ff0000'
+			main: '#c75050',
+			hover: 'rgba(199,80,80,0.1)'
 		},
 		success: {
 			main: '#5a8a6c'
@@ -76,16 +91,16 @@ theme = createTheme(theme, {
 			color: theme.palette.text.secondary
 		},
 		subtitle2: {
-			fontWeight: 500,
-			letterSpacing: '0.01em'
+			fontSize: 14,
+			fontWeight: 600
 		},
 		body1: {
-			letterSpacing: '0.01em',
-			lineHeight: 1.7
+			fontSize: 16,
+			fontWeight: 500
 		},
 		body2: {
-			letterSpacing: '0.01em',
-			lineHeight: 1.6
+			fontSize: 14,
+			fontWeight: 400
 		},
 		button: {
 			fontWeight: 500,
@@ -93,7 +108,8 @@ theme = createTheme(theme, {
 			textTransform: 'none'
 		},
 		caption: {
-			letterSpacing: '0.02em'
+			fontSize: 12,
+			fontWeight: 400
 		},
 		overline: {
 			letterSpacing: '0.1em',
@@ -121,10 +137,14 @@ theme = createTheme(theme, {
 				root: {
 					textTransform: 'none',
 					fontWeight: 500,
-					borderRadius: 6,
+					borderRadius: 8,
 					padding: '12px 24px',
 					transition: 'all 0.2s ease',
-					fontSize: 15
+					fontSize: 15,
+					gap: 8,
+					'& .MuiButton-startIcon': {
+						margin: 0
+					}
 				},
 				contained: {
 					backgroundColor: theme.palette.button.main,
@@ -139,7 +159,12 @@ theme = createTheme(theme, {
 					'&:hover': {
 						borderWidth: '1.5px'
 					}
-				}
+				},
+				text: {
+					backgroundColor: 'transparent',
+					justifyContent: 'flex-start',
+					textAlign: 'left'
+				},
 			}
 		},
 		MuiCard: {

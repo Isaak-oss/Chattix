@@ -1,3 +1,5 @@
 export * from './Form'
 export { AuthWelcomeBanner } from './AuthWelcomeBanner/AuthWelcomeBanner'
 export { PasswordVisibilityButton } from './TextField/index'
+export * from './Loader'
+export { Logo } from './Logo.tsx'

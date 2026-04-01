@@ -37,5 +37,5 @@
       "@styles": ["src/shared/styles/index.scss"],
     }
   },
-  "include": ["src"]
+  "include": ["src", "types"]
 }

@@ -14,16 +14,22 @@ export const AuthLayout = ({ children }: { children: ReactNode }) => {
 			<Box
 				sx={{
 					overflowY: 'auto',
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'center',
-					alignItems: 'center',
 					flex: 1,
 					p: 6
 				}}
 			>
-				<Box maxWidth={400} width="100%">
-					{children}
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center',
+						alignItems: 'center',
+						minHeight: '100%'
+					}}
+				>
+					<Box maxWidth={400} width="100%">
+						{children}
+					</Box>
 				</Box>
 			</Box>
 		</Box>

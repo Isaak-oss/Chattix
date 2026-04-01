@@ -1,44 +1,41 @@
 import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined'
-import { InputAdornment, TextField } from '@mui/material'
-import { PasswordVisibilityButton } from '@shared/ui'
+import { InputAdornment } from '@mui/material'
+import { DefaultField, PasswordVisibilityButton } from '@shared/ui'
 import { useState } from 'react'
-import { Controller, type FieldValues, type Path } from 'react-hook-form'
+import { type FieldValues, type Path } from 'react-hook-form'
 
 import type { BaseFormFieldProps } from '../model/types.ts'
 
 export const PasswordField = <T extends FieldValues>({
 	control,
-	name = 'password' as Path<T>
+	name = 'password' as Path<T>,
+	label = 'Password'
 }: BaseFormFieldProps<T>) => {
 	const [isPasswordShown, setIsPasswordShown] = useState(false)
 
 	return (
-		<Controller
+		<DefaultField
 			name={name}
+			label={label}
 			control={control}
-			render={({ field, fieldState: { error } }) => (
-				<TextField
-					{...field}
-					helperText={!!error && error.message}
-					label="Password"
-					type="password"
-					slotProps={{
-						input: {
-							startAdornment: (
-								<InputAdornment position="start">
-									<HttpsOutlinedIcon fontSize="small" sx={{ color: 'text.secondary' }} />
-								</InputAdornment>
-							),
-							endAdornment: (
-								<PasswordVisibilityButton
-									isVisible={isPasswordShown}
-									onToggle={() => setIsPasswordShown(prev => !prev)}
-								/>
-							)
-						}
-					}}
-				/>
-			)}
+			textFieldProps={{
+				slotProps: {
+					input: {
+						startAdornment: (
+							<InputAdornment position="start">
+								<HttpsOutlinedIcon fontSize="small" sx={{ color: 'text.secondary' }} />
+							</InputAdornment>
+						),
+						endAdornment: (
+							<PasswordVisibilityButton
+								isVisible={isPasswordShown}
+								onToggle={() => setIsPasswordShown(prev => !prev)}
+							/>
+						)
+					}
+				},
+				type: isPasswordShown ? 'text' : 'password'
+			}}
 		/>
 	)
 }

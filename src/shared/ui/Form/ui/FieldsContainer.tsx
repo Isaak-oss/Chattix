@@ -9,7 +9,6 @@ export const FieldsContainer = ({ children, error }: { children: ReactNode; erro
 				<Alert
 					severity="error"
 					sx={{
-						mb: 3,
 						borderRadius: 2,
 						border: '1px solid rgba(199,80,80,0.2)',
 						bgcolor: 'rgba(199,80,80,0.05)'

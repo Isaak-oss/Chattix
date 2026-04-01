@@ -1,17 +1,21 @@
-import Router from '@src/app/routes/Router.tsx'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { BrowserRouter } from 'react-router-dom'
 import '@shared/styles/index.css'
-import { ThemeProvider } from '@app/provider/ThemeProvider.tsx'
+
+import { queryClient } from '@shared/reactQuery'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { BrowserRouter } from 'react-router-dom'
+
+import { SessionProvider } from './provider/SessionProvider.tsx'
+import { ThemeProvider } from './provider/ThemeProvider.tsx'
+import Router from './routes/Router.tsx'
 
 function App() {
-	const queryClient = new QueryClient()
-
 	return (
 		<ThemeProvider>
 			<BrowserRouter>
 				<QueryClientProvider client={queryClient}>
-					<Router />
+					<SessionProvider>
+						<Router />
+					</SessionProvider>
 				</QueryClientProvider>
 			</BrowserRouter>
 		</ThemeProvider>

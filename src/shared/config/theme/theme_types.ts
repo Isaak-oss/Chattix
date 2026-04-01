@@ -10,9 +10,21 @@ declare module '@mui/material/styles' {
 	}
 	interface PaletteColor {
 		hover?: string
+		semiTransparent?: string
 	}
 	interface SimplePaletteColorOptions {
 		hover?: string
+		semiTransparent?: string
+		semiTransparentHover?: string
+	}
+	interface TypeBackground {
+		semiTransparent: string
+		semiTransparentHover: string
+		activeLink: string
+		activeLinkHover: string
+	}
+	interface TypeText {
+		contrastText: string
 	}
 
 	// Typography

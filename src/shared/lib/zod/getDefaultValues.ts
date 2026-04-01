@@ -129,7 +129,7 @@ export function getDefaultValues<T extends z.ZodType>(schema: T): z.output<T> {
 			return Object.assign(left as Record<string, unknown>, right) as z.output<T>
 		}
 		case 'function':
-			return ((..._: unknown[]) => {
+			return (() => {
 				const returnType = def.returns || def.output
 				return returnType ? getDefaultValues(returnType) : undefined
 			}) as z.output<T>

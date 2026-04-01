@@ -1,5 +1,5 @@
 import AuthLayout from '@app/layout/AuthLayout.tsx'
-import GuestLayout from '@app/layout/GuestLayout.tsx'
+import GuestGuard from '@app/layout/GuestGuard.tsx'
 import { SignIn, SignUp } from '@pages/Auth'
 import { Feed } from '@pages/Feed/Feed.tsx'
 import { Friends } from '@pages/Friends/Friends.tsx'
@@ -15,7 +15,7 @@ const Router = () => {
 		<Routes>
 			<Route path="/" element={<Navigate to={routes.authSignIn.path} />} />
 
-			<Route element={<GuestLayout />}>
+			<Route element={<GuestGuard />}>
 				<Route path={routes.authSignIn.path} element={<SignIn />} />
 				<Route path={routes.authSignUp.path} element={<SignUp />} />
 			</Route>

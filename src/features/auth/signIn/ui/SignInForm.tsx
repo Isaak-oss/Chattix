@@ -1,27 +1,35 @@
+import { useAuthMutation } from '@features/auth/model/useAuthMutation.ts'
 import { type SignInFormSchema, signInFormSchema } from '@features/auth/signIn/model/signInFormShema.ts'
 import { GoogleAuthButton } from '@features/auth/ui/GoogleAuthButton.tsx'
 import { zodResolver } from '@hookform/resolvers/zod'
 import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined'
-import { Box, Divider, Link, Stack, Typography } from '@mui/material'
-import { Button } from '@mui/material'
+import { Box, Button, Divider, Link, Stack, Typography } from '@mui/material'
 import { routes } from '@shared/config'
-import { getDefaultValues } from '@shared/lib'
+import { getDefaultValues, parseApiErrorToMessage, setFormErrors } from '@shared/lib'
 import { EmailField, FieldsContainer, PasswordField } from '@shared/ui'
 import { useForm } from 'react-hook-form'
+import { NavLink } from 'react-router-dom'
+
+import { useSignIn } from '../model/useSignIn.ts'
 
 export const SignInForm = () => {
 	const {
 		handleSubmit,
 		control,
-		formState: { isValid }
+		formState: { isValid },
+		setError
 	} = useForm<SignInFormSchema>({
 		mode: 'onTouched',
 		resolver: zodResolver(signInFormSchema),
 		defaultValues: getDefaultValues(signInFormSchema)
 	})
 
+	const { mutate: signIn, error, isPending } = useAuthMutation(useSignIn)
+
 	const onSubmit = (data: SignInFormSchema) => {
-		console.log(data)
+		signIn(data, {
+			onError: error => setFormErrors(setError, error)
+		})
 	}
 
 	return (
@@ -29,14 +37,15 @@ export const SignInForm = () => {
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Stack gap={3}>
 					{/* Fields */}
-					<FieldsContainer>
+					<FieldsContainer error={parseApiErrorToMessage(error)}>
 						<EmailField control={control} />
 						<PasswordField control={control} />
 					</FieldsContainer>
 
 					{/* Forgot link */}
 					<Link
-						href={routes.authForgotPassword.path}
+						component={NavLink}
+						to={routes.authForgotPassword.path}
 						underline="none"
 						variant="link"
 						color="text.secondary"
@@ -49,7 +58,7 @@ export const SignInForm = () => {
 							}
 						}}
 					>
-						{'Forgot password?'}
+						Forgot password?
 					</Link>
 
 					{/* Submit button */}
@@ -58,20 +67,37 @@ export const SignInForm = () => {
 						variant="contained"
 						endIcon={<ArrowForwardOutlinedIcon fontSize="small" />}
 						disabled={!isValid}
-						loading={false}
+						loading={isPending}
 					>
-						{'Sign In'}
+						Sign In
 					</Button>
 
+					<Link
+						component={NavLink}
+						to={routes.authSignUp.path}
+						underline="none"
+						variant="link"
+						color="text.secondary"
+						sx={{
+							color: 'text.secondary',
+							transition: 'color 0.2s',
+							textAlign: 'center',
+							'&:hover': {
+								color: 'text.primary'
+							}
+						}}
+					>
+						Sign Up
+					</Link>
+
 					{/* other auth methods */}
-					<Divider sx={{ my: 2 }}>
+					<Divider sx={{ my: 1 }}>
 						<Typography
 							variant="caption"
 							component="div"
 							sx={{
 								color: 'text.secondary',
-								px: 2,
-								pb: 2
+								px: 2
 							}}
 						>
 							or continue with

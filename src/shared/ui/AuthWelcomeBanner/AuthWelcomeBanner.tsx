@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material'
+import { Logo } from '@shared/ui'
 
 export const AuthWelcomeBanner = () => {
 	return (
@@ -40,20 +41,18 @@ export const AuthWelcomeBanner = () => {
 
 			{/* Logo */}
 			<Box>
-				<Typography variant="h5" color="primary.contrastText">
-					{'Chattix'}
-				</Typography>
+				<Logo />
 			</Box>
 
 			{/* Main content */}
 			<Box sx={{ position: 'relative', zIndex: 1, maxWidth: 480 }}>
 				<Typography variant="overline" color="secondary.main">
-					{'Welcome to'}
+					Welcome to
 				</Typography>
 				<Typography variant="h2" color="primary.contrastText" mb={3} mt={2}>
-					{'Where Ideas'}{' '}
+					Where Ideas <br />
 					<Box component="span" sx={{ fontStyle: 'italic' }}>
-						{'Connect'}
+						Connect
 					</Box>
 				</Typography>
 				<Typography
@@ -63,10 +62,8 @@ export const AuthWelcomeBanner = () => {
 						color: 'rgba(245,243,239,0.6)'
 					}}
 				>
-					{
-						'Join a thoughtful community of creators, thinkers, and innovators. Share perspectives, discover inspiration,'
-					}
-					{'and build meaningful connections.'}
+					Join a thoughtful community of creators, thinkers, and innovators. Share perspectives, discover inspiration,
+					and build meaningful connections.
 				</Typography>
 			</Box>
 

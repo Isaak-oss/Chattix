@@ -53,6 +53,7 @@ export default defineConfig([
       "no-nested-ternary": "off",
       "import/prefer-default-export": "off",
       "import/extensions": "off",
+      "import/no-duplicates": ["error", {"considerQueryString": true}],
       "sort-imports": [
         "error",
         {
