@@ -2,6 +2,7 @@ import '@shared/styles/index.css'
 
 import { queryClient } from '@shared/reactQuery'
 import { QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { BrowserRouter } from 'react-router-dom'
 
 import { SessionProvider } from './provider/SessionProvider.tsx'
@@ -16,6 +17,7 @@ function App() {
 					<SessionProvider>
 						<Router />
 					</SessionProvider>
+					<ReactQueryDevtools initialIsOpen={false} />
 				</QueryClientProvider>
 			</BrowserRouter>
 		</ThemeProvider>
