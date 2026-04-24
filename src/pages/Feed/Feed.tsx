@@ -1,10 +1,15 @@
-import {Button} from "@mui/material";
-import {useAuthStore} from "@entities/auth";
+import { ScrollProvider } from '@shared/lib/ScrollProvider.tsx'
+import { DataBoundary, PageWrapper } from '@shared/ui'
+import { PostList } from '@widgets/PostList'
 
 export const Feed = () => {
-	const logout = useAuthStore(s => s.logout)
-
-	return <div>
-		<Button onClick={logout}>logout</Button>
-	</div>
+	return (
+		<DataBoundary>
+			<PageWrapper title={'Latest Updates'} subTitle={'Your Feed'}>
+				<ScrollProvider>
+					<PostList />
+				</ScrollProvider>
+			</PageWrapper>
+		</DataBoundary>
+	)
 }

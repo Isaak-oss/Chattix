@@ -24,8 +24,6 @@ export const UserCard = ({ user }: { user: User }) => {
 			<Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 1.5 }}>
 				<Avatar
 					sx={{
-						width: 40,
-						height: 40,
 						bgcolor: 'secondary.main'
 					}}
 				>

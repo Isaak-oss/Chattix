@@ -76,7 +76,7 @@ export const LinksList = ({ userId }: { userId: Id }) => {
 			}}
 		>
 			{links(userId).map(link => (
-				<Link link={link} />
+				<Link link={link} key={link.label} />
 			))}
 		</Stack>
 	)

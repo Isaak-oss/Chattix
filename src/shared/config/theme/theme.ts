@@ -75,7 +75,10 @@ theme = createTheme(theme, {
 		h4: {
 			fontFamily: theme.typography.secondFontFamily,
 			fontWeight: 500,
-			fontSize: 32
+			fontSize: 32,
+			[theme.breakpoints.down('sm')]: {
+				fontSize: 28
+			}
 		},
 		h5: {
 			fontFamily: theme.typography.secondFontFamily,
@@ -83,6 +86,7 @@ theme = createTheme(theme, {
 			fontSize: 28
 		},
 		h6: {
+			fontFamily: theme.typography.secondFontFamily,
 			fontWeight: 600,
 			fontSize: 22
 		},
@@ -164,7 +168,7 @@ theme = createTheme(theme, {
 					backgroundColor: 'transparent',
 					justifyContent: 'flex-start',
 					textAlign: 'left'
-				},
+				}
 			}
 		},
 		MuiCard: {
@@ -199,6 +203,7 @@ theme = createTheme(theme, {
 		MuiTextField: {
 			styleOverrides: {
 				root: {
+					// Outlined
 					'& .MuiOutlinedInput-root': {
 						borderRadius: 8,
 						transition: 'all 0.2s ease',
@@ -214,9 +219,27 @@ theme = createTheme(theme, {
 							borderWidth: '1.5px'
 						}
 					},
-					'& .MuiFormHelperText-root': {
-						color: theme.palette.error.main,
-						fontSize: 14
+
+					// Filled
+					'& .MuiFilledInput-root': {
+						padding: '16px 14px',
+						borderRadius: 16,
+						backgroundColor: 'rgba(26,26,26,0.02)',
+						border: 'none',
+						outline: 'none',
+						'& fieldset': { border: 'none' },
+						'&:hover': { backgroundColor: 'rgba(26,26,26,0.04)' },
+						'&:after': { content: 'none' },
+						'&:before': { content: 'none' },
+						'&::placeholder': {
+							color: '#6b6b6b',
+							opacity: 1
+						},
+						'& .MuiFormHelperText-root': {
+							color: theme.palette.error.main,
+							fontSize: 14
+						},
+						'&.Mui-focused': { backgroundColor: 'rgba(26,26,26,0.03)' }
 					}
 				}
 			}
@@ -233,7 +256,9 @@ theme = createTheme(theme, {
 			styleOverrides: {
 				root: {
 					fontWeight: 500,
-					letterSpacing: '0.02em'
+					fontSize: 16,
+					width: 44,
+					height: 44
 				}
 			}
 		},
