@@ -1,5 +1,9 @@
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, Stack } from '@mui/material'
 
 export const Loader = () => {
-	return <CircularProgress />
+	return (
+		<Stack flex={1} alignItems="center" p={2}>
+			<CircularProgress />
+		</Stack>
+	)
 }
