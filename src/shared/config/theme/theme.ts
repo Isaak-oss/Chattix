@@ -30,7 +30,8 @@ export let theme = createTheme({
 			semiTransparent: 'rgba(255,255,255,0.05)',
 			semiTransparentHover: 'rgba(255,255,255,0.08)',
 			activeLink: 'rgba(201,168,124,0.15)',
-			activeLinkHover: 'rgba(201,168,124,0.2)'
+			activeLinkHover: 'rgba(201,168,124,0.2)',
+			lowShadow: 'rgba(26,26,26,0.1)'
 		},
 		text: {
 			primary: '#1a1a1a',
@@ -178,8 +179,10 @@ theme = createTheme(theme, {
 					boxShadow: '0 1px 3px rgba(26, 26, 26, 0.04)',
 					border: '1px solid rgba(26, 26, 26, 0.06)',
 					transition: 'all 0.25s ease',
-					'&:hover': {
-						boxShadow: '0 4px 20px rgba(26, 26, 26, 0.08)'
+					'& .MuiPaper-elevation': {
+						'&:hover': {
+							boxShadow: '0 4px 20px rgba(26, 26, 26, 0.08)'
+						}
 					}
 				}
 			}
@@ -255,10 +258,26 @@ theme = createTheme(theme, {
 		MuiAvatar: {
 			styleOverrides: {
 				root: {
+					'& .MuiAvatar-circular': {
+						width: 44,
+						height: 44,
+						fontWeight: 500,
+						fontSize: 16
+					}
+				},
+				large: {
+					[theme.breakpoints.down('sm')]: {
+						width: 88,
+						height: 88
+					},
+					width: 100,
+					height: 100,
 					fontWeight: 500,
-					fontSize: 16,
-					width: 44,
-					height: 44
+					fontSize: 32,
+					border: `4px solid ${theme.palette.background.paper}`,
+					boxShadow: `0 2px 12px ${theme.palette.background.lowShadow}`,
+					backgroundColor: theme.palette.secondary.main,
+					color: theme.palette.primary.main
 				}
 			}
 		},

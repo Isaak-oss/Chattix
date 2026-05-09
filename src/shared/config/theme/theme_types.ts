@@ -22,6 +22,7 @@ declare module '@mui/material/styles' {
 		semiTransparentHover: string
 		activeLink: string
 		activeLinkHover: string
+		lowShadow: string
 	}
 	interface TypeText {
 		contrastText: string
@@ -41,5 +42,12 @@ declare module '@mui/material/Typography' {
 	interface TypographyPropsVariantOverrides {
 		secondFontFamily: true
 		link: true
+	}
+}
+
+// Update the Avatar variant prop options
+declare module '@mui/material/Avatar' {
+	interface AvatarPropsVariantOverrides {
+		large: true
 	}
 }

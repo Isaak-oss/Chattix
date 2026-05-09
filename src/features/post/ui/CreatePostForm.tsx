@@ -1,5 +1,5 @@
 import { type Post, createPost } from '@entities/post'
-import { useUser } from '@entities/user'
+import { useMe } from '@entities/user'
 import { Avatar, Box, Button, Card, CardContent, Divider, Stack, TextField } from '@mui/material'
 import type { ApiResponse } from '@shared/api'
 import { POST_QUERY_KEY } from '@shared/config'
@@ -7,11 +7,11 @@ import { addItemToInfiniteQuery } from '@shared/lib'
 import { type InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
-export const CreatePost = () => {
+export const CreatePostForm = () => {
 	const queryClient = useQueryClient()
 	const [text, setText] = useState('')
 
-	const { data: user } = useUser()
+	const { data: user } = useMe()
 	const { mutate, isPending } = useMutation({
 		mutationFn: createPost,
 		onSuccess: newPost => {

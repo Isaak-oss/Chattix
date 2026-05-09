@@ -10,6 +10,7 @@ type DataListProps<T> = {
 	estimateSize?: (index: number) => number
 	overscan?: number
 	flexDirection?: 'row' | 'column'
+	emptyListTitle?: string
 
 	// infinite scroll
 	hasNextPage?: boolean
@@ -21,8 +22,9 @@ export const DataList = <T,>({
 	data,
 	renderItem,
 	estimateSize = () => 84,
-	overscan = 8,
+	overscan = 20,
 	flexDirection = 'column',
+	emptyListTitle,
 
 	hasNextPage,
 	isFetchingNextPage,
@@ -80,7 +82,7 @@ export const DataList = <T,>({
 		: { height: totalSize, position: 'relative' as const }
 
 	if (!data.length) {
-		return <EmptyList />
+		return <EmptyList title={emptyListTitle} />
 	}
 
 	return (

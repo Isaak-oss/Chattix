@@ -1,3 +1,3 @@
-export { useUser } from './model/useUser.ts'
+export { useMe } from './model/useMe.ts'
 export * from './model/types.ts'
-export { getMe } from './api/getMe.ts'
+export { getMe, getUser } from './api/userApi.ts'

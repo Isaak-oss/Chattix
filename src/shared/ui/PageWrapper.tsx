@@ -20,10 +20,12 @@ export const PageWrapper = ({ children, title, subTitle }: PageWrapperProps) => 
 			}}
 		>
 			<Stack sx={{ flex: 1, minWidth: 0 }}>
-				<Box sx={{ mb: 4 }}>
-					<Typography variant="overline">{subTitle}</Typography>
-					<Typography variant="h4">{title}</Typography>
-				</Box>
+				{(title || subTitle) && (
+					<Box sx={{ mb: 4 }}>
+						{subTitle && <Typography variant="overline">{subTitle}</Typography>}
+						{title && <Typography variant="h4">{title}</Typography>}
+					</Box>
+				)}
 				{children}
 			</Stack>
 		</Box>

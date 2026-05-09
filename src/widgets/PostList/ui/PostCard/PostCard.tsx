@@ -3,8 +3,14 @@ import EditIcon from '@mui/icons-material/Edit'
 import { Avatar, Box, Card, CardContent, IconButton, Stack, Typography } from '@mui/material'
 import { UpdatePostCardForm } from '@widgets/PostList/ui/PostCard/UpdatePostCardForm.tsx'
 import { useState } from 'react'
+import {formatDate} from "@shared/lib/formatDate.ts";
 
-export const PostCard = ({ post }: { post: Post }) => {
+type PostCardType = {
+	post: Post
+	canChangePosts: boolean
+}
+
+export const PostCard = ({ post, canChangePosts }: PostCardType) => {
 	const [isEditing, setIsEditing] = useState(false)
 	const [postContent, setPostContent] = useState(post.content)
 
@@ -42,13 +48,15 @@ export const PostCard = ({ post }: { post: Post }) => {
 								}}
 							/>
 							<Typography variant="caption" color="text.secondary">
-								{post.createdAt}
+								{formatDate(post.createdAt)}
 							</Typography>
 						</Stack>
 					</Box>
-					<IconButton onClick={() => setIsEditing(!isEditing)} size={'small'}>
-						<EditIcon fontSize="small" />
-					</IconButton>
+					{canChangePosts && (
+						<IconButton onClick={() => setIsEditing(!isEditing)} size={'small'}>
+							<EditIcon fontSize="small" />
+						</IconButton>
+					)}
 				</Stack>
 				{isEditing ? (
 					<UpdatePostCardForm

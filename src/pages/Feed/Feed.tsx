@@ -5,11 +5,11 @@ import { PostList } from '@widgets/PostList'
 export const Feed = () => {
 	return (
 		<DataBoundary>
-			<PageWrapper title={'Latest Updates'} subTitle={'Your Feed'}>
-				<ScrollProvider>
+			<ScrollProvider>
+				<PageWrapper title={'Latest Updates'} subTitle={'Your Feed'}>
 					<PostList />
-				</ScrollProvider>
-			</PageWrapper>
+				</PageWrapper>
+			</ScrollProvider>
 		</DataBoundary>
 	)
 }

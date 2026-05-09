@@ -1,5 +1,5 @@
 import { useAuthStore } from '@entities/auth'
-import { useUser } from '@entities/user'
+import { useMe } from '@entities/user'
 import { Box, Stack } from '@mui/material'
 import { routes } from '@shared/config'
 import { LoaderScreen } from '@shared/ui'
@@ -11,7 +11,7 @@ const AuthLayout = () => {
 	const isAuthorized = useAuthStore(s => s.isAuth)
 
 	// initiate user session
-	const { data, isLoading } = useUser()
+	const { data, isLoading } = useMe()
 
 	// redirect to authSignIn if no token
 	if (!token) return <Navigate to={routes.authSignIn.path} />

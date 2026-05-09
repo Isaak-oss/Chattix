@@ -6,3 +6,8 @@ export type User = BaseEntity & {
 	bio?: string
 	lastSeen: Date
 }
+
+export type Profile = User & {
+	postsCount: number
+	friendsCount: number
+}

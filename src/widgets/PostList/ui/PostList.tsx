@@ -1,28 +1,37 @@
 import { usePosts } from '@entities/post/model/usePosts.tsx'
-import { Divider, Stack } from '@mui/material'
+import { useMe } from '@entities/user'
+import { CreatePostForm } from '@features/post'
+import { useProfileId } from '@features/profile'
+import { Box, Divider, Stack } from '@mui/material'
 import { DataList } from '@shared/ui'
-import { CreatePost } from '@widgets/PostList/ui/CreatePost.tsx'
 import { PostCard } from '@widgets/PostList/ui/PostCard/PostCard.tsx'
 
-type PostListProps = {
-	isMy?: boolean
-}
+export const PostList = ({ canAddPost = true }: { canAddPost?: boolean }) => {
+	const { data: me } = useMe()
+	const profileId = useProfileId()
 
-export const PostList = ({ isMy = false }: PostListProps) => {
-	const { data, hasNextPage, fetchNextPage, isFetching } = usePosts(isMy)
+	const { data, hasNextPage, fetchNextPage, isFetching } = usePosts(profileId)
 
 	const posts = data.pages.flatMap(page => page.data)
 
+	const isMe = profileId ? me!.data.id === profileId : true
+	const isPostForm = canAddPost && isMe
+
 	return (
 		<Stack>
-			<CreatePost />
-			<Divider sx={{ my: 5 }} />
+			{isPostForm && (
+				<Box>
+					<CreatePostForm />
+					<Divider sx={{ my: 5 }} />
+				</Box>
+			)}
 			<DataList
 				data={posts}
 				hasNextPage={hasNextPage}
 				isFetchingNextPage={isFetching}
 				onLoadMore={fetchNextPage}
-				renderItem={post => <PostCard post={post} />}
+				renderItem={post => <PostCard post={post} canChangePosts={post.author.id === me?.data.id}/>}
+				emptyListTitle={'No posts found'}
 			/>
 		</Stack>
 	)
