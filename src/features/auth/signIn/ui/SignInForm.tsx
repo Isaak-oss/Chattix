@@ -1,3 +1,4 @@
+import { signInApi } from '@entities/auth'
 import { useAuthMutation } from '@features/auth/model/useAuthMutation.ts'
 import { type SignInFormSchema, signInFormSchema } from '@features/auth/signIn/model/signInFormShema.ts'
 import { GoogleAuthButton } from '@features/auth/ui/GoogleAuthButton.tsx'
@@ -9,8 +10,6 @@ import { getDefaultValues, parseApiErrorToMessage, setFormErrors } from '@shared
 import { EmailField, FieldsContainer, PasswordField } from '@shared/ui'
 import { useForm } from 'react-hook-form'
 import { NavLink } from 'react-router-dom'
-
-import { useSignIn } from '../model/useSignIn.ts'
 
 export const SignInForm = () => {
 	const {
@@ -24,7 +23,7 @@ export const SignInForm = () => {
 		defaultValues: getDefaultValues(signInFormSchema)
 	})
 
-	const { mutate: signIn, error, isPending } = useAuthMutation(useSignIn)
+	const { mutate: signIn, error, isPending } = useAuthMutation(signInApi)
 
 	const onSubmit = (data: SignInFormSchema) => {
 		signIn(data, {

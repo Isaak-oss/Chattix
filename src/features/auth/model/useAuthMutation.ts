@@ -1,14 +1,17 @@
 import { type Session, useAuthStore } from '@entities/auth'
 import { USER_QUERY_KEY } from '@shared/config'
-import { type UseMutationResult, useQueryClient } from '@tanstack/react-query'
+import { type MutationFunction, useMutation, useQueryClient } from '@tanstack/react-query'
+import type { AxiosError } from 'axios'
 
-export const useAuthMutation = <TData extends Session, TError, TVariables>(
-	useMutationHook: () => UseMutationResult<TData, TError, TVariables>
+export const useAuthMutation = <TData extends Session, TVariables, TError = AxiosError>(
+	mutationFn: MutationFunction<TData, TVariables>
 ) => {
 	const setToken = useAuthStore(s => s.setToken)
 	const queryClient = useQueryClient()
 
-	const mutation = useMutationHook()
+	const mutation = useMutation<TData, TError, TVariables>({
+		mutationFn
+	})
 
 	const wrappedMutate: typeof mutation.mutate = (variables, options) => {
 		mutation.mutate(variables, {

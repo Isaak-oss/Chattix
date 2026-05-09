@@ -1,4 +1,5 @@
-import { GoogleAuthButton, useAuthMutation, useSignUp } from '@features/auth'
+import { signUpApi } from '@entities/auth'
+import { GoogleAuthButton, useAuthMutation } from '@features/auth'
 import { type SignUpFormSchema, signUpFormSchema } from '@features/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined'
@@ -21,7 +22,7 @@ export const SignUpForm = () => {
 		defaultValues: getDefaultValues(signUpFormSchema)
 	})
 
-	const { mutate: signUp, error, isPending } = useAuthMutation(useSignUp)
+	const { mutate: signUp, error, isPending } = useAuthMutation(signUpApi)
 
 	const onSubmit = (data: SignUpFormSchema) => {
 		signUp(data, {
