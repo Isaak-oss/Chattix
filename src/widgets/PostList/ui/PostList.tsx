@@ -1,10 +1,11 @@
-import { usePosts } from '@entities/post/model/usePosts.tsx'
 import { useMe } from '@entities/user'
 import { CreatePostForm } from '@features/post'
-import { useProfileId } from '@features/profile'
 import { Box, Divider, Stack } from '@mui/material'
+import { useProfileId } from '@shared/lib'
 import { DataList } from '@shared/ui'
-import { PostCard } from '@widgets/PostList/ui/PostCard/PostCard.tsx'
+
+import { usePosts } from '../model/usePosts.ts'
+import { PostCard } from './PostCard/PostCard.tsx'
 
 export const PostList = ({ canAddPost = true }: { canAddPost?: boolean }) => {
 	const { data: me } = useMe()
@@ -16,7 +17,7 @@ export const PostList = ({ canAddPost = true }: { canAddPost?: boolean }) => {
 
 	const isMe = profileId ? me!.data.id === profileId : true
 	const isPostForm = canAddPost && isMe
-
+console.log(posts)
 	return (
 		<Stack>
 			{isPostForm && (
@@ -30,7 +31,7 @@ export const PostList = ({ canAddPost = true }: { canAddPost?: boolean }) => {
 				hasNextPage={hasNextPage}
 				isFetchingNextPage={isFetching}
 				onLoadMore={fetchNextPage}
-				renderItem={post => <PostCard post={post} canChangePosts={post.author.id === me?.data.id}/>}
+				renderItem={post => <PostCard post={post} canChangePosts={post.author.id === me?.data.id} />}
 				emptyListTitle={'No posts found'}
 			/>
 		</Stack>

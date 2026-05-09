@@ -1,9 +1,9 @@
 import type { Post } from '@entities/post'
 import EditIcon from '@mui/icons-material/Edit'
 import { Avatar, Box, Card, CardContent, IconButton, Stack, Typography } from '@mui/material'
-import { UpdatePostCardForm } from '@widgets/PostList/ui/PostCard/UpdatePostCardForm.tsx'
+import { formatDate } from '@shared/lib'
+import { UpdatePostForm } from '@widgets/PostList'
 import { useState } from 'react'
-import {formatDate} from "@shared/lib/formatDate.ts";
 
 type PostCardType = {
 	post: Post
@@ -59,7 +59,7 @@ export const PostCard = ({ post, canChangePosts }: PostCardType) => {
 					)}
 				</Stack>
 				{isEditing ? (
-					<UpdatePostCardForm
+					<UpdatePostForm
 						postId={post.id}
 						postContent={postContent}
 						onChange={setPostContent}

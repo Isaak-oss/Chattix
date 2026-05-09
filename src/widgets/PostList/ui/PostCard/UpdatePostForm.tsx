@@ -1,15 +1,15 @@
-import { updatePost } from '@entities/post/api/postsApi.ts'
+import { updatePost } from '@entities/post'
 import { Box, Button, TextField } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
 
-type UpdateFormProps = {
+type UpdatePostFormProps = {
 	postContent: string
 	postId: string
 	onClose: () => void
 	onChange: (postContent: string) => void
 }
 
-export const UpdatePostCardForm = ({ postContent, onChange, postId, onClose }: UpdateFormProps) => {
+export const UpdatePostForm = ({ postContent, onChange, postId, onClose }: UpdatePostFormProps) => {
 	const { mutate, isPending } = useMutation({
 		mutationFn: () => updatePost(postId, { content: postContent }),
 		onSuccess: newPost => {

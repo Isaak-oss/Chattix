@@ -1,5 +1,5 @@
 import { Stack, Typography } from '@mui/material'
-import { ScrollProvider } from '@shared/lib/ScrollProvider.tsx'
+import { ScrollProvider } from '@shared/lib'
 import { DataBoundary, PageWrapper } from '@shared/ui'
 import { PostList } from '@widgets/PostList'
 import { ProfileCard } from '@widgets/Profile'

@@ -1,2 +1,2 @@
 export * from './model/types.ts'
-export { getFeed, getMyPosts, createPost } from './api/postsApi.ts'
+export { createPost, getFeed, getMyPosts, updatePost } from './api/postsApi.ts'

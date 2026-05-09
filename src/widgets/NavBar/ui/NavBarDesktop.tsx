@@ -1,9 +1,10 @@
 import type { User } from '@entities/user'
 import { Box, Divider } from '@mui/material'
 import { Logo } from '@shared/ui'
-import { LinksList } from '@widgets/NavBar/ui/LinksList.tsx'
-import { Logout } from '@widgets/NavBar/ui/Logout.tsx'
-import { UserCard } from '@widgets/NavBar/ui/UserCard.tsx'
+
+import { LinksList } from './LinksList.tsx'
+import { Logout } from './Logout.tsx'
+import { UserCard } from './UserCard.tsx'
 
 export const NavBarDesktop = ({ user }: { user: User }) => {
 	return (

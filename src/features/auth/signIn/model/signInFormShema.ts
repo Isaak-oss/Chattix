@@ -1,4 +1,4 @@
-import { emailShema, passwordShema } from '@shared/lib/zod/fields.ts'
+import { emailShema, passwordShema } from '@shared/lib'
 import { z } from 'zod'
 
 export const signInFormSchema = z.object({

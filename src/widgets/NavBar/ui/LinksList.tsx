@@ -1,10 +1,11 @@
 import type { SvgIconComponent } from '@mui/icons-material'
 import { Badge, Button, Stack, Typography } from '@mui/material'
 import { routes } from '@shared/config'
-import type { LinkItem } from '@widgets/NavBar'
-import { links } from '@widgets/NavBar/config/links.ts'
 import { memo } from 'react'
 import { NavLink } from 'react-router-dom'
+
+import { links } from '../config/links.ts'
+import type { LinkItem } from '../model/types.ts'
 
 const MessageLinkIcon = ({ Icon }: { Icon: SvgIconComponent }) => {
 	return (

@@ -14,6 +14,6 @@ export const usePosts = (profileId?: Id) => {
 			return meta.offset + meta.limit
 		},
 		staleTime: profileId ? 0 : minute * 5,
-		gcTime: profileId ? 0 : minute * 5,
+		gcTime: profileId ? 0 : minute * 5
 	})
 }

@@ -1,6 +1,7 @@
 import type { User } from '@entities/user'
 import { Box } from '@mui/material'
-import { LinksList } from '@widgets/NavBar/ui/LinksList.tsx'
+
+import { LinksList } from './LinksList.tsx'
 
 const NavBarMobile = ({ user }: { user: User }) => {
 	return (

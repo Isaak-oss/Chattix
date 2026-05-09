@@ -1,9 +1,8 @@
 import { getUser, useMe } from '@entities/user'
-import { useProfileId } from '@features/profile'
 import { CalendarTodayOutlined, Edit } from '@mui/icons-material'
 import { Avatar, Box, Button, Card, CardContent, Divider, Stack, Typography } from '@mui/material'
 import { USER_QUERY_KEY, routes } from '@shared/config'
-import { formatDate } from '@shared/lib/formatDate.ts'
+import { formatDate, useProfileId } from '@shared/lib'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router'
 

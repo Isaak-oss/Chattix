@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material'
-import { useScrollRef } from '@shared/lib/ScrollProvider.tsx'
+import { useScrollRef } from '@shared/lib'
 import { EmptyList, Loader } from '@shared/ui'
 import { type VirtualItem, useVirtualizer } from '@tanstack/react-virtual'
 import { type ReactNode, useEffect, useRef, useState } from 'react'
