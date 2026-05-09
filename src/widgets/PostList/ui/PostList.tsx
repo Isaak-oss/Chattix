@@ -17,7 +17,7 @@ export const PostList = ({ canAddPost = true }: { canAddPost?: boolean }) => {
 
 	const isMe = profileId ? me!.data.id === profileId : true
 	const isPostForm = canAddPost && isMe
-console.log(posts)
+
 	return (
 		<Stack>
 			{isPostForm && (
@@ -31,6 +31,7 @@ console.log(posts)
 				hasNextPage={hasNextPage}
 				isFetchingNextPage={isFetching}
 				onLoadMore={fetchNextPage}
+				getItemKey={post => post.id}
 				renderItem={post => <PostCard post={post} canChangePosts={post.author.id === me?.data.id} />}
 				emptyListTitle={'No posts found'}
 			/>

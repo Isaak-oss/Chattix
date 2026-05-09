@@ -17,7 +17,7 @@ export const CreatePostForm = () => {
 		onSuccess: newPost => {
 			setText('')
 			queryClient.setQueriesData<InfiniteData<ApiResponse<Post[]>>>({ queryKey: [POST_QUERY_KEY] }, old =>
-				addItemToInfiniteQuery(newPost.data, old)
+				addItemToInfiniteQuery(newPost.data, old, post => post.id)
 			)
 		}
 	})

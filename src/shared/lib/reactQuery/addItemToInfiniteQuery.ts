@@ -3,9 +3,19 @@ import type { InfiniteData } from '@tanstack/react-query'
 
 export const addItemToInfiniteQuery = <TData>(
 	newItem: TData,
-	old?: InfiniteData<ApiResponse<TData[]>>
+	old?: InfiniteData<ApiResponse<TData[]>>,
+	getItemKey?: (item: TData) => unknown
 ): InfiniteData<ApiResponse<TData[]>> | undefined => {
 	if (!old) return old
+
+	const newItemKey = getItemKey?.(newItem)
+	const itemAlreadyExists =
+		getItemKey &&
+		old.pages.some(page => {
+			return page.data.some(item => getItemKey(item) === newItemKey)
+		})
+
+	if (itemAlreadyExists) return old
 
 	return {
 		...old,

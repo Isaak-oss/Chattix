@@ -2,12 +2,13 @@ import { Box, Stack } from '@mui/material'
 import { useScrollRef } from '@shared/lib'
 import { EmptyList, Loader } from '@shared/ui'
 import { type VirtualItem, useVirtualizer } from '@tanstack/react-virtual'
-import { type ReactNode, useEffect, useRef, useState } from 'react'
+import { type Key, type ReactNode, useEffect, useRef, useState } from 'react'
 
 type DataListProps<T> = {
 	data: T[]
 	renderItem: (item: T) => ReactNode
 	estimateSize?: (index: number) => number
+	getItemKey?: (item: T, index: number) => Key
 	overscan?: number
 	flexDirection?: 'row' | 'column'
 	emptyListTitle?: string
@@ -22,6 +23,7 @@ export const DataList = <T,>({
 	data,
 	renderItem,
 	estimateSize = () => 84,
+	getItemKey,
 	overscan = 20,
 	flexDirection = 'column',
 	emptyListTitle,
@@ -46,6 +48,7 @@ export const DataList = <T,>({
 		count: data.length,
 		getScrollElement: () => scrollElement,
 		estimateSize,
+		getItemKey: index => getItemKey?.(data[index], index) ?? index,
 		overscan,
 		horizontal: isHorizontal,
 		gap: 20
