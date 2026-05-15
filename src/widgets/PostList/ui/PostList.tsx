@@ -11,7 +11,7 @@ export const PostList = ({ canAddPost = true }: { canAddPost?: boolean }) => {
 	const { data: me } = useMe()
 	const profileId = useProfileId()
 
-	const { data, hasNextPage, fetchNextPage, isFetching } = usePosts(profileId)
+	const { data, hasNextPage, fetchNextPage, isFetching, isFetchingNextPage, isRefetching } = usePosts(profileId)
 
 	const posts = data.pages.flatMap(page => page.data)
 
@@ -29,7 +29,9 @@ export const PostList = ({ canAddPost = true }: { canAddPost?: boolean }) => {
 			<DataList
 				data={posts}
 				hasNextPage={hasNextPage}
-				isFetchingNextPage={isFetching}
+				isFetchingNextPage={isFetchingNextPage}
+				isFetching={isFetching}
+				isRefetching={isRefetching}
 				onLoadMore={fetchNextPage}
 				getItemKey={post => post.id}
 				renderItem={post => <PostCard post={post} canChangePosts={post.author.id === me?.data.id} />}

@@ -1,3 +1,4 @@
+import SocketProvider from '@app/provider/SocketProvider.tsx'
 import { useAuthStore } from '@entities/auth'
 import { useMe } from '@entities/user'
 import { Box, Stack } from '@mui/material'
@@ -29,12 +30,14 @@ const AuthLayout = () => {
 	if (!data && !isAuthorized) return <Navigate to={routes.authSignIn.path} />
 
 	return (
-		<Stack flexDirection={{ xs: 'column-reverse', sm: 'row' }} height={'100vh'}>
-			<NavBar />
-			<Box flex={1}>
-				<Outlet />
-			</Box>
-		</Stack>
+		<SocketProvider>
+			<Stack flexDirection={{ xs: 'column-reverse', sm: 'row' }} height={'100vh'}>
+				<NavBar />
+				<Box flex={1}>
+					<Outlet />
+				</Box>
+			</Stack>
+		</SocketProvider>
 	)
 }
 

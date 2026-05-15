@@ -1,20 +1,25 @@
-import { Box, Stack } from '@mui/material'
-import { useScrollRef } from '@shared/lib'
+import { Box, Collapse, Stack } from '@mui/material'
 import { EmptyList, Loader } from '@shared/ui'
-import { type VirtualItem, useVirtualizer } from '@tanstack/react-virtual'
-import { type Key, type ReactNode, useEffect, useRef, useState } from 'react'
+import { DataListModes } from '@shared/ui/DataList/model/types.ts'
+import { useGridLanes } from '@shared/ui/DataList/model/virtualizerHooks/useGridLanes.ts'
+import { useInfiniteVirtualizer } from '@shared/ui/DataList/model/virtualizerHooks/useInfiniteVirtualizer.ts'
+import { type VirtualItem } from '@tanstack/react-virtual'
+import { type Key, type ReactNode } from 'react'
 
 type DataListProps<T> = {
+	isDataLoading?: boolean
 	data: T[]
-	renderItem: (item: T) => ReactNode
+	renderItem: (item: T, index: number) => ReactNode
 	estimateSize?: (index: number) => number
 	getItemKey?: (item: T, index: number) => Key
 	overscan?: number
-	flexDirection?: 'row' | 'column'
+	mode?: DataListModes
 	emptyListTitle?: string
-
-	// infinite scroll
+	gap?: number
+	minItemWidth?: number
+	isFetching: boolean
 	hasNextPage?: boolean
+	isRefetching?: boolean
 	isFetchingNextPage?: boolean
 	onLoadMore?: () => void
 }
@@ -25,93 +30,77 @@ export const DataList = <T,>({
 	estimateSize = () => 84,
 	getItemKey,
 	overscan = 20,
-	flexDirection = 'column',
+	mode = DataListModes.VERTICAL,
 	emptyListTitle,
-
+	gap = 20,
+	minItemWidth = 300,
+	isDataLoading,
+	isFetching,
 	hasNextPage,
+	isRefetching,
 	isFetchingNextPage,
 	onLoadMore
 }: DataListProps<T>) => {
-	const parentRef = useScrollRef()
-	const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(null)
-	const isLoadingRef = useRef(false)
+	const dataLength = data.length
+	const hasData = !!dataLength
+	const isGrid = mode === DataListModes.GRID
+	const isHorizontal = mode === DataListModes.HORIZONTAL
 
-	useEffect(() => {
-		if (parentRef.current) {
-			setScrollElement(parentRef.current)
-		}
-	}, [parentRef])
+	const { itemWidthInPercent, lanes, containerRef } = useGridLanes({ hasData, isGrid, minItemWidth })
 
-	const isHorizontal = flexDirection === 'row'
-
-	const rowVirtualizer = useVirtualizer({
-		count: data.length,
-		getScrollElement: () => scrollElement,
+	const { containerStyle, virtualItems, measureElement } = useInfiniteVirtualizer({
+		// virtualizer
+		count: dataLength,
 		estimateSize,
 		getItemKey: index => getItemKey?.(data[index], index) ?? index,
 		overscan,
 		horizontal: isHorizontal,
-		gap: 20
+		gap,
+		lanes,
+
+		// infinity scroll
+		hasNextPage,
+		onLoadMore,
+		dataLength,
+		isFetching
 	})
 
-	const virtualItems = rowVirtualizer.getVirtualItems()
+	// TODO: add the ReactNode props for full customize
+	if (isDataLoading) {
+		return <Loader />
+	}
 
-	// infinite scroll
-	useEffect(() => {
-		if (!hasNextPage || !onLoadMore) return
-
-		const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse()
-
-		if (!lastItem) return
-
-		const isLastItemVisible = lastItem.index >= data.length - 1
-
-		if (isLastItemVisible && !isFetchingNextPage && !isLoadingRef.current) {
-			isLoadingRef.current = true
-			onLoadMore()
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isFetchingNextPage, virtualItems])
-
-	useEffect(() => {
-		if (!isFetchingNextPage) {
-			isLoadingRef.current = false
-		}
-	}, [isFetchingNextPage])
-
-	const totalSize = rowVirtualizer.getTotalSize()
-	const containerStyle = isHorizontal
-		? { width: totalSize, position: 'relative' as const }
-		: { height: totalSize, position: 'relative' as const }
-
-	if (!data.length) {
+	if (!dataLength) {
 		return <EmptyList title={emptyListTitle} />
 	}
 
 	return (
-		<Box>
+		<Box ref={containerRef}>
+			<Collapse in={isRefetching} timeout="auto">
+				<Loader />
+			</Collapse>
 			<Stack sx={containerStyle}>
-				{virtualItems.map((virtualRow: VirtualItem) => (
+				{virtualItems.map((virtualRow: VirtualItem, index: number) => (
 					<Box
 						key={virtualRow.key}
-						ref={rowVirtualizer.measureElement}
+						ref={measureElement}
 						data-index={virtualRow.index}
 						sx={{
 							position: 'absolute',
 							top: 0,
-							left: 0,
+							left: isGrid ? `calc(${(virtualRow.index % lanes) * itemWidthInPercent}%)` : 0,
 							...(isHorizontal
 								? {
 										height: '100%',
 										transform: `translateX(${virtualRow.start}px)`
 									}
 								: {
-										width: '100%',
+										minWidth: isGrid ? minItemWidth : '100%',
 										transform: `translateY(${virtualRow.start}px)`
 									})
 						}}
 					>
-						{renderItem(data[virtualRow.index])}
+						{renderItem(data[virtualRow.index], index)}
 					</Box>
 				))}
 			</Stack>

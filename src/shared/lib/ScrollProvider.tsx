@@ -7,15 +7,15 @@ const ScrollContext = createContext<ScrollContextValue | null>(null)
 
 type ScrollProviderProps = {
 	children: ReactNode
-	maxHeight?: string | number
+	height?: string | number
 }
 
-export const ScrollProvider = ({ children, maxHeight = '100%' }: ScrollProviderProps) => {
+export const ScrollProvider = ({ children, height = '100%' }: ScrollProviderProps) => {
 	const scrollRef = useRef<HTMLDivElement>(null)
 
 	return (
 		<ScrollContext.Provider value={scrollRef}>
-			<Box ref={scrollRef} style={{ overflow: 'auto', maxHeight: maxHeight, flex: 1 }}>
+			<Box ref={scrollRef} style={{ overflow: 'auto', height, flex: 1 }}>
 				{children}
 			</Box>
 		</ScrollContext.Provider>

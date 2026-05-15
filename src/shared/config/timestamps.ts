@@ -1,3 +1,4 @@
-export const minute = 60 * 1000
-
-export const hour = 60 * 60 * 1000
+export const second = 1000
+export const minute = 60 * second
+export const hour = 60 * 60 * second
+export const timeoutDelay = second * 3

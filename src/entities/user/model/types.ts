@@ -10,4 +10,5 @@ export type User = BaseEntity & {
 export type Profile = User & {
 	postsCount: number
 	friendsCount: number
+	isFriend: boolean
 }

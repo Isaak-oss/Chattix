@@ -8,6 +8,8 @@ declare global {
 
 	export type Keys<T extends Record<string, unknown>> = keyof T
 
+	export type PartialKeys<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+
 	export type Values<T extends Record<string, unknown>> = T[Keys<T>]
 
 	export type Indexed<K extends string = string, T = unknown> = {

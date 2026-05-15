@@ -53,15 +53,15 @@ class ApiClient {
 		return this.request<T>('get', url, undefined, config)
 	}
 
-	post<T, D>(url: string, data?: D, config?: AxiosRequestConfig<D>) {
+	post<T, D = unknown>(url: string, data?: D, config?: AxiosRequestConfig<D>) {
 		return this.request<T, D>('post', url, data, config)
 	}
 
-	put<T, D>(url: string, data?: D, config?: AxiosRequestConfig<D>) {
+	put<T, D = unknown>(url: string, data?: D, config?: AxiosRequestConfig<D>) {
 		return this.request<T, D>('put', url, data, config)
 	}
 
-	patch<T, D>(url: string, data?: D, config?: AxiosRequestConfig<D>) {
+	patch<T, D = unknown>(url: string, data?: D, config?: AxiosRequestConfig<D>) {
 		return this.request<T, D>('patch', url, data, config)
 	}
 

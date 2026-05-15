@@ -3,14 +3,14 @@ import EditIcon from '@mui/icons-material/Edit'
 import { Avatar, Box, Card, CardContent, IconButton, Stack, Typography } from '@mui/material'
 import { formatDate } from '@shared/lib'
 import { UpdatePostForm } from '@widgets/PostList'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 
 type PostCardType = {
 	post: Post
 	canChangePosts: boolean
 }
 
-export const PostCard = ({ post, canChangePosts }: PostCardType) => {
+export const PostCard = memo(({ post, canChangePosts }: PostCardType) => {
 	const [isEditing, setIsEditing] = useState(false)
 	const [postContent, setPostContent] = useState(post.content)
 
@@ -86,4 +86,4 @@ export const PostCard = ({ post, canChangePosts }: PostCardType) => {
 			</CardContent>
 		</Card>
 	)
-}
+})

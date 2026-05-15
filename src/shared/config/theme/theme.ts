@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material'
+import { type ButtonProps, createTheme } from '@mui/material'
 
 /*
 	Default Breakpoint:
@@ -40,10 +40,12 @@ export let theme = createTheme({
 		},
 		divider: 'rgba(26, 26, 26, 0.08)',
 		error: {
+			light: '#d16868',
 			main: '#c75050',
 			hover: 'rgba(199,80,80,0.1)'
 		},
 		success: {
+			light: '#79b690',
 			main: '#5a8a6c'
 		},
 		button: {
@@ -107,6 +109,10 @@ theme = createTheme(theme, {
 			fontSize: 14,
 			fontWeight: 400
 		},
+		body3: {
+			fontSize: 15,
+			fontWeight: 400
+		},
 		button: {
 			fontWeight: 500,
 			letterSpacing: '0.03em',
@@ -139,23 +145,50 @@ theme = createTheme(theme, {
 		},
 		MuiButton: {
 			styleOverrides: {
-				root: {
+				root: ({ ownerState }: { ownerState: ButtonProps }) => ({
 					textTransform: 'none',
 					fontWeight: 500,
 					borderRadius: 8,
 					padding: '12px 24px',
 					transition: 'all 0.2s ease',
-					fontSize: 15,
+					fontSize: 16,
 					gap: 8,
 					'& .MuiButton-startIcon': {
 						margin: 0
-					}
-				},
+					},
+					'& .MuiButton-colorInfo': {
+						backgroundColor: theme.palette.success.main,
+						color: theme.palette.text.primary
+					},
+					'& .MuiButton-colorError': {
+						backgroundColor: theme.palette.error.main,
+						color: theme.palette.text.primary
+					},
+
+					// disabled styles override
+					...(ownerState.color === 'success' && {
+						'&.Mui-disabled': {
+							backgroundColor: theme.palette.success.light,
+							color: theme.palette.primary.contrastText,
+							opacity: 0.7
+						}
+					}),
+					...(ownerState.color === 'error' && {
+						'&.Mui-disabled': {
+							backgroundColor: theme.palette.error.light,
+							color: theme.palette.primary.contrastText
+						}
+					})
+				}),
 				contained: {
-					backgroundColor: theme.palette.button.main,
 					boxShadow: 'none',
 					'&:hover': {
-						boxShadow: '0 2px 8px rgba(26, 26, 26, 0.15)',
+						boxShadow: '0 2px 8px rgba(26, 26, 26, 0.15)'
+					}
+				},
+				containedPrimary: {
+					backgroundColor: theme.palette.button.main,
+					'&:hover': {
 						backgroundColor: theme.palette.button.hover
 					}
 				},
@@ -169,6 +202,10 @@ theme = createTheme(theme, {
 					backgroundColor: 'transparent',
 					justifyContent: 'flex-start',
 					textAlign: 'left'
+				},
+				sizeSmall: {
+					padding: '6px 24px',
+					minHeight: 40
 				}
 			}
 		},
@@ -278,6 +315,14 @@ theme = createTheme(theme, {
 					boxShadow: `0 2px 12px ${theme.palette.background.lowShadow}`,
 					backgroundColor: theme.palette.secondary.main,
 					color: theme.palette.primary.main
+				},
+				medium: {
+					width: 64,
+					height: 64,
+					fontWeight: 500,
+					fontSize: 24,
+					backgroundColor: theme.palette.secondary.main,
+					color: theme.palette.primary.main
 				}
 			}
 		},
@@ -287,7 +332,20 @@ theme = createTheme(theme, {
 					textTransform: 'none',
 					fontWeight: 500,
 					letterSpacing: '0.01em',
-					minHeight: 48
+					minHeight: 48,
+					fontSize: 14,
+					color: theme.palette.text.secondary,
+					paddingTop: 0,
+					paddingBottom: 0,
+
+					'& .MuiTabs-indicator': {
+						backgroundColor: theme.palette.primary.main,
+						height: 2
+					},
+
+					'& .Mui-selected': {
+						color: theme.palette.text.primary
+					}
 				}
 			}
 		},

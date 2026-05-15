@@ -42,6 +42,7 @@ declare module '@mui/material/Typography' {
 	interface TypographyPropsVariantOverrides {
 		secondFontFamily: true
 		link: true
+		body3: true
 	}
 }
 
@@ -49,5 +50,14 @@ declare module '@mui/material/Typography' {
 declare module '@mui/material/Avatar' {
 	interface AvatarPropsVariantOverrides {
 		large: true
+		medium: true
+	}
+}
+
+// Update the Button variant prop options
+declare module '@mui/material/Button' {
+	interface ButtonPropsVariantOverrides {
+		success: true
+		error: true
 	}
 }

@@ -19,6 +19,7 @@ export const ProfileCard = () => {
 		gcTime: 0
 	})
 
+	// TODO: add friends action buttons
 	return (
 		<Card variant="outlined">
 			{/* Cover */}
