@@ -43,7 +43,10 @@ const NotificationsProvider = ({ children }: SocketProviderProps) => {
 				{ queryKey: [NOTIFICATIONS_QUERY_KEY] },
 				old => addItemToInfiniteQuery(data.data, old, notification => notification.id)
 			)
-			revalidateFriends()
+			// revalidate desired data
+			if (data.data.type.includes('friend')) {
+				revalidateFriends()
+			}
 		}
 
 		const socket = notificationsSocketClient.connect(token)
