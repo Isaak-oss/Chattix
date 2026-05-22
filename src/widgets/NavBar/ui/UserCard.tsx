@@ -2,6 +2,7 @@ import { type User } from '@entities/user'
 import { Avatar, Box, Stack, Typography } from '@mui/material'
 import { routes } from '@shared/config'
 import { useNavigate } from 'react-router'
+import {Notifications} from "@widgets/NavBar/ui/Notifications/Notifications.tsx";
 
 export const UserCard = ({ user }: { user: User }) => {
 	const navigate = useNavigate()
@@ -39,6 +40,7 @@ export const UserCard = ({ user }: { user: User }) => {
 						@{user.name}
 					</Typography>
 				</Box>
+				<Notifications />
 			</Stack>
 		</Box>
 	)

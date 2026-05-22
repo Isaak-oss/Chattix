@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material'
+import { Box, Container, Stack, Typography } from '@mui/material'
 import type { ReactNode } from 'react'
 
 type PageWrapperProps = {
@@ -9,11 +9,8 @@ type PageWrapperProps = {
 
 export const PageWrapper = ({ children, title, subTitle }: PageWrapperProps) => {
 	return (
-		<Box
+		<Container
 			sx={{
-				maxWidth: 1100,
-				mx: 'auto',
-				p: { xs: 2, sm: 3 },
 				display: 'flex',
 				gap: 4,
 				height: '100%'
@@ -32,6 +29,6 @@ export const PageWrapper = ({ children, title, subTitle }: PageWrapperProps) => 
 				)}
 				{children}
 			</Stack>
-		</Box>
+		</Container>
 	)
 }

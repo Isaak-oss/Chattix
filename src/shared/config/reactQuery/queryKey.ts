@@ -3,3 +3,5 @@ export const POST_QUERY_KEY = 'posts' as const
 export const FRIENDS_QUERY_KEY = 'friends' as const
 export const FRIENDS_COUNT_QUERY_KEY = 'friends_count' as const
 export const SUGGESTED_FRIENDS_QUERY_KEY = 'suggested_friends' as const
+export const NOTIFICATIONS_QUERY_KEY = 'notifications' as const
+export const NOTIFICATIONS_COUNT_QUERY_KEY = 'notifications_count' as const

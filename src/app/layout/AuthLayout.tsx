@@ -1,4 +1,4 @@
-import SocketProvider from '@app/provider/SocketProvider.tsx'
+import NotificationsProvider from '@app/provider/NotificationsProvider.tsx'
 import { useAuthStore } from '@entities/auth'
 import { useMe } from '@entities/user'
 import { Box, Stack } from '@mui/material'
@@ -30,14 +30,14 @@ const AuthLayout = () => {
 	if (!data && !isAuthorized) return <Navigate to={routes.authSignIn.path} />
 
 	return (
-		<SocketProvider>
+		<NotificationsProvider>
 			<Stack flexDirection={{ xs: 'column-reverse', sm: 'row' }} height={'100vh'}>
 				<NavBar />
 				<Box flex={1}>
 					<Outlet />
 				</Box>
 			</Stack>
-		</SocketProvider>
+		</NotificationsProvider>
 	)
 }
 

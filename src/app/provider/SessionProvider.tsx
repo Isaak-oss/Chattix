@@ -1,6 +1,6 @@
 import { useAuthStore } from '@entities/auth'
-import { apiClient, notificationsSocketClient } from '@shared/api'
-import { type ReactNode, useEffect } from 'react'
+import { apiClient } from '@shared/api'
+import { type ReactNode } from 'react'
 
 apiClient.attachAuthInterceptors({
 	getToken: () => useAuthStore.getState().token,
@@ -11,21 +11,10 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
 	const token = useAuthStore(s => s.token)
 	const setIsAuth = useAuthStore(s => s.setIsAuth)
 
-	useEffect(() => {
-		// Set auth as default if it has token. If getMe rejects with 401, logout will be performed.
-		setIsAuth(!!token)
-
-		if (!token) {
-			notificationsSocketClient.disconnect()
-			return
-		}
-
-		notificationsSocketClient.connect(token)
-
-		return () => {
-			notificationsSocketClient.disconnect()
-		}
-	}, [setIsAuth, token])
+	// set auth as default if it has token, If getMe reject 401 error, logout will be performed
+	if (token) {
+		setIsAuth(true)
+	}
 
 	return children
 }
