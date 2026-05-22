@@ -1,16 +1,15 @@
 import { type ButtonProps, createTheme } from '@mui/material'
 
-/*
-	Default Breakpoint:
-
-	xs, extra-small: 0px
-	sm, small: 600px
-	md, medium: 900px
-	lg, large: 1200px
-	xl, extra-large: 1536px
-*/
-
 export let theme = createTheme({
+	breakpoints: {
+		values: {
+			xs: 0,
+			sm: 600,
+			md: 900,
+			lg: 1100,
+			xl: 1536
+		}
+	},
 	palette: {
 		mode: 'light',
 		primary: {
@@ -383,6 +382,29 @@ theme = createTheme(theme, {
 			styleOverrides: {
 				paper: {
 					borderRight: 'none'
+				}
+			}
+		},
+		MuiContainer: {
+			styleOverrides: {
+				root: {
+					padding: theme.spacing(2),
+
+					[theme.breakpoints.up('sm')]: {
+						padding: theme.spacing(3)
+					}
+				}
+			}
+		},
+		MuiBadge: {
+			styleOverrides: {
+				root: {
+					'& .MuiBadge-badge': {
+						backgroundColor: theme.palette.secondary.main,
+						color: theme.palette.text.primary,
+						fontWeight: 600,
+						fontSize: 10
+					}
 				}
 			}
 		}

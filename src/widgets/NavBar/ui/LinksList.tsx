@@ -7,20 +7,9 @@ import { NavLink } from 'react-router-dom'
 import { links } from '../config/links.ts'
 import type { LinkItem } from '../model/types.ts'
 
-const MessageLinkIcon = ({ Icon }: { Icon: SvgIconComponent }) => {
+const LinkIcon = ({ Icon, badgeContent = 0 }: { Icon: SvgIconComponent; badgeContent?: number }) => {
 	return (
-		<Badge
-			badgeContent={1}
-			max={9}
-			sx={{
-				'& .MuiBadge-badge': {
-					bgcolor: '#c9a87c',
-					color: '#1a1a1a',
-					fontWeight: 600,
-					fontSize: 10
-				}
-			}}
-		>
+		<Badge badgeContent={badgeContent} max={9}>
 			<Icon fontSize={'small'} />
 		</Badge>
 	)
@@ -28,6 +17,8 @@ const MessageLinkIcon = ({ Icon }: { Icon: SvgIconComponent }) => {
 
 const Link = memo(({ link }: { link: LinkItem }) => {
 	const isMessageLink = routes.messages.path.includes(link.page)
+
+	const count = isMessageLink ? 1 : 0
 
 	return (
 		<Button
@@ -59,7 +50,7 @@ const Link = memo(({ link }: { link: LinkItem }) => {
 					}
 				}
 			}}
-			startIcon={isMessageLink ? <MessageLinkIcon Icon={link.icon} /> : <link.icon fontSize={'small'} />}
+			startIcon={<LinkIcon Icon={link.icon} badgeContent={count} />}
 		>
 			<Typography variant="body2">{link.label}</Typography>
 		</Button>
