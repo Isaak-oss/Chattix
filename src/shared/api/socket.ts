@@ -1,9 +1,9 @@
 import { env } from '@shared/lib'
 import { type Socket, io } from 'socket.io-client'
 
-class NotificationsSocketClient {
+class SocketClient {
 	private socket: Socket | null = null
-	private socketUrl = new URL('/notifications', env.VITE_API_BASE_URL).toString()
+	private socketUrl = new URL('/realtime', env.VITE_API_BASE_URL).toString()
 
 	connect(token: string) {
 		this.disconnect()
@@ -29,4 +29,4 @@ class NotificationsSocketClient {
 	}
 }
 
-export const notificationsSocketClient = new NotificationsSocketClient()
+export const socketClient = new SocketClient()

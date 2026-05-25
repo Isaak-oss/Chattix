@@ -2,9 +2,9 @@ import {
 	type Notification,
 	NotificationType,
 	deleteNotification as deleteNotificationMutation,
-	readNotification as readNotificationMutation,
-	useNotificationsStore
+	readNotification as readNotificationMutation
 } from '@entities/notifications'
+import { updateNotificationsCounts } from '@features/notifications'
 import CheckIcon from '@mui/icons-material/Check'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Box, Divider, IconButton, Stack, Typography } from '@mui/material'
@@ -24,12 +24,11 @@ export const NotificationItem = memo(({ notification, onClose }: NotificationIte
 	const queryClient = useQueryClient()
 	const navigate = useNavigate()
 	const [isRead, setRead] = useState(!!notification.readAt)
-	const { readNotification, deleteNotification } = useNotificationsStore()
 
 	const onRead = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation()
 		setRead(true)
-		readNotification()
+		updateNotificationsCounts('read', isRead)
 		readNotificationMutation(notification.id)
 	}
 
@@ -39,7 +38,7 @@ export const NotificationItem = memo(({ notification, onClose }: NotificationIte
 			{ queryKey: [NOTIFICATIONS_QUERY_KEY] },
 			old => removeItemFromInfiniteQuery(notification.id, old, notification => notification.id)
 		)
-		deleteNotification(isRead)
+		updateNotificationsCounts('delete', isRead)
 		deleteNotificationMutation(notification.id)
 	}
 
