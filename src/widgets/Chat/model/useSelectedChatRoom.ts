@@ -12,14 +12,16 @@ export const useSelectedChatRoom = () => {
 	const { chatRoomId } = useChatRoomId()
 
 	// get chatRoom info from chatRooms list
-	const { chatRooms, isFetching } = useChatRooms()
-	let selectedChatRoom = chatRooms?.find(({ id }) => id === chatRoomId)
+	const { chatRooms, isFetching, isLoading } = useChatRooms()
+	const selectedChatRoom = chatRooms?.find(({ id }) => id === chatRoomId)
+	const canFetchSelectedChatRoom = !!chatRoomId && chatRoomId !== 'new' && !isLoading && !selectedChatRoom
 
 	// if there is no chatRoom in chatRooms list, then fetch chatRoom separately
 	const { data: chatRoom } = useQuery({
 		queryKey: [CHAT_ROOMS_QUERY_KEY, chatRoomId],
 		queryFn: () => getChatRoom(chatRoomId!),
-		enabled: !!chatRoomId && !selectedChatRoom
+		enabled: canFetchSelectedChatRoom,
+		initialData: selectedChatRoom
 	})
 
 	// if chatRoom fetched, and it doesn't have in chat rooms list (because of pagination), than add it no the top
@@ -27,14 +29,10 @@ export const useSelectedChatRoom = () => {
 		if (chatRoom && chatRoomId !== 'new' && !isFetching) {
 			queryClient.setQueriesData<InfiniteData<ApiResponse<ChatRoom[]>>>(
 				{ queryKey: [CHAT_ROOMS_QUERY_KEY], exact: true },
-				old => addItemToInfiniteQuery(chatRoom, old, chatRoomItem => chatRoomItem.id === chatRoom.id)
+				old => addItemToInfiniteQuery(chatRoom, old, chatRoomItem => chatRoomItem.id)
 			)
 		}
-	}, [chatRoom])
+	}, [chatRoom, chatRoomId, isFetching, queryClient])
 
-	if (!selectedChatRoom) {
-		selectedChatRoom = chatRoom
-	}
-
-	return { selectedChatRoom }
+	return { selectedChatRoom: chatRoom }
 }

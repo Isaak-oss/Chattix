@@ -3,6 +3,7 @@ import { EmptyList, Loader } from '@shared/ui'
 import { DataListModes } from '@shared/ui/DataList/model/types.ts'
 import { useGridLanes } from '@shared/ui/DataList/model/virtualizerHooks/useGridLanes.ts'
 import { useInfiniteVirtualizer } from '@shared/ui/DataList/model/virtualizerHooks/useInfiniteVirtualizer.ts'
+import { useVirtualScrollItem } from '@shared/ui/DataList/model/virtualizerHooks/useVirtualScrollItem.ts'
 import { type VirtualItem } from '@tanstack/react-virtual'
 import { type Key, type ReactNode } from 'react'
 
@@ -22,6 +23,7 @@ type DataListProps<T> = {
 	isRefetching?: boolean
 	isFetchingNextPage?: boolean
 	onLoadMore?: () => void
+	onScroll?: (item: T, index: number) => void
 	reverse?: boolean
 	autoScrollToEnd?: boolean
 }
@@ -42,6 +44,7 @@ export const DataList = <T,>({
 	isRefetching,
 	isFetchingNextPage,
 	onLoadMore,
+	onScroll,
 	reverse = false,
 	autoScrollToEnd = false
 }: DataListProps<T>) => {
@@ -55,7 +58,7 @@ export const DataList = <T,>({
 
 	const getDataIndex = (index: number) => (isReverse ? dataLength - 1 - index : index)
 
-	const { containerStyle, virtualItems, measureElement } = useInfiniteVirtualizer({
+	const { containerStyle, virtualItems, measureElement, scrollOffset, scrollRect } = useInfiniteVirtualizer({
 		// virtualizer
 		count: dataLength,
 		estimateSize,
@@ -76,6 +79,18 @@ export const DataList = <T,>({
 		isFetching,
 		reverse: isReverse,
 		autoScrollToEnd
+	})
+
+	useVirtualScrollItem({
+		data,
+		getDataIndex,
+		getItemKey,
+		isHorizontal,
+		isReverse,
+		onScroll,
+		scrollOffset,
+		scrollRect,
+		virtualItems
 	})
 
 	// TODO: add the ReactNode props for full customize

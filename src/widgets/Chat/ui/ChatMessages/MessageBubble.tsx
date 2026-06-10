@@ -1,4 +1,7 @@
 import type { Message } from '@entities/chat'
+import CheckIcon from '@mui/icons-material/Check'
+import DoneAllIcon from '@mui/icons-material/DoneAll'
+import QueryBuilderIcon from '@mui/icons-material/QueryBuilder'
 import { Box, Stack, Typography } from '@mui/material'
 import { formatDate } from '@shared/lib'
 import { memo } from 'react'
@@ -6,10 +9,17 @@ import { memo } from 'react'
 type MessageBubbleProps = {
 	message: Message
 	currentUserId: Id
+	lastReadAt: string
 }
 
-export const MessageBubble = memo(({ message, currentUserId }: MessageBubbleProps) => {
+export const MessageBubble = memo(({ message, currentUserId, lastReadAt }: MessageBubbleProps) => {
 	const isMe = message.senderId === currentUserId
+
+	const status = !message.createdAt
+		? 'sending'
+		: new Date(lastReadAt) >= new Date(message.createdAt)
+			? 'read'
+			: 'unread'
 
 	return (
 		<Box
@@ -35,7 +45,7 @@ export const MessageBubble = memo(({ message, currentUserId }: MessageBubbleProp
 				<Typography variant="body2" sx={{ lineHeight: 1.6, fontSize: 14 }}>
 					{message.content}
 				</Typography>
-				<Stack flexDirection='row'>
+				<Stack flexDirection="row" justifyContent={'flex-end'} gap={1}>
 					<Typography
 						variant="caption"
 						sx={{
@@ -48,6 +58,17 @@ export const MessageBubble = memo(({ message, currentUserId }: MessageBubbleProp
 					>
 						{message.updatedAt ? formatDate(message.updatedAt) : formatDate(message.createdAt)}
 					</Typography>
+					{isMe && (
+						<Box>
+							{status === 'sending' ? (
+								<QueryBuilderIcon fontSize="small" sx={{ color: '' }} />
+							) : status === 'unread' ? (
+								<CheckIcon fontSize="small" sx={{ color: '' }} />
+							) : (
+								status === 'read' && <DoneAllIcon fontSize="small" sx={{ color: '' }} />
+							)}
+						</Box>
+					)}
 				</Stack>
 			</Box>
 		</Box>
@@ -61,6 +82,7 @@ function areMessageBubblePropsEqual(prev: MessageBubbleProps, next: MessageBubbl
 		prev.message.content === next.message.content &&
 		prev.message.senderId === next.message.senderId &&
 		prev.message.createdAt === next.message.createdAt &&
-		prev.message.updatedAt === next.message.updatedAt
+		prev.message.updatedAt === next.message.updatedAt &&
+		prev.lastReadAt === next.lastReadAt
 	)
 }

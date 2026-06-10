@@ -18,14 +18,14 @@ export type Message = PartialKeys<BaseEntity, 'createdAt'> & {
 export type ChatRoomReadState = BaseEntity & {
 	chatRoomId: Id
 	userId: Id
-	lastReadMessageId?: Id
-	lastReadAt?: Date
+	lastReadMessageId: Id
+	lastReadAt: string
 }
 
 export type ChatRoom = BaseEntity & {
 	name: string
 	participants: User[]
-	readStates: ChatRoomReadState[]
+	readStates: ChatRoomReadState[] | []
 	type: ChatRoomType
 }
 
@@ -36,4 +36,9 @@ export type CreateDirectChatRoomBody = {
 
 export type SendMessageBody = {
 	content: string
+}
+
+export type NewMessageWebSocket = {
+	data: Message & { chatRoom: ChatRoom }
+	unreadCount: number
 }

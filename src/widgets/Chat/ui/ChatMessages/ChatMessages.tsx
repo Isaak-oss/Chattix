@@ -5,6 +5,8 @@ import { ScrollProvider } from '@shared/lib'
 import { DataList, Loader } from '@shared/ui'
 import { useChatRoomId } from '@widgets/Chat/model/useChatRoomId.ts'
 import { useMessages } from '@widgets/Chat/model/useMessages.ts'
+import { useReadMessage } from '@widgets/Chat/model/useReadMessage.ts'
+import { useSelectedChatRoom } from '@widgets/Chat/model/useSelectedChatRoom.ts'
 import { ChatNotSelected } from '@widgets/Chat/ui/ChatMessages/ChatNotSelected.tsx'
 import { MessageBubble } from '@widgets/Chat/ui/ChatMessages/MessageBubble.tsx'
 import { MessageInput } from '@widgets/Chat/ui/ChatMessages/MessageInput.tsx'
@@ -12,20 +14,12 @@ import { MessageInput } from '@widgets/Chat/ui/ChatMessages/MessageInput.tsx'
 export const ChatMessages = () => {
 	const { data: me } = useMe()
 	const { setSelectedChatRoomId } = useChatRoomId()
+	const { selectedChatRoom } = useSelectedChatRoom()
 
-	const {
-		messages,
-		chatRoomId,
-		selectedChatRoom,
-		isLoading,
-		isFetching,
-		isFetchingNextPage,
-		isRefetching,
-		hasNextPage,
-		fetchNextPage
-	} = useMessages()
+	const { messages, chatRoomId, isLoading, isFetching, isFetchingNextPage, isRefetching, hasNextPage, fetchNextPage } =
+		useMessages()
 
-	console.log(selectedChatRoom)
+	const { handleReadMessage } = useReadMessage()
 
 	if (!chatRoomId) return <ChatNotSelected />
 
@@ -100,7 +94,13 @@ export const ChatMessages = () => {
 			<ScrollProvider sx={{ p: 2 }}>
 				<DataList
 					data={messages}
-					renderItem={message => <MessageBubble message={message} currentUserId={me!.data.id} />}
+					renderItem={message => (
+						<MessageBubble
+							message={message}
+							currentUserId={me!.data.id}
+							lastReadAt={selectedChatRoom?.readStates[0]?.lastReadAt}
+						/>
+					)}
 					isFetching={isFetching}
 					isDataLoading={isLoading}
 					isFetchingNextPage={isFetchingNextPage}
@@ -111,6 +111,7 @@ export const ChatMessages = () => {
 					autoScrollToEnd
 					gap={10}
 					getItemKey={message => message.id}
+					onScroll={handleReadMessage}
 				/>
 			</ScrollProvider>
 
