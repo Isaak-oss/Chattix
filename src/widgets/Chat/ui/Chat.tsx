@@ -7,10 +7,11 @@ export const Chat = () => {
 		<Card
 			sx={{
 				display: 'flex',
-				flex: 1
+				flex: 1,
+				minHeight: 0
 			}}
 		>
-			<Stack flexDirection="row" flex={1}>
+			<Stack flexDirection="row" flex={1} minHeight={0}>
 				<ChatRooms />
 				<ChatMessages />
 			</Stack>

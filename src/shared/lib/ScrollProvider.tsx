@@ -1,21 +1,21 @@
-import { Box } from '@mui/material'
+import {Box, type BoxProps} from '@mui/material'
 import { type ReactNode, type RefObject, createContext, useContext, useRef } from 'react'
 
 type ScrollContextValue = RefObject<HTMLDivElement | null>
 
 const ScrollContext = createContext<ScrollContextValue | null>(null)
 
-type ScrollProviderProps = {
+type ScrollProviderProps = BoxProps & {
 	children: ReactNode
 	height?: string | number
 }
 
-export const ScrollProvider = ({ children, height = '100%' }: ScrollProviderProps) => {
+export const ScrollProvider = ({ children, height = '100%', ...rest }: ScrollProviderProps) => {
 	const scrollRef = useRef<HTMLDivElement>(null)
 
 	return (
 		<ScrollContext.Provider value={scrollRef}>
-			<Box ref={scrollRef} style={{ overflow: 'auto', height, flex: 1 }}>
+			<Box ref={scrollRef} {...rest} style={{ overflow: 'auto', height, flex: 1, minHeight: 0, minWidth: 0 }}>
 				{children}
 			</Box>
 		</ScrollContext.Provider>

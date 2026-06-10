@@ -23,6 +23,7 @@ type DataListProps<T> = {
 	isFetchingNextPage?: boolean
 	onLoadMore?: () => void
 	reverse?: boolean
+	autoScrollToEnd?: boolean
 }
 
 export const DataList = <T,>({
@@ -41,7 +42,8 @@ export const DataList = <T,>({
 	isRefetching,
 	isFetchingNextPage,
 	onLoadMore,
-	reverse = false
+	reverse = false,
+	autoScrollToEnd = false
 }: DataListProps<T>) => {
 	const dataLength = data.length
 	const hasData = !!dataLength
@@ -72,7 +74,8 @@ export const DataList = <T,>({
 		onLoadMore,
 		dataLength,
 		isFetching,
-		reverse: isReverse
+		reverse: isReverse,
+		autoScrollToEnd
 	})
 
 	// TODO: add the ReactNode props for full customize

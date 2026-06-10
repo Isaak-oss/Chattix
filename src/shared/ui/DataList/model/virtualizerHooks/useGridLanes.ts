@@ -12,17 +12,22 @@ export const useGridLanes = ({ hasData, isGrid, minItemWidth }: useGridLanesProp
 	const [containerWidth, setContainerWidth] = useState(0)
 
 	useEffect(() => {
-		if (!containerRef.current) return
+		const container = containerRef.current
+
+		if (!container) return
+
 		const updateWidth = () => {
-			setContainerWidth(containerRef.current!.offsetWidth)
+			setContainerWidth(container.offsetWidth)
 		}
+
 		updateWidth()
 		const resizeObserver = new ResizeObserver(updateWidth)
-		resizeObserver.observe(containerRef.current)
+		resizeObserver.observe(container)
+
 		return () => {
 			resizeObserver.disconnect()
 		}
-	}, [containerRef, hasData])
+	}, [hasData])
 
 	const lanes = isGrid ? Math.max(1, Math.floor(containerWidth / minItemWidth)) : 1
 

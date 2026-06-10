@@ -1,3 +1,4 @@
+import { useMe } from '@entities/user'
 import { ArrowLeft } from '@mui/icons-material'
 import { Avatar, Box, IconButton, Stack, Typography } from '@mui/material'
 import { ScrollProvider } from '@shared/lib'
@@ -9,7 +10,9 @@ import { MessageBubble } from '@widgets/Chat/ui/ChatMessages/MessageBubble.tsx'
 import { MessageInput } from '@widgets/Chat/ui/ChatMessages/MessageInput.tsx'
 
 export const ChatMessages = () => {
+	const { data: me } = useMe()
 	const { setSelectedChatRoomId } = useChatRoomId()
+
 	const {
 		messages,
 		chatRoomId,
@@ -22,6 +25,8 @@ export const ChatMessages = () => {
 		fetchNextPage
 	} = useMessages()
 
+	console.log(selectedChatRoom)
+
 	if (!chatRoomId) return <ChatNotSelected />
 
 	if (!selectedChatRoom) return <Loader justifyContent={'center'} />
@@ -30,7 +35,8 @@ export const ChatMessages = () => {
 		<Stack
 			sx={{
 				flex: 1,
-				bgcolor: 'background.lightGrey'
+				bgcolor: 'background.lightGrey',
+				minHeight: 0
 			}}
 		>
 			{/* Chat header */}
@@ -91,10 +97,10 @@ export const ChatMessages = () => {
 			</Stack>
 
 			{/* Messages */}
-			<ScrollProvider>
+			<ScrollProvider sx={{ p: 2 }}>
 				<DataList
 					data={messages}
-					renderItem={message => <MessageBubble message={message} key={message.id} />}
+					renderItem={message => <MessageBubble message={message} currentUserId={me!.data.id} />}
 					isFetching={isFetching}
 					isDataLoading={isLoading}
 					isFetchingNextPage={isFetchingNextPage}
@@ -102,6 +108,9 @@ export const ChatMessages = () => {
 					hasNextPage={hasNextPage}
 					onLoadMore={fetchNextPage}
 					reverse
+					autoScrollToEnd
+					gap={10}
+					getItemKey={message => message.id}
 				/>
 			</ScrollProvider>
 

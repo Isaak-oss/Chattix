@@ -1,6 +1,6 @@
 import { useScrollRef } from '@shared/lib'
 import { type ReactVirtualizerOptions, useVirtualizer } from '@tanstack/react-virtual'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
 
 type UseInfinityScrollProps<TItemElement extends Element> = PartialKeys<
 	ReactVirtualizerOptions<HTMLElement, TItemElement>,
@@ -11,6 +11,7 @@ type UseInfinityScrollProps<TItemElement extends Element> = PartialKeys<
 	isFetching?: boolean
 	dataLength: number
 	reverse?: boolean
+	autoScrollToEnd?: boolean
 }
 
 export const useInfiniteVirtualizer = <TItemElement extends Element>({
@@ -19,6 +20,8 @@ export const useInfiniteVirtualizer = <TItemElement extends Element>({
 	isFetching,
 	dataLength,
 	reverse,
+	autoScrollToEnd,
+	horizontal,
 	...rest
 }: UseInfinityScrollProps<TItemElement>) => {
 	// get parentRef from ScrollProvider to use in getScrollElement
@@ -26,14 +29,55 @@ export const useInfiniteVirtualizer = <TItemElement extends Element>({
 
 	const rowVirtualizer = useVirtualizer({
 		getScrollElement: () => parentRef.current,
+		horizontal,
 		...rest
 	})
 
 	// infinity scroll to load more on scroll
 	const isLoadingRef = useRef(false)
 	const initialReverseScrollDoneRef = useRef(false)
+	const pendingScrollToEndRef = useRef(false)
+	const pendingScrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 	const virtualItems = rowVirtualizer.getVirtualItems()
 	const totalSize = rowVirtualizer.getTotalSize()
+	const scrollToEnd = useCallback(() => {
+		if (!dataLength) return
+
+		const lastIndex = dataLength - 1
+
+		rowVirtualizer.scrollToIndex(lastIndex, { align: 'end' })
+
+		requestAnimationFrame(() => {
+			rowVirtualizer.scrollToIndex(lastIndex, { align: 'end' })
+
+			const scrollElement = parentRef.current
+
+			if (!scrollElement) return
+
+			if (horizontal) {
+				scrollElement.scrollLeft = scrollElement.scrollWidth
+
+				return
+			}
+
+			scrollElement.scrollTop = scrollElement.scrollHeight
+		})
+	}, [dataLength, horizontal, parentRef, rowVirtualizer])
+
+	const scheduleScrollToEnd = useCallback(() => {
+		pendingScrollToEndRef.current = true
+		scrollToEnd()
+
+		if (pendingScrollTimeoutRef.current) {
+			clearTimeout(pendingScrollTimeoutRef.current)
+		}
+
+		pendingScrollTimeoutRef.current = setTimeout(() => {
+			scrollToEnd()
+			pendingScrollToEndRef.current = false
+			pendingScrollTimeoutRef.current = null
+		}, 120)
+	}, [scrollToEnd])
 
 	useEffect(() => {
 		if (!hasNextPage || !onLoadMore) return
@@ -60,7 +104,7 @@ export const useInfiniteVirtualizer = <TItemElement extends Element>({
 		}
 	}, [isFetching])
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (!reverse) return
 
 		if (dataLength === 0) {
@@ -70,12 +114,37 @@ export const useInfiniteVirtualizer = <TItemElement extends Element>({
 		}
 
 		if (!initialReverseScrollDoneRef.current) {
-			rowVirtualizer.scrollToIndex(0, { align: 'end' })
+			scheduleScrollToEnd()
 			initialReverseScrollDoneRef.current = true
 		}
-	}, [dataLength, reverse, rowVirtualizer])
+	}, [dataLength, reverse, scheduleScrollToEnd])
 
-	const containerStyle = rest.horizontal
+	const prevDataLengthRef = useRef(dataLength)
+
+	useLayoutEffect(() => {
+		const prevDataLength = prevDataLengthRef.current
+		prevDataLengthRef.current = dataLength
+
+		if (!autoScrollToEnd || prevDataLength === 0 || dataLength <= prevDataLength) return
+
+		scheduleScrollToEnd()
+	}, [autoScrollToEnd, dataLength, scheduleScrollToEnd])
+
+	useLayoutEffect(() => {
+		if (!pendingScrollToEndRef.current) return
+
+		scrollToEnd()
+	}, [scrollToEnd, totalSize])
+
+	useEffect(() => {
+		return () => {
+			if (pendingScrollTimeoutRef.current) {
+				clearTimeout(pendingScrollTimeoutRef.current)
+			}
+		}
+	}, [])
+
+	const containerStyle = horizontal
 		? { width: totalSize, position: 'relative' as const }
 		: { height: totalSize, position: 'relative' as const }
 

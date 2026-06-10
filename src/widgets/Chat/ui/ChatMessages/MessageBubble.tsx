@@ -1,17 +1,15 @@
 import type { Message } from '@entities/chat'
-import { useMe } from '@entities/user'
-import { Box, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
 import { formatDate } from '@shared/lib'
+import { memo } from 'react'
 
 type MessageBubbleProps = {
 	message: Message
+	currentUserId: Id
 }
 
-export const MessageBubble = ({ message }: MessageBubbleProps) => {
-	const { data } = useMe()
-	const user = data!.data
-
-	const isMe = message.senderId === user.id
+export const MessageBubble = memo(({ message, currentUserId }: MessageBubbleProps) => {
+	const isMe = message.senderId === currentUserId
 
 	return (
 		<Box
@@ -26,28 +24,43 @@ export const MessageBubble = ({ message }: MessageBubbleProps) => {
 					px: 2,
 					py: 1.25,
 					borderRadius: 2,
-					borderBottomRightRadius: isMe ? 0.5 : 2,
+					borderBottomRightRadius: isMe ? 0 : 16,
+					borderBottomLeftRadius: isMe ? 16 : 0,
 					bgcolor: isMe ? '#1a1a1a' : '#fefefe',
 					color: isMe ? '#f5f3ef' : '#1a1a1a',
-					boxShadow: isMe ? 'none' : '0 1px 2px rgba(26,26,26,0.04)'
+					boxShadow: isMe ? 'none' : '0 1px 2px rgba(26,26,26,0.04)',
+					minWidth: 150
 				}}
 			>
 				<Typography variant="body2" sx={{ lineHeight: 1.6, fontSize: 14 }}>
 					{message.content}
 				</Typography>
-				<Typography
-					variant="caption"
-					sx={{
-						display: 'block',
-						textAlign: 'right',
-						mt: 0.5,
-						opacity: 0.6,
-						fontSize: 10
-					}}
-				>
-					{message.updatedAt ? formatDate(message.updatedAt) : formatDate(message.createdAt)}
-				</Typography>
+				<Stack flexDirection='row'>
+					<Typography
+						variant="caption"
+						sx={{
+							display: 'block',
+							textAlign: 'right',
+							mt: 0.5,
+							opacity: 0.6,
+							fontSize: 10
+						}}
+					>
+						{message.updatedAt ? formatDate(message.updatedAt) : formatDate(message.createdAt)}
+					</Typography>
+				</Stack>
 			</Box>
 		</Box>
+	)
+}, areMessageBubblePropsEqual)
+
+function areMessageBubblePropsEqual(prev: MessageBubbleProps, next: MessageBubbleProps) {
+	return (
+		prev.currentUserId === next.currentUserId &&
+		prev.message.id === next.message.id &&
+		prev.message.content === next.message.content &&
+		prev.message.senderId === next.message.senderId &&
+		prev.message.createdAt === next.message.createdAt &&
+		prev.message.updatedAt === next.message.updatedAt
 	)
 }

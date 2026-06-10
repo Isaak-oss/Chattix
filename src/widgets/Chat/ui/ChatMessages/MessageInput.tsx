@@ -85,7 +85,7 @@ export const MessageInput = () => {
 				display: 'flex',
 				gap: 1.5,
 				alignItems: 'center',
-				bgcolor: '#fefefe'
+				bgcolor: '#fefefe',
 			}}
 		>
 			<TextField
