@@ -10,6 +10,7 @@ type UseInfinityScrollProps<TItemElement extends Element> = PartialKeys<
 	onLoadMore?: () => void
 	isFetching?: boolean
 	dataLength: number
+	reverse?: boolean
 }
 
 export const useInfiniteVirtualizer = <TItemElement extends Element>({
@@ -17,6 +18,7 @@ export const useInfiniteVirtualizer = <TItemElement extends Element>({
 	onLoadMore,
 	isFetching,
 	dataLength,
+	reverse,
 	...rest
 }: UseInfinityScrollProps<TItemElement>) => {
 	// get parentRef from ScrollProvider to use in getScrollElement
@@ -29,22 +31,28 @@ export const useInfiniteVirtualizer = <TItemElement extends Element>({
 
 	// infinity scroll to load more on scroll
 	const isLoadingRef = useRef(false)
+	const initialReverseScrollDoneRef = useRef(false)
+	const virtualItems = rowVirtualizer.getVirtualItems()
+	const totalSize = rowVirtualizer.getTotalSize()
 
 	useEffect(() => {
 		if (!hasNextPage || !onLoadMore) return
+		if (reverse && !initialReverseScrollDoneRef.current) return
 
-		const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse()
+		const [firstItem] = virtualItems
+		const [lastItem] = [...virtualItems].reverse()
+		const boundaryItem = reverse ? firstItem : lastItem
 
-		if (!lastItem) return
+		if (!boundaryItem) return
 
-		const isLastItemVisible = lastItem.index >= dataLength - 1
+		const isBoundaryItemVisible = reverse ? boundaryItem.index <= 0 : boundaryItem.index >= dataLength - 1
 
-		if (isLastItemVisible && !isFetching && !isLoadingRef.current) {
+		if (isBoundaryItemVisible && !isFetching && !isLoadingRef.current) {
 			isLoadingRef.current = true
 			onLoadMore()
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isFetching])
+	}, [dataLength, isFetching, reverse, virtualItems])
 
 	useEffect(() => {
 		if (!isFetching) {
@@ -52,9 +60,20 @@ export const useInfiniteVirtualizer = <TItemElement extends Element>({
 		}
 	}, [isFetching])
 
-	// Necessary data
-	const virtualItems = rowVirtualizer.getVirtualItems()
-	const totalSize = rowVirtualizer.getTotalSize()
+	useEffect(() => {
+		if (!reverse) return
+
+		if (dataLength === 0) {
+			initialReverseScrollDoneRef.current = false
+
+			return
+		}
+
+		if (!initialReverseScrollDoneRef.current) {
+			rowVirtualizer.scrollToIndex(0, { align: 'end' })
+			initialReverseScrollDoneRef.current = true
+		}
+	}, [dataLength, reverse, rowVirtualizer])
 
 	const containerStyle = rest.horizontal
 		? { width: totalSize, position: 'relative' as const }

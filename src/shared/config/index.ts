@@ -1,4 +1,5 @@
 export { routes } from './routes.ts'
+export { CHAT_ROOM_ID_SEARCH_PARAM } from './searchParams.ts'
 export { theme } from './theme/theme.ts'
 export { minute, hour, second, timeoutDelay } from './timestamps.ts'
 export * from './reactQuery/queryKey.ts'

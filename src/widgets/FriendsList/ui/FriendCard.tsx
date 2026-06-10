@@ -1,6 +1,6 @@
 import { type Friend, FriendStatus } from '@entities/friends'
 import { AcceptFriendActionButton, AddFriendActionButton, RejectFriendActionButton } from '@features/friends'
-import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined'
+import { MessageActionButton } from '@features/friends/ui/MessageActionButton.tsx'
 import { Avatar, Button, Card, CardContent, Stack, Typography } from '@mui/material'
 import { memo } from 'react'
 
@@ -38,26 +38,7 @@ export const FriendCard = memo(({ friend }: FriendCardProps) => {
 
 					<Stack mt={2} width="100%" gap={1} flexWrap="wrap" flexDirection="row">
 						{/* Actions */}
-						{isFriend && (
-							<Button
-								variant="outlined"
-								fullWidth
-								size="small"
-								startIcon={<ModeCommentOutlinedIcon fontSize="small" />}
-								sx={{
-									fontWeight: 500,
-									borderColor: 'rgba(26,26,26,0.15)',
-									color: '#1a1a1a',
-									py: 0.75,
-									'&:hover': {
-										borderColor: '#1a1a1a',
-										bgcolor: 'transparent'
-									}
-								}}
-							>
-								Message
-							</Button>
-						)}
+						{isFriend && <MessageActionButton user={friend} />}
 						{isIncoming && (
 							<>
 								<AcceptFriendActionButton requestId={friend.friendRequestId!} />

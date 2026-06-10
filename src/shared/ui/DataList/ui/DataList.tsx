@@ -22,6 +22,7 @@ type DataListProps<T> = {
 	isRefetching?: boolean
 	isFetchingNextPage?: boolean
 	onLoadMore?: () => void
+	reverse?: boolean
 }
 
 export const DataList = <T,>({
@@ -39,20 +40,28 @@ export const DataList = <T,>({
 	hasNextPage,
 	isRefetching,
 	isFetchingNextPage,
-	onLoadMore
+	onLoadMore,
+	reverse = false
 }: DataListProps<T>) => {
 	const dataLength = data.length
 	const hasData = !!dataLength
 	const isGrid = mode === DataListModes.GRID
 	const isHorizontal = mode === DataListModes.HORIZONTAL
+	const isReverse = reverse && !isHorizontal
 
 	const { itemWidthInPercent, lanes, containerRef } = useGridLanes({ hasData, isGrid, minItemWidth })
+
+	const getDataIndex = (index: number) => (isReverse ? dataLength - 1 - index : index)
 
 	const { containerStyle, virtualItems, measureElement } = useInfiniteVirtualizer({
 		// virtualizer
 		count: dataLength,
 		estimateSize,
-		getItemKey: index => getItemKey?.(data[index], index) ?? index,
+		getItemKey: index => {
+			const dataIndex = getDataIndex(index)
+
+			return getItemKey?.(data[dataIndex], dataIndex) ?? index
+		},
 		overscan,
 		horizontal: isHorizontal,
 		gap,
@@ -62,7 +71,8 @@ export const DataList = <T,>({
 		hasNextPage,
 		onLoadMore,
 		dataLength,
-		isFetching
+		isFetching,
+		reverse: isReverse
 	})
 
 	// TODO: add the ReactNode props for full customize
@@ -79,6 +89,7 @@ export const DataList = <T,>({
 			<Collapse in={isRefetching} timeout="auto">
 				<Loader />
 			</Collapse>
+			{isReverse && isFetchingNextPage && <Loader />}
 			<Stack sx={containerStyle}>
 				{virtualItems.map((virtualRow: VirtualItem, index: number) => (
 					<Box
@@ -100,12 +111,12 @@ export const DataList = <T,>({
 									})
 						}}
 					>
-						{renderItem(data[virtualRow.index], index)}
+						{renderItem(data[getDataIndex(virtualRow.index)], index)}
 					</Box>
 				))}
 			</Stack>
 
-			{isFetchingNextPage && <Loader />}
+			{!isReverse && isFetchingNextPage && <Loader />}
 		</Box>
 	)
 }

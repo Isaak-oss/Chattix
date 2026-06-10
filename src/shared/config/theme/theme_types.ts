@@ -23,6 +23,7 @@ declare module '@mui/material/styles' {
 		activeLink: string
 		activeLinkHover: string
 		lowShadow: string
+		lightGrey: string
 	}
 	interface TypeText {
 		contrastText: string

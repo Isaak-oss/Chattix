@@ -30,7 +30,8 @@ export let theme = createTheme({
 			semiTransparentHover: 'rgba(255,255,255,0.08)',
 			activeLink: 'rgba(201,168,124,0.15)',
 			activeLinkHover: 'rgba(201,168,124,0.2)',
-			lowShadow: 'rgba(26,26,26,0.1)'
+			lowShadow: 'rgba(26,26,26,0.1)',
+			lightGrey: '#dadada'
 		},
 		text: {
 			primary: '#1a1a1a',

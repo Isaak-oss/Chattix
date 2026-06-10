@@ -6,7 +6,16 @@ export const addItemToInfiniteQuery = <TData>(
 	old?: InfiniteData<ApiResponse<TData[]>>,
 	getItemKey?: (item: TData) => unknown
 ): InfiniteData<ApiResponse<TData[]>> | undefined => {
-	if (!old) return old
+	if (!old) {
+		return {
+			pages: [
+				{
+					data: [newItem]
+				} as ApiResponse<TData[]>
+			],
+			pageParams: []
+		}
+	}
 
 	const newItemKey = getItemKey?.(newItem)
 	const itemAlreadyExists =
