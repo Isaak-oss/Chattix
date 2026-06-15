@@ -10,6 +10,7 @@ import { useSelectedChatRoom } from '@widgets/Chat/model/useSelectedChatRoom.ts'
 import { ChatNotSelected } from '@widgets/Chat/ui/ChatMessages/ChatNotSelected.tsx'
 import { MessageBubble } from '@widgets/Chat/ui/ChatMessages/MessageBubble.tsx'
 import { MessageInput } from '@widgets/Chat/ui/ChatMessages/MessageInput.tsx'
+import { useMemo } from 'react'
 
 export const ChatMessages = () => {
 	const { data: me } = useMe()
@@ -18,6 +19,13 @@ export const ChatMessages = () => {
 
 	const { messages, chatRoomId, isLoading, isFetching, isFetchingNextPage, isRefetching, hasNextPage, fetchNextPage } =
 		useMessages()
+
+	const orderedMessages = useMemo(() => [...messages].reverse(), [messages])
+
+	const chatName =
+		selectedChatRoom?.type === 'direct'
+			? selectedChatRoom?.participants.find(participant => participant.id !== me?.data.id)?.name
+			: selectedChatRoom?.name
 
 	const { handleReadMessage } = useReadMessage()
 
@@ -61,7 +69,7 @@ export const ChatMessages = () => {
 						fontWeight: 500
 					}}
 				>
-					{selectedChatRoom.name?.charAt(0)}
+					{chatName?.charAt(0)}
 				</Avatar>
 				<Box sx={{ flex: 1 }}>
 					<Typography
@@ -72,8 +80,9 @@ export const ChatMessages = () => {
 							color: '#1a1a1a'
 						}}
 					>
-						{selectedChatRoom.name}
+						{chatName}
 					</Typography>
+					{/*TODO: add online status*/}
 					<Typography variant="caption" sx={{ color: '#5a8a6c', fontSize: 11 }}>
 						Active now
 					</Typography>
@@ -93,7 +102,7 @@ export const ChatMessages = () => {
 			{/* Messages */}
 			<ScrollProvider sx={{ p: 2 }}>
 				<DataList
-					data={messages}
+					data={orderedMessages}
 					renderItem={message => (
 						<MessageBubble
 							message={message}
@@ -112,6 +121,7 @@ export const ChatMessages = () => {
 					gap={10}
 					getItemKey={message => message.id}
 					onScroll={handleReadMessage}
+					estimateSize={() => 40}
 				/>
 			</ScrollProvider>
 

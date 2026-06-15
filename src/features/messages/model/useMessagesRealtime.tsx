@@ -1,4 +1,5 @@
 import type { ChatRoom, Message, NewMessageWebSocket } from '@entities/chat'
+import { updateMessagesCount } from '@features/messages/lib/updateMessagesCounts.ts'
 import { socketClient } from '@shared/api'
 import type { ApiResponse } from '@shared/api'
 import { CHAT_ROOMS_MESSAGES_QUERY_KEY, CHAT_ROOMS_QUERY_KEY } from '@shared/config'
@@ -27,8 +28,10 @@ export const useMessagesRealtime = () => {
 
 			queryClient.setQueriesData<InfiniteData<ApiResponse<ChatRoom[]>>>(
 				{ queryKey: [CHAT_ROOMS_QUERY_KEY], exact: true },
-				old => addOrUpdateItemToInfiniteQuery(newMessage.chatRoom, { key: 'id' }, old)
+				old => addOrUpdateItemToInfiniteQuery(newMessage.chatRoom, { key: 'id' }, old, true)
 			)
+
+			updateMessagesCount(data.unreadMessagesCount)
 		}
 
 		socket.on('message:new', handler)

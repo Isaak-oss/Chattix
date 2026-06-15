@@ -56,7 +56,7 @@ export const DataList = <T,>({
 
 	const { itemWidthInPercent, lanes, containerRef } = useGridLanes({ hasData, isGrid, minItemWidth })
 
-	const getDataIndex = (index: number) => (isReverse ? dataLength - 1 - index : index)
+	const getDataIndex = (index: number) => index
 
 	const { containerStyle, virtualItems, measureElement, scrollOffset, scrollRect } = useInfiniteVirtualizer({
 		// virtualizer

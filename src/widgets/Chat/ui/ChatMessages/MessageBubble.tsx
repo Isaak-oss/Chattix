@@ -3,7 +3,7 @@ import CheckIcon from '@mui/icons-material/Check'
 import DoneAllIcon from '@mui/icons-material/DoneAll'
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder'
 import { Box, Stack, Typography } from '@mui/material'
-import { formatDate } from '@shared/lib'
+import { formatTime} from '@shared/lib'
 import { memo } from 'react'
 
 type MessageBubbleProps = {
@@ -45,7 +45,7 @@ export const MessageBubble = memo(({ message, currentUserId, lastReadAt }: Messa
 				<Typography variant="body2" sx={{ lineHeight: 1.6, fontSize: 14 }}>
 					{message.content}
 				</Typography>
-				<Stack flexDirection="row" justifyContent={'flex-end'} gap={1}>
+				<Stack flexDirection="row" justifyContent={'flex-end'} gap={1} height={25}>
 					<Typography
 						variant="caption"
 						sx={{
@@ -56,7 +56,7 @@ export const MessageBubble = memo(({ message, currentUserId, lastReadAt }: Messa
 							fontSize: 10
 						}}
 					>
-						{message.updatedAt ? formatDate(message.updatedAt) : formatDate(message.createdAt)}
+						{message.updatedAt ? formatTime(message.updatedAt) : formatTime(message.createdAt)}
 					</Typography>
 					{isMe && (
 						<Box>

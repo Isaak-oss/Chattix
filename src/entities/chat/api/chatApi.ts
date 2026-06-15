@@ -7,8 +7,8 @@ import type {
 } from '@entities/chat/model/types.ts'
 import { apiClient } from '@shared/api'
 
-const chatRoomsLimit = 10
-const messagesLimit = 30
+const chatRoomsLimit = 20
+const messagesLimit = 50
 
 // QUERY
 export const getChatRooms = async (offset: number = 0) => {

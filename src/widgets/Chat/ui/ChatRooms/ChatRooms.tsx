@@ -42,25 +42,23 @@ export const ChatRooms = () => {
 					/>
 				</Box>
 				<Divider />
-				<Box sx={{ flex: 1, overflow: 'auto' }}>
-					<DataList
-						data={chatRooms}
-						renderItem={chatRoom => (
-							<ChatRoomItem
-								chatRoom={chatRoom}
-								isSelected={selectedChatRoom ? selectedChatRoom.id === chatRoom.id : false}
-							/>
-						)}
-						isFetching={isFetching}
-						hasNextPage={hasNextPage}
-						isRefetching={isRefetching}
-						isFetchingNextPage={isFetchingNextPage}
-						onLoadMore={fetchNextPage}
-						isDataLoading={isLoading}
-						emptyListTitle={'No chats'}
-						gap={1}
-					/>
-				</Box>
+				<DataList
+					data={chatRooms}
+					renderItem={chatRoom => (
+						<ChatRoomItem
+							chatRoom={chatRoom}
+							isSelected={selectedChatRoom ? selectedChatRoom.id === chatRoom.id : false}
+						/>
+					)}
+					isFetching={isFetching}
+					hasNextPage={hasNextPage}
+					isRefetching={isRefetching}
+					isFetchingNextPage={isFetchingNextPage}
+					onLoadMore={fetchNextPage}
+					isDataLoading={isLoading}
+					emptyListTitle={'No chats'}
+					gap={1}
+				/>
 			</ScrollProvider>
 		</Box>
 	)

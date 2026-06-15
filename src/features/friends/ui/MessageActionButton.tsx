@@ -13,7 +13,7 @@ export const MessageActionButton = ({ user }: { user: User }) => {
 	const navigate = useNavigate()
 
 	const handleMessageButton = () => {
-		queryClient.setQueriesData<ChatRoom>({ queryKey: [CHAT_ROOMS_QUERY_KEY, 'new'] }, () => ({
+		queryClient.setQueryData<ChatRoom>([CHAT_ROOMS_QUERY_KEY, 'new'], () => ({
 			id: 'new',
 			name: user.name,
 			participants: [user, me],

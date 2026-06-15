@@ -1,6 +1,8 @@
+import { getUnreadMessagesCount } from '@entities/chat'
 import type { SvgIconComponent } from '@mui/icons-material'
 import { Badge, Button, Stack, Typography } from '@mui/material'
-import { routes } from '@shared/config'
+import { UNREAD_MESSAGES_COUNT_QUERY_KEY, routes } from '@shared/config'
+import { useQuery } from '@tanstack/react-query'
 import { memo } from 'react'
 import { NavLink } from 'react-router-dom'
 
@@ -15,11 +17,7 @@ const LinkIcon = ({ Icon, badgeContent = 0 }: { Icon: SvgIconComponent; badgeCon
 	)
 }
 
-const Link = memo(({ link }: { link: LinkItem }) => {
-	const isMessageLink = routes.messages.path.includes(link.page)
-
-	const count = isMessageLink ? 1 : 0
-
+const Link = memo(({ link, count }: { link: LinkItem; count?: number }) => {
 	return (
 		<Button
 			component={NavLink}
@@ -50,7 +48,7 @@ const Link = memo(({ link }: { link: LinkItem }) => {
 					}
 				}
 			}}
-			startIcon={<LinkIcon Icon={link.icon} badgeContent={count} />}
+			startIcon={<LinkIcon Icon={link.icon} badgeContent={count || 0} />}
 		>
 			<Typography variant="body2">{link.label}</Typography>
 		</Button>
@@ -58,6 +56,20 @@ const Link = memo(({ link }: { link: LinkItem }) => {
 })
 
 export const LinksList = ({ userId }: { userId: Id }) => {
+	const { data: messagesCount } = useQuery({
+		queryKey: [UNREAD_MESSAGES_COUNT_QUERY_KEY],
+		queryFn: getUnreadMessagesCount
+	})
+
+	const handleLinkCount = (link: LinkItem) => {
+		switch (link.page) {
+			case routes.messages.path:
+				return <Link link={link} count={messagesCount?.unreadMessagesCount} key={link.page} />
+			default:
+				return <Link link={link} key={link.page} />
+		}
+	}
+
 	return (
 		<Stack
 			sx={{
@@ -67,9 +79,7 @@ export const LinksList = ({ userId }: { userId: Id }) => {
 				justifyContent: { xs: 'flex-start', sm: 'flex-start' }
 			}}
 		>
-			{links(userId).map(link => (
-				<Link link={link} key={link.label} />
-			))}
+			{links(userId).map(handleLinkCount)}
 		</Stack>
 	)
 }

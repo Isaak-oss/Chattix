@@ -4,7 +4,7 @@ import type { BaseEntity } from '@globalTypes/base.ts'
 export type ChatRoomType = 'direct' | 'group'
 
 export type UnreadMessages = {
-	unreadMessages: number
+	unreadMessagesCount: number
 }
 
 export type Message = PartialKeys<BaseEntity, 'createdAt'> & {
@@ -27,6 +27,8 @@ export type ChatRoom = BaseEntity & {
 	participants: User[]
 	readStates: ChatRoomReadState[] | []
 	type: ChatRoomType
+	lastMessage: Message
+	unreadMessagesCount: number
 }
 
 export type CreateDirectChatRoomBody = {
@@ -40,5 +42,12 @@ export type SendMessageBody = {
 
 export type NewMessageWebSocket = {
 	data: Message & { chatRoom: ChatRoom }
-	unreadCount: number
+	unreadMessagesCount: number
+}
+
+export type MessageReadWebSocket = {
+	readState: ChatRoomReadState
+	lastMessage: Message
+	unreadMessagesCount: number
+	totalUnreadMessagesCount: number
 }

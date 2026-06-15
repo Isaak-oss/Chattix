@@ -1,11 +1,13 @@
-import type { ChatRoom, ChatRoomReadState, Message } from '@entities/chat'
+import type { ChatRoom, Message, MessageReadWebSocket } from '@entities/chat'
 import { useMe } from '@entities/user'
-import { socketClient } from '@shared/api'
+import { updateMessagesCount } from '@features/messages/lib/updateMessagesCounts.ts'
+import {type ApiResponse, socketClient} from '@shared/api'
 import { CHAT_ROOMS_QUERY_KEY } from '@shared/config'
-import { useQueryClient } from '@tanstack/react-query'
+import {type InfiniteData, useQueryClient} from '@tanstack/react-query'
 import { useSelectedChatRoom } from '@widgets/Chat/model/useSelectedChatRoom.ts'
 import { throttle } from 'lodash'
 import { useEffect, useMemo } from 'react'
+import {addOrUpdateItemToInfiniteQuery} from "@shared/lib";
 
 export const useReadMessage = () => {
 	const { data: me } = useMe()
@@ -34,11 +36,31 @@ export const useReadMessage = () => {
 	useEffect(() => {
 		if (!selectedChatRoom?.id) return
 
-		const handler = (data: ChatRoomReadState) => {
-			queryClient.setQueriesData<ChatRoom>({ queryKey: [CHAT_ROOMS_QUERY_KEY, selectedChatRoom?.id] }, old => {
-				if (!old) return old
-				return { ...old, readStates: [data] }
-			})
+		const handler = (data: MessageReadWebSocket) => {
+			const result = queryClient.setQueriesData<ChatRoom>(
+				{ queryKey: [CHAT_ROOMS_QUERY_KEY, selectedChatRoom?.id] },
+				old => {
+					if (!old) return old
+
+					return {
+						...old,
+						readStates: [data.readState],
+						lastMessage: data.lastMessage,
+						unreadMessagesCount: data.unreadMessagesCount
+					}
+				}
+			)
+
+			const chatRoom = result[0]?.[1]
+
+			if (chatRoom) {
+				queryClient.setQueriesData<InfiniteData<ApiResponse<ChatRoom[]>>>(
+					{ queryKey: [CHAT_ROOMS_QUERY_KEY], exact: true },
+					old => addOrUpdateItemToInfiniteQuery(chatRoom, { key: 'id' }, old, true)
+				)
+			}
+
+			updateMessagesCount(data.totalUnreadMessagesCount)
 		}
 
 		socket?.on('chats:read', handler)

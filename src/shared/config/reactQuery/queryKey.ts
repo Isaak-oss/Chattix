@@ -6,5 +6,5 @@ export const SUGGESTED_FRIENDS_QUERY_KEY = 'suggested_friends' as const
 export const NOTIFICATIONS_QUERY_KEY = 'notifications' as const
 export const NOTIFICATIONS_COUNT_QUERY_KEY = 'notifications_count' as const
 export const CHAT_ROOMS_QUERY_KEY = 'chat_rooms' as const
-export const MESSAGES_COUNT_QUERY_KEY = 'messages_count' as const
+export const UNREAD_MESSAGES_COUNT_QUERY_KEY = 'unread_messages_count' as const
 export const CHAT_ROOMS_MESSAGES_QUERY_KEY = 'chat_rooms_messages' as const

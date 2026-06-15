@@ -1,5 +1,6 @@
 import type { ChatRoom } from '@entities/chat'
-import { Avatar, Box, Typography } from '@mui/material'
+import { useMe } from '@entities/user'
+import { Avatar, Badge, Box, Stack, Typography } from '@mui/material'
 import { useChatRoomId } from '@widgets/Chat/model/useChatRoomId.ts'
 import { memo } from 'react'
 
@@ -10,10 +11,16 @@ type ChatRoomItemProps = {
 
 export const ChatRoomItem = memo(({ chatRoom, isSelected }: ChatRoomItemProps) => {
 	const { setSelectedChatRoomId } = useChatRoomId()
+	const { data } = useMe()
 
-	const lastReadState = chatRoom.readStates[chatRoom.readStates.length]
+	const lastReadState = chatRoom?.readStates[chatRoom?.readStates?.length]
 
-	const isUnread = !!lastReadState?.lastReadAt
+	const isUnread = chatRoom.unreadMessagesCount > 0
+
+	const chatName =
+		chatRoom.type === 'direct'
+			? chatRoom.participants.find(participant => participant.id !== data?.data.id)?.name
+			: chatRoom.name
 
 	return (
 		<Box
@@ -41,76 +48,58 @@ export const ChatRoomItem = memo(({ chatRoom, isSelected }: ChatRoomItemProps) =
 					fontWeight: 500
 				}}
 			>
-				{chatRoom.name}
+				{chatName?.charAt(0)}
 			</Avatar>
-			<Box sx={{ flex: 1, minWidth: 0 }}>
-				<Box
-					sx={{
-						display: 'flex',
-						justifyContent: 'space-between',
-						alignItems: 'center',
-						mb: 0.25
-					}}
-				>
-					<Typography
-						variant="body2"
+			<Stack flexDirection="row" alignItems="center" justifyContent="space-between" flex={1}>
+				<Box sx={{ flex: 1, minWidth: 0 }}>
+					<Box
 						sx={{
-							fontWeight: isUnread ? 500 : 600,
-							color: '#1a1a1a',
-							fontSize: 14
-						}}
-						noWrap
-					>
-						{chatRoom.name}
-					</Typography>
-					<Typography
-						variant="caption"
-						sx={{
-							flexShrink: 0,
-							ml: 1,
-							color: '#6b6b6b',
-							fontSize: 11
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							mb: 0.25
 						}}
 					>
-						{/* @ts-ignore */}
-						{lastReadState?.lastReadAt}
-					</Typography>
-				</Box>
-				<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-					<Typography
-						variant="caption"
-						noWrap
-						sx={{
-							flex: 1,
-							fontWeight: isUnread ? 400 : 500,
-							color: isUnread ? '#6b6b6b' : '#1a1a1a',
-							fontSize: 12
-						}}
-					>
-						{/* TODO: add last message */}
-						last massage
-					</Typography>
-					{isUnread && (
-						<Box
+						<Typography
+							variant="body2"
 							sx={{
-								minWidth: 18,
-								height: 18,
-								borderRadius: 1,
-								bgcolor: '#c9a87c',
+								fontWeight: isUnread ? 500 : 600,
 								color: '#1a1a1a',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								fontSize: 10,
-								fontWeight: 600
+								fontSize: 14
+							}}
+							noWrap
+						>
+							{chatName}
+						</Typography>
+						<Typography
+							variant="caption"
+							sx={{
+								flexShrink: 0,
+								ml: 1,
+								color: '#6b6b6b',
+								fontSize: 11
 							}}
 						>
-							{/* TODO: add unread messages count */}
-							10
-						</Box>
-					)}
+							{lastReadState?.lastReadAt}
+						</Typography>
+					</Box>
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+						<Typography
+							variant="caption"
+							noWrap
+							sx={{
+								flex: 1,
+								fontWeight: isUnread ? 400 : 500,
+								color: isUnread ? '#6b6b6b' : '#1a1a1a',
+								fontSize: 12
+							}}
+						>
+							{chatRoom?.lastMessage?.content}
+						</Typography>
+					</Box>
 				</Box>
-			</Box>
+				{isUnread && <Badge badgeContent={chatRoom.unreadMessagesCount} max={99} />}
+			</Stack>
 		</Box>
 	)
 })
