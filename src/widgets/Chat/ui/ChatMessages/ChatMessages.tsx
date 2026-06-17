@@ -10,17 +10,24 @@ import { useSelectedChatRoom } from '@widgets/Chat/model/useSelectedChatRoom.ts'
 import { ChatNotSelected } from '@widgets/Chat/ui/ChatMessages/ChatNotSelected.tsx'
 import { MessageBubble } from '@widgets/Chat/ui/ChatMessages/MessageBubble.tsx'
 import { MessageInput } from '@widgets/Chat/ui/ChatMessages/MessageInput.tsx'
-import { useMemo } from 'react'
+
+const estimateMessageSize = () => 70
 
 export const ChatMessages = () => {
 	const { data: me } = useMe()
 	const { setSelectedChatRoomId } = useChatRoomId()
 	const { selectedChatRoom } = useSelectedChatRoom()
 
-	const { messages, chatRoomId, isLoading, isFetching, isFetchingNextPage, isRefetching, hasNextPage, fetchNextPage } =
-		useMessages()
-
-	const orderedMessages = useMemo(() => [...messages].reverse(), [messages])
+	const {
+		orderedMessages,
+		chatRoomId,
+		isLoading,
+		isFetching,
+		isFetchingNextPage,
+		isRefetching,
+		hasNextPage,
+		fetchNextPage
+	} = useMessages()
 
 	const chatName =
 		selectedChatRoom?.type === 'direct'
@@ -119,9 +126,10 @@ export const ChatMessages = () => {
 					reverse
 					autoScrollToEnd
 					gap={10}
+					overscan={6}
 					getItemKey={message => message.id}
 					onScroll={handleReadMessage}
-					estimateSize={() => 40}
+					estimateSize={estimateMessageSize}
 				/>
 			</ScrollProvider>
 

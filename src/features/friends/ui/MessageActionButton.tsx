@@ -20,7 +20,15 @@ export const MessageActionButton = ({ user }: { user: User }) => {
 			type: 'direct',
 			createdAt: '',
 			updatedAt: '',
-			readStates: []
+			readStates: [],
+			lastMessage: {
+				id: 'new',
+				content: '',
+				chatRoomId: 'new',
+				sender: me,
+				senderId: me.id
+			},
+			unreadMessagesCount: 0
 		}))
 		navigate(routes.messages.path + '?' + CHAT_ROOM_ID_SEARCH_PARAM + '=new')
 	}

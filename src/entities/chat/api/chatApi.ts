@@ -8,7 +8,7 @@ import type {
 import { apiClient } from '@shared/api'
 
 const chatRoomsLimit = 20
-const messagesLimit = 50
+const messagesLimit = 10
 
 // QUERY
 export const getChatRooms = async (offset: number = 0) => {

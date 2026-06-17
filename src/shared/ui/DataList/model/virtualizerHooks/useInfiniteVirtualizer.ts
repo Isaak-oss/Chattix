@@ -75,12 +75,12 @@ export const useInfiniteVirtualizer = <TItemElement extends Element>({
 
 		if (didInitialReverseScrollRef.current) return
 
-		virtualizer.scrollToEnd()
-
-		requestAnimationFrame(() => {
+		const frameId = requestAnimationFrame(() => {
 			virtualizer.scrollToEnd()
 			didInitialReverseScrollRef.current = true
 		})
+
+		return () => cancelAnimationFrame(frameId)
 	}, [dataLength, reverse, totalSize, virtualizer])
 
 	const containerStyle = useMemo(

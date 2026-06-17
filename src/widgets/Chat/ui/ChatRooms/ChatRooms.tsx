@@ -2,13 +2,13 @@ import SearchIcon from '@mui/icons-material/Search'
 import { Box, Divider, InputAdornment, TextField } from '@mui/material'
 import { ScrollProvider } from '@shared/lib'
 import { DataList } from '@shared/ui'
+import { useChatRoomId } from '@widgets/Chat/model/useChatRoomId.ts'
 import { useChatRooms } from '@widgets/Chat/model/useChatRooms.ts'
-import { useSelectedChatRoom } from '@widgets/Chat/model/useSelectedChatRoom.ts'
 import { ChatRoomItem } from '@widgets/Chat/ui/ChatRooms/ChatRoomItem.tsx'
 import { useState } from 'react'
 
 export const ChatRooms = () => {
-	const { selectedChatRoom } = useSelectedChatRoom()
+	const { chatRoomId } = useChatRoomId()
 
 	const [searchQuery, setSearchQuery] = useState('')
 	const { chatRooms, isFetching, hasNextPage, isRefetching, isFetchingNextPage, fetchNextPage, isLoading } =
@@ -17,7 +17,7 @@ export const ChatRooms = () => {
 	return (
 		<Box
 			sx={{
-				width: { xs: selectedChatRoom?.id ? 0 : '100%', sm: 320 },
+				width: { xs: chatRoomId ? 0 : '100%', sm: 320 },
 				overflow: 'hidden',
 				borderRight: '1px solid',
 				borderRightColor: 'divider'
@@ -45,10 +45,7 @@ export const ChatRooms = () => {
 				<DataList
 					data={chatRooms}
 					renderItem={chatRoom => (
-						<ChatRoomItem
-							chatRoom={chatRoom}
-							isSelected={selectedChatRoom ? selectedChatRoom.id === chatRoom.id : false}
-						/>
+						<ChatRoomItem chatRoom={chatRoom} isSelected={chatRoomId ? chatRoomId === chatRoom.id : false} />
 					)}
 					isFetching={isFetching}
 					hasNextPage={hasNextPage}
