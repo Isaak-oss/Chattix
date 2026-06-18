@@ -1,7 +1,8 @@
 import { type Friend, FriendStatus } from '@entities/friends'
 import { AcceptFriendActionButton, AddFriendActionButton, RejectFriendActionButton } from '@features/friends'
 import { MessageActionButton } from '@features/friends/ui/MessageActionButton.tsx'
-import { Avatar, Button, Card, CardContent, Stack, Typography } from '@mui/material'
+import { Button, Card, CardContent, Stack, Typography } from '@mui/material'
+import { UserAvatar } from '@shared/ui/UserAvatar'
 import { memo } from 'react'
 
 type FriendCardProps = {
@@ -21,17 +22,18 @@ export const FriendCard = memo(({ friend }: FriendCardProps) => {
 		<Card sx={{ maxWidth: 320 }}>
 			<CardContent sx={{ textAlign: 'center', p: 3, '&:last-child': { pb: 3 } }}>
 				<Stack alignItems="center">
-					<Avatar
+					<UserAvatar
 						variant="medium"
+						userName={friend.name}
+						isOnline={friend.isOnline}
 						sx={{
-							mb: 2,
 							bgcolor: isFriend ? 'primary.main' : 'secondary.main',
 							color: isPending ? 'primary.main' : 'primary.contrastText'
 						}}
-					>
-						{friend.name.charAt(0)}
-					</Avatar>
-					<Typography variant="subtitle2">{friend.name}</Typography>
+					/>
+					<Typography variant="subtitle2" mt={2}>
+						{friend.name}
+					</Typography>
 					<Typography variant="caption" color="text.secondary">
 						@{friend.name}
 					</Typography>

@@ -31,7 +31,10 @@ export let theme = createTheme({
 			activeLink: 'rgba(201,168,124,0.15)',
 			activeLinkHover: 'rgba(201,168,124,0.2)',
 			lowShadow: 'rgba(26,26,26,0.1)',
-			lightGrey: '#dadada'
+			lightGrey: '#dadada',
+			chatRoom: 'rgba(204,167,119,0.36)',
+			chatRoomHover: 'rgba(204,167,119,0.1)',
+			userAvatar: 'linear-gradient(180deg,rgba(217, 196, 165, 1) 27%, rgba(201, 168, 124, 1) 100%)'
 		},
 		text: {
 			primary: '#1a1a1a',
@@ -289,18 +292,26 @@ theme = createTheme(theme, {
 				root: {
 					borderRadius: 6,
 					fontWeight: 500
+				},
+				badge: {
+					borderRadius: 100,
+				},
+				sizeSmall: {
+
 				}
 			}
 		},
 		MuiAvatar: {
 			styleOverrides: {
 				root: {
-					'& .MuiAvatar-circular': {
-						width: 44,
-						height: 44,
-						fontWeight: 500,
-						fontSize: 16
-					}
+					background: theme.palette.background.userAvatar
+				},
+				circular: {
+					color: theme.palette.text.primary,
+					width: 44,
+					height: 44,
+					fontWeight: 500,
+					fontSize: 16
 				},
 				large: {
 					[theme.breakpoints.down('sm')]: {
@@ -313,16 +324,14 @@ theme = createTheme(theme, {
 					fontSize: 32,
 					border: `4px solid ${theme.palette.background.paper}`,
 					boxShadow: `0 2px 12px ${theme.palette.background.lowShadow}`,
-					backgroundColor: theme.palette.secondary.main,
-					color: theme.palette.primary.main
+					color: theme.palette.text.primary
 				},
 				medium: {
 					width: 64,
 					height: 64,
 					fontWeight: 500,
 					fontSize: 24,
-					backgroundColor: theme.palette.secondary.main,
-					color: theme.palette.primary.main
+					color: theme.palette.text.primary
 				}
 			}
 		},

@@ -4,7 +4,7 @@ export enum FriendStatusQuery {
 	ACCEPTED = 'accepted',
 	INCOMING = 'incoming',
 	OUTGOING = 'outgoing',
-	REJECTED = 'rejected',
+	REJECTED = 'rejected'
 }
 
 export enum FriendStatus {
@@ -25,4 +25,8 @@ export type FriendsCount = {
 	incoming: number
 	outgoing: number
 	rejected: number
+}
+
+export type FriendsOnlineStatusWebSocket = {
+	data: User
 }

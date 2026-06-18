@@ -24,6 +24,9 @@ declare module '@mui/material/styles' {
 		activeLinkHover: string
 		lowShadow: string
 		lightGrey: string
+		chatRoom: string
+		chatRoomHover: string
+		userAvatar: string
 	}
 	interface TypeText {
 		contrastText: string
@@ -60,5 +63,19 @@ declare module '@mui/material/Button' {
 	interface ButtonPropsVariantOverrides {
 		success: true
 		error: true
+	}
+}
+
+// Update the Badge variant prop options
+declare module '@mui/material/Badge' {
+	interface BadgePropsVariantOverrides {
+		onlineStatus: true
+	}
+}
+
+// Update the Badge variant prop options
+declare module '@mui/material/Chip' {
+	interface ChipPropsVariantOverrides {
+		badge: true
 	}
 }

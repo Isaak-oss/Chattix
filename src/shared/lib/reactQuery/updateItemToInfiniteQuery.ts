@@ -3,13 +3,13 @@ import type { InfiniteData } from '@tanstack/react-query'
 
 export const updateItemToInfiniteQuery = <TData, TKey extends keyof TData>(
 	updatedItem: TData,
-	updatedKey: { key: TKey; customValue?: TData[TKey] },
+	updatedKey: { key: TKey; customValue?: TData[TKey]; cleanUpdate?: boolean },
 	old?: InfiniteData<ApiResponse<TData[]>>,
 	moveUpdatedItemToTop = false
 ): InfiniteData<ApiResponse<TData[]>> | undefined => {
 	if (!old) return old
 
-	const { key, customValue } = updatedKey
+	const { key, customValue, cleanUpdate = true } = updatedKey
 	const valueToCompare = customValue ?? updatedItem[key]
 
 	if (!moveUpdatedItemToTop) {
@@ -18,7 +18,7 @@ export const updateItemToInfiniteQuery = <TData, TKey extends keyof TData>(
 			pages: old.pages.map(page => ({
 				...page,
 				data: page.data.map(item =>
-					item[key] === valueToCompare ? updatedItem : item
+					item[key] === valueToCompare ? (cleanUpdate ? updatedItem : { ...item, ...updatedItem }) : item
 				)
 			}))
 		}
@@ -26,14 +26,9 @@ export const updateItemToInfiniteQuery = <TData, TKey extends keyof TData>(
 
 	const pageSizes = old.pages.map(page => page.data.length)
 
-	const allItems = old.pages
-		.flatMap(page => page.data)
-		.filter(item => item[key] !== valueToCompare)
+	const allItems = old.pages.flatMap(page => page.data).filter(item => item[key] !== valueToCompare)
 
-	const itemExists =
-		old.pages.some(page =>
-			page.data.some(item => item[key] === valueToCompare)
-		)
+	const itemExists = old.pages.some(page => page.data.some(item => item[key] === valueToCompare))
 
 	if (!itemExists) return old
 

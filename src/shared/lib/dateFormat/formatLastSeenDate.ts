@@ -2,6 +2,10 @@ import { formatTime } from './formatTime.ts'
 
 const MS_IN_DAY = 24 * 60 * 60 * 1000
 
+type FormatLastSeenDateOptions = {
+	weekday?: 'short' | 'long'
+}
+
 const getStartOfWeek = (date: Date) => {
 	const startOfWeek = new Date(date)
 	const day = startOfWeek.getDay()
@@ -22,7 +26,7 @@ const isDateInCurrentWeek = (date: Date, now: Date) => {
 	return date >= startOfWeek && date < startOfNextWeek
 }
 
-export const formatLastSeenDate = (date?: string | Date) => {
+export const formatLastSeenDate = (date?: string | Date, options: FormatLastSeenDateOptions = {}) => {
 	if (!date) return ''
 
 	const parsedDate = new Date(date)
@@ -36,7 +40,7 @@ export const formatLastSeenDate = (date?: string | Date) => {
 
 	if (isDateInCurrentWeek(parsedDate, now)) {
 		return parsedDate.toLocaleDateString('ru-RU', {
-			weekday: 'long'
+			weekday: options.weekday ?? 'short'
 		})
 	}
 

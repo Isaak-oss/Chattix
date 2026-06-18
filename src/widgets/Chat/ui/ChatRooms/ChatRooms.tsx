@@ -23,7 +23,7 @@ export const ChatRooms = () => {
 				borderRightColor: 'divider'
 			}}
 		>
-			<ScrollProvider>
+			<ScrollProvider style={{ overflowX: 'hidden' }}>
 				<Box sx={{ p: 2.5 }}>
 					<TextField
 						size="small"

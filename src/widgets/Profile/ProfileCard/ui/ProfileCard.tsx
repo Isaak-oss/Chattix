@@ -1,8 +1,9 @@
 import { getUser, useMe } from '@entities/user'
 import { CalendarTodayOutlined, Edit } from '@mui/icons-material'
-import { Avatar, Box, Button, Card, CardContent, Divider, Stack, Typography } from '@mui/material'
+import { Box, Button, Card, CardContent, Divider, Stack, Typography } from '@mui/material'
 import { USER_QUERY_KEY, routes } from '@shared/config'
 import { formatDate, useProfileId } from '@shared/lib'
+import { UserAvatar } from '@shared/ui/UserAvatar'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router'
 
@@ -18,6 +19,8 @@ export const ProfileCard = () => {
 		staleTime: 0,
 		gcTime: 0
 	})
+
+	console.log(user)
 
 	// TODO: add friends action buttons
 	return (
@@ -55,9 +58,9 @@ export const ProfileCard = () => {
 						gap: 2
 					}}
 				>
-					<Avatar variant="large" sx={{ mt: -5 }}>
-						{user.name.charAt(0)}
-					</Avatar>
+					<Box sx={{ mt: -5 }}>
+						<UserAvatar userName={user.name} isOnline={user.isOnline} variant="large" badgeSize={20} />
+					</Box>
 					{isMe && (
 						<Button variant="outlined" startIcon={<Edit />} onClick={() => navigate(routes.settings.path)}>
 							Edit Profile

@@ -1,8 +1,9 @@
 import { useMe } from '@entities/user'
 import { ArrowLeft } from '@mui/icons-material'
-import { Avatar, Box, IconButton, Stack, Typography } from '@mui/material'
-import { ScrollProvider } from '@shared/lib'
+import { Box, IconButton, Stack, Typography } from '@mui/material'
+import { ScrollProvider, formatFullLastSeenDate } from '@shared/lib'
 import { DataList, Loader } from '@shared/ui'
+import { UserAvatar } from '@shared/ui/UserAvatar'
 import { useChatRoomId } from '@widgets/Chat/model/useChatRoomId.ts'
 import { useMessages } from '@widgets/Chat/model/useMessages.ts'
 import { useReadMessage } from '@widgets/Chat/model/useReadMessage.ts'
@@ -29,10 +30,10 @@ export const ChatMessages = () => {
 		fetchNextPage
 	} = useMessages()
 
-	const chatName =
-		selectedChatRoom?.type === 'direct'
-			? selectedChatRoom?.participants.find(participant => participant.id !== me?.data.id)?.name
-			: selectedChatRoom?.name
+	const isDirectChat = selectedChatRoom?.type === 'direct'
+	const interlocutor = selectedChatRoom?.participants.find(participant => participant.id !== me?.data.id)
+	const isInterlocutorOnline = isDirectChat ? interlocutor?.isOnline : false
+	const chatName = isDirectChat ? interlocutor?.name : selectedChatRoom?.name
 
 	const { handleReadMessage } = useReadMessage()
 
@@ -44,8 +45,7 @@ export const ChatMessages = () => {
 		<Stack
 			sx={{
 				flex: 1,
-				bgcolor: 'background.lightGrey',
-				minHeight: 0
+				bgcolor: 'background.lightGrey'
 			}}
 		>
 			{/* Chat header */}
@@ -59,39 +59,18 @@ export const ChatMessages = () => {
 					bgcolor: 'background.paper'
 				}}
 			>
-				<IconButton
-					sx={{ display: { sm: 'none' }, color: '#1a1a1a' }}
-					onClick={() => setSelectedChatRoomId(null)}
-					size="small"
-				>
+				<IconButton sx={{ display: { sm: 'none' } }} onClick={() => setSelectedChatRoomId(null)} size="small">
 					<ArrowLeft />
 				</IconButton>
-				<Avatar
-					sx={{
-						width: 40,
-						height: 40,
-						bgcolor: '#c9a87c',
-						color: '#1a1a1a',
-						fontSize: 15,
-						fontWeight: 500
-					}}
-				>
-					{chatName?.charAt(0)}
-				</Avatar>
+				<UserAvatar isOnline={isInterlocutorOnline} userName={chatName} variant="circular" />
 				<Box sx={{ flex: 1 }}>
-					<Typography
-						variant="subtitle2"
-						sx={{
-							fontWeight: 600,
-							lineHeight: 1.2,
-							color: '#1a1a1a'
-						}}
-					>
-						{chatName}
-					</Typography>
-					{/*TODO: add online status*/}
-					<Typography variant="caption" sx={{ color: '#5a8a6c', fontSize: 11 }}>
-						Active now
+					<Typography variant="subtitle2">{chatName}</Typography>
+					<Typography variant="caption" sx={{ color: 'text.secondary' }}>
+						{isDirectChat
+							? isInterlocutorOnline
+								? 'Online'
+								: `Last seen: ${formatFullLastSeenDate(interlocutor?.lastSeenAt)}`
+							: `Participants: ${selectedChatRoom.participants.length}`}
 					</Typography>
 				</Box>
 				{/* TODO: Add action functions */}

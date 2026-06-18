@@ -1,4 +1,5 @@
 import { useAuthStore } from '@entities/auth'
+import { useFriendsRealtime } from '@features/friends/model/useFriendsRealtime.ts'
 import { useMessagesRealtime } from '@features/messages/model/useMessagesRealtime.tsx'
 import { useNotificationsRealtime } from '@features/notifications'
 import { socketClient } from '@shared/api'
@@ -19,6 +20,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
 	useNotificationsRealtime()
 	useMessagesRealtime()
+	useFriendsRealtime()
 
 	return children
 }

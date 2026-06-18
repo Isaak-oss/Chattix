@@ -1,10 +1,14 @@
 export const USER_QUERY_KEY = 'user' as const
+
 export const POST_QUERY_KEY = 'posts' as const
+
 export const FRIENDS_QUERY_KEY = 'friends' as const
 export const FRIENDS_COUNT_QUERY_KEY = 'friends_count' as const
 export const SUGGESTED_FRIENDS_QUERY_KEY = 'suggested_friends' as const
+
 export const NOTIFICATIONS_QUERY_KEY = 'notifications' as const
 export const NOTIFICATIONS_COUNT_QUERY_KEY = 'notifications_count' as const
+
 export const CHAT_ROOMS_QUERY_KEY = 'chat_rooms' as const
 export const UNREAD_MESSAGES_COUNT_QUERY_KEY = 'unread_messages_count' as const
 export const CHAT_ROOMS_MESSAGES_QUERY_KEY = 'chat_rooms_messages' as const

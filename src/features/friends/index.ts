@@ -1,6 +1,6 @@
 export { AcceptFriendActionButton } from './ui/AcceptFriendActionButton.tsx'
 export { AddFriendActionButton } from './ui/AddFriendActionButton.tsx'
 export { RejectFriendActionButton } from './ui/RejectFriendActionButton.tsx'
-export { useRevalidateFriends } from './model/useRevalidateFriends.ts'
+export { revalidateFriends } from './lib/revalidateFriends.ts'
 export { useFriendsMutations } from './model/useFriendsMutations.ts'
 export * from './model/types.ts'

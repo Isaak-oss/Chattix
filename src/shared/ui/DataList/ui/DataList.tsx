@@ -124,6 +124,7 @@ export const DataList = <T,>({
 										transform: `translateX(${virtualRow.start}px)`
 									}
 								: {
+										maxWidth: '100%',
 										minWidth: isGrid ? minItemWidth : '100%',
 										transform: `translateY(${virtualRow.start}px)`
 									})

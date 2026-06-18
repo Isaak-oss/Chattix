@@ -4,7 +4,8 @@ export type User = BaseEntity & {
 	email: Email
 	name: string
 	bio?: string
-	lastSeen: Date
+	lastSeenAt: string
+	isOnline: boolean
 }
 
 export type Profile = User & {
