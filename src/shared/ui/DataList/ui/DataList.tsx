@@ -58,7 +58,14 @@ export const DataList = <T,>({
 
 	const getDataIndex = (index: number) => index
 
-	const { containerStyle, virtualItems, measureElement, scrollOffset, scrollRect } = useInfiniteVirtualizer({
+	const {
+		containerStyle,
+		virtualItems,
+		measureElement,
+		scrollOffset,
+		scrollRect,
+		containerRef: virtualizerContainerRef
+	} = useInfiniteVirtualizer({
 		// virtualizer
 		count: dataLength,
 		estimateSize,
@@ -104,11 +111,10 @@ export const DataList = <T,>({
 
 	return (
 		<Box ref={containerRef}>
-			<Collapse in={isRefetching} timeout="auto">
+			<Collapse in={isReverse ? isFetchingNextPage : isRefetching} timeout="auto">
 				<Loader />
 			</Collapse>
-			{isReverse && isFetchingNextPage && <Loader />}
-			<Stack sx={containerStyle}>
+			<Stack sx={containerStyle} ref={virtualizerContainerRef}>
 				{virtualItems.map((virtualRow: VirtualItem, index: number) => (
 					<Box
 						key={virtualRow.key}

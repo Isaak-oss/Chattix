@@ -1,6 +1,6 @@
 import { useScrollRef } from '@shared/lib'
 import { type ReactVirtualizerOptions, useVirtualizer } from '@tanstack/react-virtual'
-import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 type UseInfiniteVirtualizerProps<TItemElement extends Element> = PartialKeys<
 	ReactVirtualizerOptions<HTMLElement, TItemElement>,
@@ -25,15 +25,15 @@ export const useInfiniteVirtualizer = <TItemElement extends Element>({
 	...options
 }: UseInfiniteVirtualizerProps<TItemElement>) => {
 	const parentRef = useScrollRef()
-	const didInitialReverseScrollRef = useRef(false)
+	const [didInitialScroll, setDidInitialScroll] = useState(false)
 	const isLoadingRef = useRef(false)
 
 	const virtualizer = useVirtualizer({
 		getScrollElement: () => parentRef.current,
 		horizontal,
 		anchorTo: reverse ? 'end' : 'start',
-		followOnAppend: autoScrollToEnd ? 'auto' : false,
-		scrollEndThreshold: 16,
+		followOnAppend: autoScrollToEnd ? (didInitialScroll ? 'instant' : 'smooth') : false,
+		scrollEndThreshold: reverse ? 80 : 16,
 		...options
 	})
 
@@ -43,7 +43,6 @@ export const useInfiniteVirtualizer = <TItemElement extends Element>({
 	useEffect(() => {
 		if (!hasNextPage || !onLoadMore) return
 		if (isFetching || isLoadingRef.current) return
-		if (reverse && !didInitialReverseScrollRef.current) return
 		if (reverse && virtualizer.isAtEnd()) return
 
 		const boundaryItem = reverse ? virtualItems[0] : virtualItems.at(-1)
@@ -68,20 +67,20 @@ export const useInfiniteVirtualizer = <TItemElement extends Element>({
 		if (!reverse) return
 
 		if (dataLength === 0) {
-			didInitialReverseScrollRef.current = false
+			setDidInitialScroll(false)
 
 			return
 		}
 
-		if (didInitialReverseScrollRef.current) return
+		if (didInitialScroll) return
 
 		const frameId = requestAnimationFrame(() => {
 			virtualizer.scrollToEnd()
-			didInitialReverseScrollRef.current = true
+			setDidInitialScroll(true)
 		})
 
 		return () => cancelAnimationFrame(frameId)
-	}, [dataLength, reverse, totalSize, virtualizer])
+	}, [dataLength, didInitialScroll, reverse, totalSize, virtualizer])
 
 	const containerStyle = useMemo(
 		() =>
