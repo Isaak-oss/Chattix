@@ -1,13 +1,13 @@
 import type { ChatRoom, Message, MessageReadWebSocket } from '@entities/chat'
 import { useMe } from '@entities/user'
 import { updateMessagesCount } from '@features/messages/lib/updateMessagesCounts.ts'
-import {type ApiResponse, socketClient} from '@shared/api'
+import { type ApiResponse, socketClient } from '@shared/api'
 import { CHAT_ROOMS_QUERY_KEY } from '@shared/config'
-import {type InfiniteData, useQueryClient} from '@tanstack/react-query'
+import { addOrUpdateItemToInfiniteQuery } from '@shared/lib'
+import { type InfiniteData, useQueryClient } from '@tanstack/react-query'
 import { useSelectedChatRoom } from '@widgets/Chat/model/useSelectedChatRoom.ts'
 import { throttle } from 'lodash'
 import { useEffect, useMemo } from 'react'
-import {addOrUpdateItemToInfiniteQuery} from "@shared/lib";
 
 export const useReadMessage = () => {
 	const { data: me } = useMe()

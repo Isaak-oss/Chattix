@@ -93,7 +93,7 @@ export const ChatMessages = () => {
 						<MessageBubble
 							message={message}
 							currentUserId={me!.data.id}
-							lastReadAt={selectedChatRoom?.readStates[0]?.lastReadAt}
+							readStates={selectedChatRoom?.readStates}
 						/>
 					)}
 					isFetching={isFetching}

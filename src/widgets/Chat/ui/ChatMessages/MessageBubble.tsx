@@ -1,25 +1,25 @@
-import type { Message } from '@entities/chat'
+import type { ChatRoomReadState, Message } from '@entities/chat'
 import CheckIcon from '@mui/icons-material/Check'
 import DoneAllIcon from '@mui/icons-material/DoneAll'
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder'
 import { Box, Stack, Typography } from '@mui/material'
-import { formatTime} from '@shared/lib'
+import { formatTime } from '@shared/lib'
 import { memo } from 'react'
 
 type MessageBubbleProps = {
 	message: Message
 	currentUserId: Id
-	lastReadAt: string
+	readStates: ChatRoomReadState[]
 }
 
-export const MessageBubble = memo(({ message, currentUserId, lastReadAt }: MessageBubbleProps) => {
+export const MessageBubble = memo(({ message, currentUserId, readStates }: MessageBubbleProps) => {
 	const isMe = message.senderId === currentUserId
 
-	const status = !message.createdAt
-		? 'sending'
-		: new Date(lastReadAt) >= new Date(message.createdAt)
-			? 'read'
-			: 'unread'
+	const isRead = readStates.every(readState => new Date(readState.lastReadAt) >= new Date(message.createdAt!))
+
+	const status = !message.createdAt ? 'sending' : isRead ? 'read' : 'unread'
+
+	console.log('rerender')
 
 	return (
 		<Box
@@ -83,6 +83,6 @@ function areMessageBubblePropsEqual(prev: MessageBubbleProps, next: MessageBubbl
 		prev.message.senderId === next.message.senderId &&
 		prev.message.createdAt === next.message.createdAt &&
 		prev.message.updatedAt === next.message.updatedAt &&
-		prev.lastReadAt === next.lastReadAt
+		prev.readStates === next.readStates
 	)
 }

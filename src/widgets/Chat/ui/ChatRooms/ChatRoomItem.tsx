@@ -47,6 +47,7 @@ export const ChatRoomItem = memo(({ chatRoom, isSelected }: ChatRoomItemProps) =
 							<Typography noWrap variant="subtitle2" sx={{ flex: 1 }}>
 								{chatName}
 							</Typography>
+							{/*TODO: configure for goup chat room*/}
 							<Typography variant="caption" color={'text.secondary'} sx={{ flexShrink: 0 }}>
 								{formatLastSeenDate(lastReadState?.lastReadAt)}
 							</Typography>
