@@ -1,15 +1,25 @@
 import { languagesOptions, themeOptions } from '@features/settings/config/appearanceSettingOptions.ts'
 import { SettingSection } from '@features/settings/ui/SettingSection.tsx'
 import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined'
-import { Box, FormControl, InputLabel, MenuItem, Select, type SelectChangeEvent } from '@mui/material'
+import {
+	Box,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	type PaletteMode,
+	Select,
+	type SelectChangeEvent,
+	useColorScheme
+} from '@mui/material'
 import { useState } from 'react'
 
 export const AppearanceSetting = () => {
-	const [theme, setTheme] = useState('')
+	const { setMode, mode } = useColorScheme()
+
 	const [language, setLanguage] = useState('')
 
-	const handleChangeTheme = (event: SelectChangeEvent) => {
-		setTheme(event.target.value)
+	const handleChangeTheme = (event: SelectChangeEvent<PaletteMode | 'system'>) => {
+		setMode(event.target.value)
 	}
 
 	const handleChangeLanguage = (event: SelectChangeEvent) => {
@@ -21,7 +31,7 @@ export const AppearanceSetting = () => {
 			<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 2 }}>
 				<FormControl size="small" variant="outlined">
 					<InputLabel id="theme">Theme</InputLabel>
-					<Select labelId="theme" id="theme" value={theme} onChange={handleChangeTheme} label="Theme">
+					<Select labelId="theme" id="theme" value={mode} onChange={handleChangeTheme} label="Theme">
 						{themeOptions.map(theme => (
 							<MenuItem value={theme.value}>{theme.label}</MenuItem>
 						))}
