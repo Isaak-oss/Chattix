@@ -263,6 +263,11 @@ theme = createTheme(theme, {
 						}
 					},
 
+					'& .MuiFormHelperText-root': {
+						color: theme.palette.error.main,
+						fontSize: 14
+					},
+
 					// Filled
 					'& .MuiFilledInput-root': {
 						padding: '16px 14px',
@@ -277,10 +282,6 @@ theme = createTheme(theme, {
 						'&::placeholder': {
 							color: '#6b6b6b',
 							opacity: 1
-						},
-						'& .MuiFormHelperText-root': {
-							color: theme.palette.error.main,
-							fontSize: 14
 						},
 						'&.Mui-focused': { backgroundColor: 'rgba(26,26,26,0.03)' }
 					}

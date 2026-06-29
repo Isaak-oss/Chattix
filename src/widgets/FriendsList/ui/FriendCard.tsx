@@ -24,7 +24,7 @@ export const FriendCard = memo(({ friend }: FriendCardProps) => {
 				<Stack alignItems="center">
 					<UserAvatar
 						variant="medium"
-						userName={friend.name}
+						userName={friend.username}
 						isOnline={friend.isOnline}
 						sx={{
 							bgcolor: isFriend ? 'primary.main' : 'secondary.main',
@@ -32,10 +32,10 @@ export const FriendCard = memo(({ friend }: FriendCardProps) => {
 						}}
 					/>
 					<Typography variant="subtitle2" mt={2}>
-						{friend.name}
+						{friend.fullName}
 					</Typography>
 					<Typography variant="caption" color="text.secondary">
-						@{friend.name}
+						@{friend.username}
 					</Typography>
 
 					<Stack mt={2} width="100%" gap={1} flexWrap="wrap" flexDirection={{ xs: 'column', sm: 'row' }}>
@@ -54,7 +54,7 @@ export const FriendCard = memo(({ friend }: FriendCardProps) => {
 						)}
 						{isRejectedByUser && (
 							<Button variant="outlined" fullWidth size="small" color={'error'} disabled>
-								You've been blocked by {friend.name}
+								You've been blocked by {friend.username}
 							</Button>
 						)}
 						{isOutgoing && (

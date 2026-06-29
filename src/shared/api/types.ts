@@ -8,5 +8,5 @@ export type ApiMeta = {
 
 export type ApiResponse<T> = {
 	data: T
-	meta: ApiMeta
+	meta?: ApiMeta
 }

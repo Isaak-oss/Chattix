@@ -1,7 +1,8 @@
 import type { Post } from '@entities/post'
 import EditIcon from '@mui/icons-material/Edit'
-import { Avatar, Box, Card, CardContent, IconButton, Stack, Typography } from '@mui/material'
+import { Box, Card, CardContent, IconButton, Stack, Typography } from '@mui/material'
 import { formatDate } from '@shared/lib'
+import { UserAvatar } from '@shared/ui/UserAvatar'
 import { UpdatePostForm } from '@widgets/PostList'
 import { memo, useState } from 'react'
 
@@ -26,20 +27,14 @@ export const PostCard = memo(({ post, canChangePosts }: PostCardType) => {
 		>
 			<CardContent sx={{ p: { xs: 2, sm: 3 } }}>
 				<Stack flexDirection="row" gap={{ xs: 1.5, sm: 2 }} mb={2} alignItems="flex-start" minWidth={0}>
-					<Avatar
-						sx={{
-							bgcolor: 'primary.main'
-						}}
-					>
-						{post.author.name.charAt(0)}
-					</Avatar>
+					<UserAvatar variant="circular" userName={post.author.username} />
 					<Box sx={{ flex: 1, minWidth: 0 }}>
 						<Stack flexDirection="row" gap={{ xs: 1, sm: 2 }} mb={2} alignItems="center" flexWrap="wrap">
 							<Typography variant="subtitle2" noWrap>
-								{post.author.name}
+								{post.author.fullName}
 							</Typography>
 							<Typography variant="body2" color="text.secondary" noWrap>
-								@{post.author.name}
+								@{post.author.username}
 							</Typography>
 							<Box
 								sx={{

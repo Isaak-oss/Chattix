@@ -1,6 +1,6 @@
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import { InputAdornment } from '@mui/material'
-import { DefaultField } from '@shared/ui'
+import { DefaultTextField } from '@shared/ui'
 import { type FieldValues, type Path } from 'react-hook-form'
 
 import type { BaseFormFieldProps } from '../model/types.ts'
@@ -11,7 +11,7 @@ export const EmailField = <T extends FieldValues>({
 	label = 'Email Address'
 }: BaseFormFieldProps<T>) => {
 	return (
-		<DefaultField
+		<DefaultTextField
 			control={control}
 			label={label}
 			name={name}

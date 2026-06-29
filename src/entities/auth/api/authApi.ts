@@ -6,7 +6,7 @@ export const signInApi = async ({ email, password }: SignInBody) => {
 	return res.data
 }
 
-export const signUpApi = async ({ email, password, name }: SignUpBody) => {
-	const res = await apiClient.post<Session, SignUpBody>('auth/register', { email, password, name })
+export const signUpApi = async (data: SignUpBody) => {
+	const res = await apiClient.post<Session, SignUpBody>('auth/register', data)
 	return res.data
 }

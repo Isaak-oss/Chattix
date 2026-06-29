@@ -24,7 +24,7 @@ export const ChatMessages = () => {
 	const isDirectChat = selectedChatRoom?.type === 'direct'
 	const interlocutor = selectedChatRoom?.participants.find(participant => participant.id !== me?.data.id)
 	const isInterlocutorOnline = isDirectChat ? interlocutor?.isOnline : false
-	const chatName = isDirectChat ? interlocutor?.name : selectedChatRoom?.name
+	const chatName = isDirectChat ? interlocutor?.fullName : selectedChatRoom?.name
 
 	const { handleReadMessage } = useReadMessage()
 

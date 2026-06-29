@@ -21,7 +21,7 @@ export const ChatRoomItem = memo(({ chatRoom, isSelected }: ChatRoomItemProps) =
 	const isDirectChat = chatRoom?.type === 'direct'
 	const interlocutor = chatRoom?.participants.find(participant => participant.id !== me?.data.id)
 	const isInterlocutorOnline = isDirectChat ? interlocutor?.isOnline : false
-	const chatName = isDirectChat ? interlocutor?.name : chatRoom?.name
+	const chatName = isDirectChat ? interlocutor?.fullName : chatRoom?.name
 
 	return (
 		<Box

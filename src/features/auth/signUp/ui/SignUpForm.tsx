@@ -7,6 +7,7 @@ import { Box, Button, Divider, Link, Stack, Typography } from '@mui/material'
 import { routes } from '@shared/config'
 import { getDefaultValues, parseApiErrorToMessage, setFormErrors } from '@shared/lib'
 import { EmailField, FieldsContainer, NameField, PasswordField } from '@shared/ui'
+import { omit } from 'lodash'
 import { useForm } from 'react-hook-form'
 import { NavLink } from 'react-router-dom'
 
@@ -25,7 +26,7 @@ export const SignUpForm = () => {
 	const { mutate: signUp, error, isPending } = useAuthMutation(signUpApi)
 
 	const onSubmit = (data: SignUpFormSchema) => {
-		signUp(data, {
+		signUp(omit(data, 'confirmPassword'), {
 			onError: error => setFormErrors(setError, error)
 		})
 	}
@@ -38,6 +39,7 @@ export const SignUpForm = () => {
 					<FieldsContainer error={parseApiErrorToMessage(error)}>
 						<EmailField control={control} />
 						<NameField control={control} />
+						<NameField control={control} name={'username'} label={'Username'} />
 						<PasswordField control={control} />
 						<PasswordField control={control} name={'confirmPassword'} label={'Confirm Password'} />
 					</FieldsContainer>

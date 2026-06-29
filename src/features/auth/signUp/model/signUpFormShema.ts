@@ -5,7 +5,8 @@ export const signUpFormSchema = z.object({
 	email: emailShema,
 	password: passwordShema,
 	confirmPassword: passwordShema,
-	name: z.string()
+	fullName: z.string(),
+	username: z.string()
 })
 
 export type SignUpFormSchema = z.infer<typeof signUpFormSchema>

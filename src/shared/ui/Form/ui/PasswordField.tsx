@@ -1,6 +1,6 @@
 import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined'
 import { InputAdornment } from '@mui/material'
-import { DefaultField, PasswordVisibilityButton } from '@shared/ui'
+import { DefaultTextField, PasswordVisibilityButton } from '@shared/ui'
 import { useState } from 'react'
 import { type FieldValues, type Path } from 'react-hook-form'
 
@@ -14,7 +14,7 @@ export const PasswordField = <T extends FieldValues>({
 	const [isPasswordShown, setIsPasswordShown] = useState(false)
 
 	return (
-		<DefaultField
+		<DefaultTextField
 			name={name}
 			label={label}
 			control={control}

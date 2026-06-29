@@ -1,8 +1,9 @@
 import { type User } from '@entities/user'
-import { Avatar, Box, Stack, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
 import { routes } from '@shared/config'
+import { UserAvatar } from '@shared/ui/UserAvatar'
+import { Notifications } from '@widgets/NavBar/ui/Notifications/Notifications.tsx'
 import { useNavigate } from 'react-router'
-import {Notifications} from "@widgets/NavBar/ui/Notifications/Notifications.tsx";
 
 export const UserCard = ({ user }: { user: User }) => {
 	const navigate = useNavigate()
@@ -23,21 +24,13 @@ export const UserCard = ({ user }: { user: User }) => {
 			}}
 		>
 			<Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 1.5 }}>
-				<Avatar
-					sx={{
-						bgcolor: 'secondary.main'
-					}}
-				>
-					<Typography variant="body1" color={'text.primary'}>
-						{user.name.charAt(0)}
-					</Typography>
-				</Avatar>
+				<UserAvatar variant="circular" userName={user.username} />
 				<Box sx={{ minWidth: 0 }}>
 					<Typography variant="subtitle2" color="primary.contrastText">
-						{user.name}
+						{user.fullName}
 					</Typography>
 					<Typography variant="caption" color="text.contrastText">
-						@{user.name}
+						@{user.username}
 					</Typography>
 				</Box>
 				<Notifications />

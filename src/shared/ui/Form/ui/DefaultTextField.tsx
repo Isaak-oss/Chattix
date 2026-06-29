@@ -2,7 +2,7 @@ import { TextField } from '@mui/material'
 import type { DefaultFieldProps } from '@shared/ui/Form/model/types.ts'
 import { Controller, type FieldValues, type Path } from 'react-hook-form'
 
-export const DefaultField = <T extends FieldValues>({
+export const DefaultTextField = <T extends FieldValues>({
 	control,
 	name = 'password' as Path<T>,
 	label = 'Password',

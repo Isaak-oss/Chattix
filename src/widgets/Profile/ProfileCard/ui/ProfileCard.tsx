@@ -57,7 +57,7 @@ export const ProfileCard = () => {
 					}}
 				>
 					<Box sx={{ mt: -5 }}>
-						<UserAvatar userName={user.name} isOnline={user.isOnline} variant="large" badgeSize={20} />
+						<UserAvatar userName={user.username} isOnline={user.isOnline} variant="large" badgeSize={20} />
 					</Box>
 					{isMe && (
 						<Button variant="outlined" startIcon={<Edit />} onClick={() => navigate(routes.settings.path)}>
@@ -69,10 +69,10 @@ export const ProfileCard = () => {
 				{/* Name */}
 				<Box sx={{ mb: 2, textAlign: { xs: 'center', sm: 'left' } }}>
 					<Typography variant="h4" sx={{ fontSize: { xs: 28, sm: 34 } }}>
-						{user.name}
+						{user.fullName}
 					</Typography>
 					<Typography variant="body2" color="text.secondary">
-						@{user.name}
+						@{user.username}
 					</Typography>
 				</Box>
 

@@ -1,9 +1,10 @@
 import { type Post, createPost } from '@entities/post'
 import { useMe } from '@entities/user'
-import { Avatar, Box, Button, Card, CardContent, Divider, Stack, TextField } from '@mui/material'
+import { Box, Button, Card, CardContent, Divider, Stack, TextField } from '@mui/material'
 import type { ApiResponse } from '@shared/api'
 import { POST_QUERY_KEY } from '@shared/config'
 import { addItemToInfiniteQuery } from '@shared/lib'
+import { UserAvatar } from '@shared/ui/UserAvatar'
 import { type InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
@@ -30,13 +31,7 @@ export const CreatePostForm = () => {
 		<Card>
 			<CardContent sx={{ p: { xs: 2, sm: 3 } }}>
 				<Stack gap={2} flexDirection="row">
-					<Avatar
-						sx={{
-							bgcolor: '#1a1a1a'
-						}}
-					>
-						{user!.data.name.charAt(0)}
-					</Avatar>
+					<UserAvatar variant="circular" userName={user?.data?.username} />
 					<TextField
 						fullWidth
 						multiline
