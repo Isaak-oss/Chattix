@@ -24,8 +24,8 @@ export const PostCard = memo(({ post, canChangePosts }: PostCardType) => {
 				}
 			}}
 		>
-			<CardContent sx={{ p: 3 }}>
-				<Stack flexDirection="row" gap={2} mb={2} alignItems="flex-start">
+			<CardContent sx={{ p: { xs: 2, sm: 3 } }}>
+				<Stack flexDirection="row" gap={{ xs: 1.5, sm: 2 }} mb={2} alignItems="flex-start" minWidth={0}>
 					<Avatar
 						sx={{
 							bgcolor: 'primary.main'
@@ -34,9 +34,11 @@ export const PostCard = memo(({ post, canChangePosts }: PostCardType) => {
 						{post.author.name.charAt(0)}
 					</Avatar>
 					<Box sx={{ flex: 1, minWidth: 0 }}>
-						<Stack flexDirection="row" gap={2} mb={2} alignItems="flex-start" flexWrap="wrap">
-							<Typography variant="subtitle2">{post.author.name}</Typography>
-							<Typography variant="body2" color="text.secondary">
+						<Stack flexDirection="row" gap={{ xs: 1, sm: 2 }} mb={2} alignItems="center" flexWrap="wrap">
+							<Typography variant="subtitle2" noWrap>
+								{post.author.name}
+							</Typography>
+							<Typography variant="body2" color="text.secondary" noWrap>
 								@{post.author.name}
 							</Typography>
 							<Box
@@ -74,7 +76,7 @@ export const PostCard = memo(({ post, canChangePosts }: PostCardType) => {
 							borderColor: 'secondary.main',
 							borderRadius: 1,
 							minHeight: 100,
-							px: 2,
+							px: { xs: 1.5, sm: 2 },
 							py: 1
 						}}
 					>

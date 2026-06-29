@@ -20,8 +20,6 @@ export const ProfileCard = () => {
 		gcTime: 0
 	})
 
-	console.log(user)
-
 	// TODO: add friends action buttons
 	return (
 		<Card variant="outlined">
@@ -53,7 +51,7 @@ export const ProfileCard = () => {
 						alignItems: { xs: 'center', sm: 'flex-end' },
 						justifyContent: 'space-between',
 						mb: 3,
-						flexDirection: 'row',
+						flexDirection: { xs: 'column', sm: 'row' },
 						flexWrap: 'wrap',
 						gap: 2
 					}}
@@ -70,7 +68,9 @@ export const ProfileCard = () => {
 
 				{/* Name */}
 				<Box sx={{ mb: 2, textAlign: { xs: 'center', sm: 'left' } }}>
-					<Typography variant="h4">{user.name}</Typography>
+					<Typography variant="h4" sx={{ fontSize: { xs: 28, sm: 34 } }}>
+						{user.name}
+					</Typography>
 					<Typography variant="body2" color="text.secondary">
 						@{user.name}
 					</Typography>
@@ -109,7 +109,7 @@ export const ProfileCard = () => {
 				<Box
 					sx={{
 						display: 'flex',
-						gap: 5,
+						gap: { xs: 3, sm: 5 },
 						justifyContent: { xs: 'center', sm: 'flex-start' }
 					}}
 				>

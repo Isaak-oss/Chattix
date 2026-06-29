@@ -26,7 +26,8 @@ const Link = memo(({ link, count }: { link: LinkItem; count?: number }) => {
 			variant="text"
 			sx={{
 				flex: { xs: 1, sm: 0 },
-				py: { xs: 1, sm: 2 },
+				minWidth: 0,
+				py: { xs: 1.25, sm: 2 },
 				px: { xs: 0, sm: 2 },
 				gap: { xs: 0, sm: 1 },
 				borderRadius: { xs: 0, sm: 1 },
@@ -50,7 +51,12 @@ const Link = memo(({ link, count }: { link: LinkItem; count?: number }) => {
 			}}
 			startIcon={<LinkIcon Icon={link.icon} badgeContent={count || 0} />}
 		>
-			<Typography variant="body2">{link.label}</Typography>
+			<Typography
+				variant="body2"
+				noWrap
+			>
+				{link.label}
+			</Typography>
 		</Button>
 	)
 })
@@ -74,9 +80,10 @@ export const LinksList = ({ userId }: { userId: Id }) => {
 		<Stack
 			sx={{
 				flex: 1,
+				minWidth: 0,
 				gap: { xs: 0, sm: 1 },
 				flexDirection: { xs: 'row', sm: 'column' },
-				justifyContent: { xs: 'flex-start', sm: 'flex-start' }
+				justifyContent: { xs: 'space-around', sm: 'flex-start' }
 			}}
 		>
 			{links(userId).map(handleLinkCount)}

@@ -31,9 +31,12 @@ const AuthLayout = () => {
 
 	return (
 		<SocketProvider>
-			<Stack flexDirection={{ xs: 'column-reverse', sm: 'row' }} height={'100vh'}>
+			<Stack
+				flexDirection={{ xs: 'column-reverse', sm: 'row' }}
+				sx={{ height: '100dvh', minWidth: 0, overflow: 'hidden' }}
+			>
 				<NavBar />
-				<Box flex={1}>
+				<Box flex={1} minWidth={0} minHeight={0} overflow="hidden">
 					<Outlet />
 				</Box>
 			</Stack>

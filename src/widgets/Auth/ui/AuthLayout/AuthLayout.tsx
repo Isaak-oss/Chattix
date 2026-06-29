@@ -6,8 +6,9 @@ export const AuthLayout = ({ children }: { children: ReactNode }) => {
 	return (
 		<Box
 			sx={{
-				height: '100vh',
-				display: 'flex'
+				minHeight: '100dvh',
+				display: 'flex',
+				minWidth: 0
 			}}
 		>
 			<AuthWelcomeBanner />
@@ -15,7 +16,8 @@ export const AuthLayout = ({ children }: { children: ReactNode }) => {
 				sx={{
 					overflowY: 'auto',
 					flex: 1,
-					p: 6
+					p: { xs: 2, sm: 4, md: 6 },
+					minWidth: 0
 				}}
 			>
 				<Box

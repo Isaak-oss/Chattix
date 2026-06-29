@@ -8,10 +8,12 @@ export const Chat = () => {
 			sx={{
 				display: 'flex',
 				flex: 1,
-				minHeight: 0
+				minHeight: 0,
+				minWidth: 0,
+				overflow: 'hidden'
 			}}
 		>
-			<Stack flexDirection="row" flex={1} minHeight={0}>
+			<Stack flexDirection="row" flex={1} minHeight={0} minWidth={0}>
 				<ChatRooms />
 				<ChatMessages />
 			</Stack>

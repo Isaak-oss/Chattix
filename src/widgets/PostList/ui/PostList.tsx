@@ -19,11 +19,11 @@ export const PostList = ({ canAddPost = true }: { canAddPost?: boolean }) => {
 	const isPostForm = canAddPost && isMe
 
 	return (
-		<Stack>
+		<Stack sx={{ minWidth: 0 }}>
 			{isPostForm && (
 				<Box>
 					<CreatePostForm />
-					<Divider sx={{ my: 5 }} />
+					<Divider sx={{ my: { xs: 3, sm: 5 } }} />
 				</Box>
 			)}
 			<DataList

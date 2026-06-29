@@ -80,12 +80,13 @@ export const MessageInput = () => {
 	return (
 		<Box
 			sx={{
-				p: 2.5,
+				p: { xs: 1.5, sm: 2.5 },
 				borderTop: '1px solid rgba(26,26,26,0.06)',
 				display: 'flex',
-				gap: 1.5,
+				gap: { xs: 1, sm: 1.5 },
 				alignItems: 'center',
 				bgcolor: '#fefefe',
+				minWidth: 0
 			}}
 		>
 			<TextField

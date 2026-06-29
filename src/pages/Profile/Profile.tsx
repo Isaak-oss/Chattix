@@ -9,9 +9,9 @@ export const Profile = () => {
 		<DataBoundary>
 			<ScrollProvider>
 				<PageWrapper>
-					<Stack gap={2}>
+					<Stack gap={2} minWidth={0}>
 						<ProfileCard />
-						<Typography variant="h4" pl={3}>
+						<Typography variant="h4" pl={{ xs: 0, sm: 3 }} sx={{ fontSize: { xs: 28, sm: 34 } }}>
 							Posts
 						</Typography>
 						<PostList />

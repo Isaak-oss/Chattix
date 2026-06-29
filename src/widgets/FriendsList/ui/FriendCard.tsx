@@ -19,8 +19,8 @@ export const FriendCard = memo(({ friend }: FriendCardProps) => {
 	const isSuggest = !friend.friendStatus
 
 	return (
-		<Card sx={{ maxWidth: 320 }}>
-			<CardContent sx={{ textAlign: 'center', p: 3, '&:last-child': { pb: 3 } }}>
+		<Card sx={{ width: '100%', maxWidth: '100%' }}>
+			<CardContent sx={{ textAlign: 'center', p: { xs: 2, sm: 3 }, '&:last-child': { pb: { xs: 2, sm: 3 } } }}>
 				<Stack alignItems="center">
 					<UserAvatar
 						variant="medium"
@@ -38,7 +38,7 @@ export const FriendCard = memo(({ friend }: FriendCardProps) => {
 						@{friend.name}
 					</Typography>
 
-					<Stack mt={2} width="100%" gap={1} flexWrap="wrap" flexDirection="row">
+					<Stack mt={2} width="100%" gap={1} flexWrap="wrap" flexDirection={{ xs: 'column', sm: 'row' }}>
 						{/* Actions */}
 						{isFriend && <MessageActionButton user={friend} />}
 						{isIncoming && (

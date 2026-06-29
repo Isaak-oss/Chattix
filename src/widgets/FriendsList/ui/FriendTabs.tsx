@@ -74,7 +74,11 @@ export const FriendTabs = ({ tab, setTab }: FriendStatusTabsProps) => {
 			<Tabs
 				value={tab}
 				onChange={(_, newTab) => setTab(newTab)}
+				variant="scrollable"
+				scrollButtons="auto"
+				allowScrollButtonsMobile
 				sx={{
+					maxWidth: '100%',
 					'& .MuiTabs-indicator': {
 						bgcolor: '#1a1a1a',
 						height: 2
@@ -85,8 +89,8 @@ export const FriendTabs = ({ tab, setTab }: FriendStatusTabsProps) => {
 						color: '#6b6b6b',
 						textTransform: 'none',
 						minHeight: 44,
-						px: 0,
-						mr: 4,
+						px: { xs: 1, sm: 0 },
+						mr: { xs: 1, sm: 4 },
 						'&.Mui-selected': { color: '#1a1a1a' }
 					}
 				}}
@@ -97,7 +101,7 @@ export const FriendTabs = ({ tab, setTab }: FriendStatusTabsProps) => {
 						value={tabItem.tab}
 						disableRipple
 						label={
-							<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+							<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, whiteSpace: 'nowrap' }}>
 								<tabItem.icon fontSize="small" />
 								<span>{tabItem.label}</span>
 								{tabItem.countBoxParams && (

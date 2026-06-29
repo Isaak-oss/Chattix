@@ -45,7 +45,10 @@ export const ChatMessages = () => {
 		<Stack
 			sx={{
 				flex: 1,
-				bgcolor: 'background.lightGrey'
+				bgcolor: 'background.lightGrey',
+				minWidth: 0,
+				minHeight: 0,
+				display: { xs: chatRoomId ? 'flex' : 'none', sm: 'flex' }
 			}}
 		>
 			{/* Chat header */}
@@ -54,18 +57,21 @@ export const ChatMessages = () => {
 					flexDirection: 'row',
 					alignItems: 'center',
 					gap: 1.5,
-					px: 2.5,
-					py: 2,
-					bgcolor: 'background.paper'
+					px: { xs: 1.5, sm: 2.5 },
+					py: { xs: 1.5, sm: 2 },
+					bgcolor: 'background.paper',
+					minWidth: 0
 				}}
 			>
 				<IconButton sx={{ display: { sm: 'none' } }} onClick={() => setSelectedChatRoomId(null)} size="small">
 					<ArrowLeft />
 				</IconButton>
 				<UserAvatar isOnline={isInterlocutorOnline} userName={chatName} variant="circular" />
-				<Box sx={{ flex: 1 }}>
-					<Typography variant="subtitle2">{chatName}</Typography>
-					<Typography variant="caption" sx={{ color: 'text.secondary' }}>
+				<Box sx={{ flex: 1, minWidth: 0 }}>
+					<Typography variant="subtitle2" noWrap>
+						{chatName}
+					</Typography>
+					<Typography variant="caption" noWrap sx={{ color: 'text.secondary', display: 'block' }}>
 						{isDirectChat
 							? isInterlocutorOnline
 								? 'Online'
@@ -86,15 +92,11 @@ export const ChatMessages = () => {
 			</Stack>
 
 			{/* Messages */}
-			<ScrollProvider sx={{ p: 2 }}>
+			<ScrollProvider sx={{ p: { xs: 1.5, sm: 2 } }}>
 				<DataList
 					data={orderedMessages}
 					renderItem={message => (
-						<MessageBubble
-							message={message}
-							currentUserId={me!.data.id}
-							readStates={selectedChatRoom?.readStates}
-						/>
+						<MessageBubble message={message} currentUserId={me!.data.id} readStates={selectedChatRoom?.readStates} />
 					)}
 					isFetching={isFetching}
 					isDataLoading={isLoading}

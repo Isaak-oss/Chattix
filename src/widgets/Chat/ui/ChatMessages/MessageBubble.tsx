@@ -19,8 +19,6 @@ export const MessageBubble = memo(({ message, currentUserId, readStates }: Messa
 
 	const status = !message.createdAt ? 'sending' : isRead ? 'read' : 'unread'
 
-	console.log('rerender')
-
 	return (
 		<Box
 			sx={{
@@ -30,7 +28,6 @@ export const MessageBubble = memo(({ message, currentUserId, readStates }: Messa
 		>
 			<Box
 				sx={{
-					maxWidth: '70%',
 					px: 2,
 					py: 1.25,
 					borderRadius: 2,
@@ -39,7 +36,9 @@ export const MessageBubble = memo(({ message, currentUserId, readStates }: Messa
 					bgcolor: isMe ? '#1a1a1a' : '#fefefe',
 					color: isMe ? '#f5f3ef' : '#1a1a1a',
 					boxShadow: isMe ? 'none' : '0 1px 2px rgba(26,26,26,0.04)',
-					minWidth: 150
+					maxWidth: { xs: '88%', sm: '70%' },
+					minWidth: { xs: 0, sm: 150 },
+					overflowWrap: 'anywhere'
 				}}
 			>
 				<Typography variant="body2" sx={{ lineHeight: 1.6, fontSize: 14 }}>

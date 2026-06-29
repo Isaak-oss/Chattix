@@ -17,15 +17,18 @@ export const ChatRooms = () => {
 	return (
 		<Box
 			sx={{
-				width: { xs: chatRoomId ? 0 : '100%', sm: 320 },
+				display: { xs: chatRoomId ? 'none' : 'block', sm: 'block' },
+				width: { xs: '100%', sm: 320 },
+				flexShrink: 0,
 				overflow: 'hidden',
 				borderRight: '1px solid',
 				borderRightColor: 'divider'
 			}}
 		>
 			<ScrollProvider style={{ overflowX: 'hidden' }}>
-				<Box sx={{ p: 2.5 }}>
+				<Box sx={{ p: { xs: 1.5, sm: 2.5 } }}>
 					<TextField
+						fullWidth
 						size="small"
 						placeholder="Search conversations..."
 						value={searchQuery}

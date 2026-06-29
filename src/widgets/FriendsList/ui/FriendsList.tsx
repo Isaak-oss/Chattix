@@ -37,7 +37,7 @@ export const FriendsList = () => {
 	}, [tab])
 
 	return (
-		<Box>
+		<Box sx={{ minWidth: 0 }}>
 			<FriendTabs setTab={setTab} tab={tab} />
 			<DataList
 				{...dataListProps}
@@ -45,7 +45,7 @@ export const FriendsList = () => {
 				renderItem={friend => <FriendCard friend={friend} />}
 				mode={DataListModes.GRID}
 				emptyListTitle={'The list is empty'}
-				minItemWidth={320}
+				minItemWidth={260}
 			/>
 		</Box>
 	)

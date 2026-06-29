@@ -28,7 +28,7 @@ export const CreatePostForm = () => {
 
 	return (
 		<Card>
-			<CardContent sx={{ p: 3 }}>
+			<CardContent sx={{ p: { xs: 2, sm: 3 } }}>
 				<Stack gap={2} flexDirection="row">
 					<Avatar
 						sx={{
@@ -49,7 +49,7 @@ export const CreatePostForm = () => {
 					/>
 				</Stack>
 				<Divider sx={{ borderColor: 'rgba(26,26,26,0.06)', my: 2 }} />
-				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
 					<Button
 						variant="contained"
 						size="small"
