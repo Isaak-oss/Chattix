@@ -1,7 +1,7 @@
 import { type ChatRoom, getChatRoom } from '@entities/chat'
 import type { ApiResponse } from '@shared/api'
 import { CHAT_ROOMS_QUERY_KEY } from '@shared/config'
-import { addItemToInfiniteQuery } from '@shared/lib'
+import {addItemToInfiniteQuery, flatMapInfinityData} from '@shared/lib'
 import { type InfiniteData, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useChatRoomId } from '@widgets/Chat/model/useChatRoomId.ts'
 import { useChatRooms } from '@widgets/Chat/model/useChatRooms.ts'
@@ -12,7 +12,8 @@ export const useSelectedChatRoom = () => {
 	const { chatRoomId } = useChatRoomId()
 
 	// get chatRoom info from chatRooms list
-	const { chatRooms, isFetching, isLoading } = useChatRooms()
+	const { data, isFetching, isLoading } = useChatRooms()
+	const chatRooms = flatMapInfinityData(data)
 	const selectedChatRoom = chatRooms?.find(({ id }) => id === chatRoomId)
 	const canFetchSelectedChatRoom = !!chatRoomId && chatRoomId !== 'new' && !isLoading && !selectedChatRoom
 

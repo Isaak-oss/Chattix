@@ -14,3 +14,4 @@ export { updateItemToInfiniteQuery } from './reactQuery/updateItemToInfiniteQuer
 export { addItemToInfiniteQuery } from './reactQuery/addItemToInfiniteQuery.ts'
 export { addOrUpdateItemToInfiniteQuery } from './reactQuery/addOrUpdateItemToInfiniteQuery.ts'
 export { getNextPageParam } from './reactQuery/getNextPageParam.ts'
+export { flatMapInfinityData } from './reactQuery/flatMapInfinityData.ts'

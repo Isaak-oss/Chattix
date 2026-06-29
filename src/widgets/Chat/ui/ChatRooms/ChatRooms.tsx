@@ -1,7 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search'
 import { Box, Divider, InputAdornment, TextField } from '@mui/material'
 import { ScrollProvider } from '@shared/lib'
-import { DataList } from '@shared/ui'
+import { InfinityDataList } from '@shared/ui'
 import { useChatRoomId } from '@widgets/Chat/model/useChatRoomId.ts'
 import { useChatRooms } from '@widgets/Chat/model/useChatRooms.ts'
 import { ChatRoomItem } from '@widgets/Chat/ui/ChatRooms/ChatRoomItem.tsx'
@@ -11,8 +11,7 @@ export const ChatRooms = () => {
 	const { chatRoomId } = useChatRoomId()
 
 	const [searchQuery, setSearchQuery] = useState('')
-	const { chatRooms, isFetching, hasNextPage, isRefetching, isFetchingNextPage, fetchNextPage, isLoading } =
-		useChatRooms()
+	const chatRoomsQuery = useChatRooms()
 
 	return (
 		<Box
@@ -45,17 +44,11 @@ export const ChatRooms = () => {
 					/>
 				</Box>
 				<Divider />
-				<DataList
-					data={chatRooms}
+				<InfinityDataList
+					query={chatRoomsQuery}
 					renderItem={chatRoom => (
 						<ChatRoomItem chatRoom={chatRoom} isSelected={chatRoomId ? chatRoomId === chatRoom.id : false} />
 					)}
-					isFetching={isFetching}
-					hasNextPage={hasNextPage}
-					isRefetching={isRefetching}
-					isFetchingNextPage={isFetchingNextPage}
-					onLoadMore={fetchNextPage}
-					isDataLoading={isLoading}
 					emptyListTitle={'No chats'}
 					gap={1}
 				/>

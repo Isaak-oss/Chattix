@@ -1,7 +1,7 @@
 import { Box, Stack } from '@mui/material'
 import type { ApiResponse } from '@shared/api'
 import { EmptyList, Loader } from '@shared/ui'
-import { useInfiniteVirtualizer } from '@shared/ui/DataList/model/virtualizerHooks/useInfiniteVirtualizer.ts'
+import { useInfiniteVirtualizer } from '@shared/ui/InfinityDataList/model/virtualizerHooks/useInfiniteVirtualizer.ts'
 import type { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query'
 import { type VirtualItem } from '@tanstack/react-virtual'
 import { type ReactNode, useCallback, useLayoutEffect, useMemo, useState } from 'react'

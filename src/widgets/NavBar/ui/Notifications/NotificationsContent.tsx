@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import { ScrollProvider } from '@shared/lib'
-import { DataList } from '@shared/ui'
+import { InfinityDataList } from '@shared/ui'
 import { useNotifications } from '@widgets/NavBar/model/useNotifications.ts'
 import { NotificationItem } from '@widgets/NavBar/ui/Notifications/NotificationItem.tsx'
 
@@ -9,8 +9,7 @@ type NotificationsContentProps = {
 }
 
 export const NotificationsContent = ({ onClose }: NotificationsContentProps) => {
-	const { notifications, isLoading, isFetching, hasNextPage, isRefetching, isFetchingNextPage, fetchNextPage } =
-		useNotifications()
+	const notificationsQuery = useNotifications()
 
 	return (
 		<Box
@@ -35,15 +34,9 @@ export const NotificationsContent = ({ onClose }: NotificationsContentProps) => 
 				</Typography>
 			</Box>
 			<ScrollProvider>
-				<DataList
-					data={notifications}
-					renderItem={notification => <NotificationItem notification={notification} onClose={onClose}/>}
-					isFetching={isFetching}
-					hasNextPage={hasNextPage}
-					isRefetching={isRefetching}
-					isFetchingNextPage={isFetchingNextPage}
-					onLoadMore={fetchNextPage}
-					isDataLoading={isLoading}
+				<InfinityDataList
+					query={notificationsQuery}
+					renderItem={notification => <NotificationItem notification={notification} onClose={onClose} />}
 					emptyListTitle={'Empty'}
 					gap={1}
 				/>

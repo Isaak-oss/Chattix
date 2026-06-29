@@ -57,6 +57,16 @@ export const MessageInput = () => {
 		)
 	}
 
+	const updateLastMessageInChatRoom = (message: Message) => {
+		queryClient.setQueriesData<InfiniteData<ApiResponse<ChatRoom[]>>>({ queryKey: [CHAT_ROOMS_QUERY_KEY] }, old => {
+			return updateItemToInfiniteQuery(
+				{ lastMessage: message },
+				{ key: 'id', customValue: message.chatRoomId, cleanUpdate: false },
+				old
+			)
+		})
+	}
+
 	const handleSend = async () => {
 		setNewMessage('')
 		// local update on new message
@@ -70,6 +80,7 @@ export const MessageInput = () => {
 			} else {
 				const res = await sendMessage(chatRoomId, { content: newMessage })
 				updateMessage(res)
+				updateLastMessageInChatRoom(res)
 			}
 		} catch (error) {
 			// 	TODO: add error notification

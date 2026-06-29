@@ -4,14 +4,10 @@ import { getNextPageParam } from '@shared/lib'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 export const useNotifications = () => {
-	const query = useInfiniteQuery({
+	return useInfiniteQuery({
 		queryKey: [NOTIFICATIONS_QUERY_KEY],
 		queryFn: params => getNotifications(params.pageParam),
 		initialPageParam: 0,
 		getNextPageParam: getNextPageParam
 	})
-
-	const notifications = query?.data?.pages.flatMap(page => page.data) || []
-
-	return { ...query, notifications }
 }

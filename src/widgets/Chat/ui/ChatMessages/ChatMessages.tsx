@@ -2,7 +2,7 @@ import { useMe } from '@entities/user'
 import { ArrowLeft } from '@mui/icons-material'
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import { ScrollProvider, formatFullLastSeenDate } from '@shared/lib'
-import { DataList, Loader } from '@shared/ui'
+import { InfinityDataList, Loader } from '@shared/ui'
 import { UserAvatar } from '@shared/ui/UserAvatar'
 import { useChatRoomId } from '@widgets/Chat/model/useChatRoomId.ts'
 import { useMessages } from '@widgets/Chat/model/useMessages.ts'
@@ -16,19 +16,10 @@ const estimateMessageSize = () => 70
 
 export const ChatMessages = () => {
 	const { data: me } = useMe()
-	const { setSelectedChatRoomId } = useChatRoomId()
+	const { setSelectedChatRoomId, chatRoomId } = useChatRoomId()
 	const { selectedChatRoom } = useSelectedChatRoom()
 
-	const {
-		orderedMessages,
-		chatRoomId,
-		isLoading,
-		isFetching,
-		isFetchingNextPage,
-		isRefetching,
-		hasNextPage,
-		fetchNextPage
-	} = useMessages()
+	const messagesQuery = useMessages()
 
 	const isDirectChat = selectedChatRoom?.type === 'direct'
 	const interlocutor = selectedChatRoom?.participants.find(participant => participant.id !== me?.data.id)
@@ -93,22 +84,15 @@ export const ChatMessages = () => {
 
 			{/* Messages */}
 			<ScrollProvider sx={{ p: { xs: 1.5, sm: 2 } }}>
-				<DataList
-					data={orderedMessages}
+				<InfinityDataList
+					query={messagesQuery}
 					renderItem={message => (
 						<MessageBubble message={message} currentUserId={me!.data.id} readStates={selectedChatRoom?.readStates} />
 					)}
-					isFetching={isFetching}
-					isDataLoading={isLoading}
-					isFetchingNextPage={isFetchingNextPage}
-					isRefetching={isRefetching}
-					hasNextPage={hasNextPage}
-					onLoadMore={fetchNextPage}
 					reverse
 					autoScrollToEnd
 					gap={10}
 					overscan={6}
-					getItemKey={message => message.id}
 					onScroll={handleReadMessage}
 					estimateSize={estimateMessageSize}
 				/>

@@ -4,14 +4,10 @@ import { getNextPageParam } from '@shared/lib'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 export const useChatRooms = () => {
-	const query = useInfiniteQuery({
+	return useInfiniteQuery({
 		queryKey: [CHAT_ROOMS_QUERY_KEY],
 		queryFn: params => getChatRooms(params.pageParam),
 		initialPageParam: 0,
 		getNextPageParam: getNextPageParam
 	})
-
-	const chatRooms = query?.data?.pages.flatMap(page => page.data) || []
-
-	return { ...query, chatRooms }
 }

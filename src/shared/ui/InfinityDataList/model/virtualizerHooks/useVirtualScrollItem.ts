@@ -8,7 +8,6 @@ type ScrollRect = {
 
 type UseVirtualScrollItemProps<T> = {
 	data: T[]
-	getDataIndex: (index: number) => number
 	getItemKey?: (item: T, index: number) => unknown
 	isHorizontal: boolean
 	isReverse: boolean
@@ -20,7 +19,6 @@ type UseVirtualScrollItemProps<T> = {
 
 export const useVirtualScrollItem = <T>({
 	data,
-	getDataIndex,
 	getItemKey,
 	isHorizontal,
 	isReverse,
@@ -45,7 +43,7 @@ export const useVirtualScrollItem = <T>({
 
 		if (!currentVirtualItem) return
 
-		const dataIndex = getDataIndex(currentVirtualItem.index)
+		const dataIndex = currentVirtualItem.index
 		const currentItem = data[dataIndex]
 		const currentItemKey = getItemKey?.(currentItem, dataIndex) ?? currentItem
 
@@ -53,5 +51,5 @@ export const useVirtualScrollItem = <T>({
 
 		currentScrollItemKeyRef.current = currentItemKey
 		onScroll(currentItem, dataIndex)
-	}, [data, getDataIndex, getItemKey, isHorizontal, isReverse, onScroll, scrollOffset, scrollRect, virtualItems])
+	}, [data, getItemKey, isHorizontal, isReverse, onScroll, scrollOffset, scrollRect, virtualItems])
 }

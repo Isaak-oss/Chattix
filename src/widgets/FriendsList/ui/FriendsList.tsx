@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
-import { DataList } from '@shared/ui'
-import { DataListModes } from '@shared/ui/DataList/model/types.ts'
+import { InfinityDataList } from '@shared/ui'
+import { InfinityDataListModes } from '@shared/ui/InfinityDataList/model/types.ts'
 import { FriendTabs, FriendTabsEnum } from '@widgets/FriendsList'
 import { useFriends } from '@widgets/FriendsList/model/useFriends.ts'
 import { FriendCard } from '@widgets/FriendsList/ui/FriendCard.tsx'
@@ -21,29 +21,18 @@ export const FriendsList = () => {
 
 	const query = map[tab] ?? friends
 
-	const dataListProps = {
-		data: query.data?.pages.flatMap(p => p.data) || [],
-		isDataLoading: query.isLoading,
-		hasNextPage: query.hasNextPage,
-		onLoadMore: query.fetchNextPage,
-		refetch: query.refetch,
-		isFetching: query.isFetching,
-		isRefetching: query.isRefetching,
-		isFetchingNextPage: query.isFetchingNextPage
-	}
-
 	useEffect(() => {
-		dataListProps.refetch()
+		query.refetch()
 	}, [tab])
 
 	return (
 		<Box sx={{ minWidth: 0 }}>
 			<FriendTabs setTab={setTab} tab={tab} />
-			<DataList
-				{...dataListProps}
+			<InfinityDataList
+				query={query}
 				getItemKey={friend => friend.id}
 				renderItem={friend => <FriendCard friend={friend} />}
-				mode={DataListModes.GRID}
+				mode={InfinityDataListModes.GRID}
 				emptyListTitle={'The list is empty'}
 				minItemWidth={260}
 			/>

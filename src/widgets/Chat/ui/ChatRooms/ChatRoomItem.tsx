@@ -16,8 +16,6 @@ export const ChatRoomItem = memo(({ chatRoom, isSelected }: ChatRoomItemProps) =
 	const { setSelectedChatRoomId } = useChatRoomId()
 	const { data: me } = useMe()
 
-	const lastReadState = chatRoom?.readStates[0]
-
 	const isUnread = chatRoom.unreadMessagesCount > 0
 
 	const isDirectChat = chatRoom?.type === 'direct'
@@ -42,14 +40,14 @@ export const ChatRoomItem = memo(({ chatRoom, isSelected }: ChatRoomItemProps) =
 			<Stack flexDirection="row" gap={1.5}>
 				<UserAvatar userName={chatName} isOnline={isInterlocutorOnline} />
 				<Stack flexDirection="row" alignItems="center" justifyContent="space-between" flex={1} minWidth={0} gap={1}>
-					<Box sx={{ flex: 1, minWidth: 0 }}>
+					<Box sx={{ flex: 1, minWidth: 0, minHeight: 44 }}>
 						<Stack flexDirection="row" gap={1}>
 							<Typography noWrap variant="subtitle2" sx={{ flex: 1 }}>
 								{chatName}
 							</Typography>
 							{/*TODO: configure for goup chat room*/}
 							<Typography variant="caption" color={'text.secondary'} sx={{ flexShrink: 0 }}>
-								{formatLastSeenDate(lastReadState?.lastReadAt)}
+								{formatLastSeenDate(chatRoom?.lastMessage?.createdAt)}
 							</Typography>
 						</Stack>
 						<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
