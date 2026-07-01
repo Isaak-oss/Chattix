@@ -18,8 +18,5 @@ export type SessionState = {
 	token: string | null
 	setToken: (token: string | null) => void
 
-	isAuth: boolean
-	setIsAuth: (token: boolean) => void
-
 	logout: () => void
 }

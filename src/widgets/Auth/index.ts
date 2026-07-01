@@ -1,1 +1,1 @@
-export { AuthLayout } from './ui/AuthLayout/AuthLayout.tsx'
+export { AuthPageLayout } from '@widgets/Auth/ui/AuthPageLayout/AuthPageLayout.tsx'

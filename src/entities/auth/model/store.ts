@@ -3,9 +3,10 @@ import { env } from '@shared/lib'
 import { queryClient } from '@shared/reactQuery'
 import { create } from 'zustand'
 
+const token = localStorage.getItem(env.VITE_API_TOKEN_KEY)
+
 export const useAuthStore = create<SessionState>(set => ({
-	token: localStorage.getItem(env.VITE_API_TOKEN_KEY),
-	isAuth: false,
+	token,
 
 	setToken: token => {
 		if (token) {
@@ -15,14 +16,10 @@ export const useAuthStore = create<SessionState>(set => ({
 		set({ token })
 	},
 
-	setIsAuth: isAuth => {
-		set({ isAuth })
-	},
-
 	logout: () => {
 		localStorage.removeItem(env.VITE_API_TOKEN_KEY)
 		queryClient.clear()
 
-		set({ isAuth: false, token: null })
+		set({ token: null })
 	}
 }))

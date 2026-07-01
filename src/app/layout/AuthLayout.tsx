@@ -9,7 +9,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 const AuthLayout = () => {
 	const token = useAuthStore(s => s.token)
-	const isAuthorized = useAuthStore(s => s.isAuth)
+	const isAuthorized = !!token
 
 	// initiate user session
 	const { data, isLoading } = useMe()
@@ -21,7 +21,7 @@ const AuthLayout = () => {
 		Waiting until user data is fetching
 		User data is an indicator of isAuthorized
 		If getMe reject 401 error, then this will cause onUnauthorized function
-		See SessionProvider
+		See session.ts
 	*/
 	if (isLoading) {
 		return <LoaderScreen />

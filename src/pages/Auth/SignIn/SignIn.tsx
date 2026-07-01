@@ -1,10 +1,10 @@
 import { SignInForm } from '@features/auth'
 import { Typography } from '@mui/material'
-import { AuthLayout } from '@widgets/Auth'
+import { AuthPageLayout } from '@widgets/Auth'
 
 export const SignIn = () => {
 	return (
-		<AuthLayout>
+		<AuthPageLayout>
 			<Typography variant="h3" mb={1}>
 				{'Welcome back'}
 			</Typography>
@@ -12,6 +12,6 @@ export const SignIn = () => {
 				{'Enter your credentials to access your account'}
 			</Typography>
 			<SignInForm />
-		</AuthLayout>
+		</AuthPageLayout>
 	)
 }

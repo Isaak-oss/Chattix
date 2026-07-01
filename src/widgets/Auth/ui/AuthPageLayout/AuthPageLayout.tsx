@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import { AuthWelcomeBanner } from '@shared/ui'
 import type { ReactNode } from 'react'
 
-export const AuthLayout = ({ children }: { children: ReactNode }) => {
+export const AuthPageLayout = ({ children }: { children: ReactNode }) => {
 	return (
 		<Box
 			sx={{

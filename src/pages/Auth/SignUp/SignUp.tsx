@@ -1,10 +1,10 @@
 import { SignUpForm } from '@features/auth'
 import { Typography } from '@mui/material'
-import { AuthLayout } from '@widgets/Auth'
+import { AuthPageLayout } from '@widgets/Auth'
 
 export const SignUp = () => {
 	return (
-		<AuthLayout>
+		<AuthPageLayout>
 			<Typography variant="h3" mb={1}>
 				Create account
 			</Typography>
@@ -12,6 +12,6 @@ export const SignUp = () => {
 				Start your journey with us today
 			</Typography>
 			<SignUpForm />
-		</AuthLayout>
+		</AuthPageLayout>
 	)
 }
