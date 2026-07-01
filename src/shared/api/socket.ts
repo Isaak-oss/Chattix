@@ -23,10 +23,6 @@ class SocketClient {
 		this.socket?.disconnect()
 		this.socket = null
 	}
-
-	getSocket() {
-		return this.socket
-	}
 }
 
 export const socketClient = new SocketClient()

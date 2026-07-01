@@ -1,30 +1,32 @@
 import type { ChatRoom, Message, MessageReadWebSocket } from '@entities/chat'
 import { useCurrentUser } from '@entities/user'
 import { updateMessagesCount } from '@features/messages/lib/updateMessagesCounts.ts'
-import { type ApiResponse, socketClient } from '@shared/api'
+import { type ApiResponse, useSocket, useSocketEvent } from '@shared/api'
 import { CHAT_ROOMS_QUERY_KEY } from '@shared/config'
 import { addOrUpdateItemToInfiniteQuery } from '@shared/lib'
 import { type InfiniteData, useQueryClient } from '@tanstack/react-query'
 import { useSelectedChatRoom } from '@widgets/Chat/model/useSelectedChatRoom.ts'
 import { throttle } from 'lodash'
-import { useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 export const useReadMessage = () => {
 	const currentUser = useCurrentUser()
 	const queryClient = useQueryClient()
 	const { selectedChatRoom } = useSelectedChatRoom()
-	const socket = socketClient.getSocket()
+	const socket = useSocket()
 
 	const handleReadMessage = useMemo(
 		() =>
 			throttle((message: Message) => {
+				if (!socket) return
+
 				const lastReadAt = selectedChatRoom?.readStates[0]?.lastReadAt
 				const isReadByTime =
 					!lastReadAt || (message.createdAt && new Date(lastReadAt).getTime() < new Date(message.createdAt).getTime())
 				const isNotMeTryToRead = message.senderId !== currentUser.id
 
 				if (isReadByTime && isNotMeTryToRead) {
-					socket?.emit('chats:read', {
+					socket.emit('chats:read', {
 						roomId: selectedChatRoom?.id,
 						lastReadMessageId: message.id
 					})
@@ -33,10 +35,10 @@ export const useReadMessage = () => {
 		[socket, selectedChatRoom?.id, selectedChatRoom?.readStates, currentUser]
 	)
 
-	useEffect(() => {
-		if (!selectedChatRoom?.id) return
+	const handleChatRead = useCallback(
+		(data: MessageReadWebSocket) => {
+			if (!selectedChatRoom?.id) return
 
-		const handler = (data: MessageReadWebSocket) => {
 			const result = queryClient.setQueriesData<ChatRoom>(
 				{ queryKey: [CHAT_ROOMS_QUERY_KEY, selectedChatRoom?.id] },
 				old => {
@@ -61,14 +63,17 @@ export const useReadMessage = () => {
 			}
 
 			updateMessagesCount(data.totalUnreadMessagesCount)
-		}
+		},
+		[queryClient, selectedChatRoom?.id]
+	)
 
-		socket?.on('chats:read', handler)
-
+	useEffect(() => {
 		return () => {
-			socket?.off('chats:read', handler)
+			handleReadMessage.cancel()
 		}
-	}, [selectedChatRoom?.id, socket])
+	}, [handleReadMessage])
+
+	useSocketEvent('chats:read', handleChatRead)
 
 	return {
 		handleReadMessage

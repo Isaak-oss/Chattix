@@ -1,22 +1,20 @@
 import { type Friend, type FriendsOnlineStatusWebSocket } from '@entities/friends'
 import type { Profile } from '@entities/user'
 import { updateParticipantOnlineInChatRooms } from '@features/messages/lib/updateParticipantsOnlineStatus.ts'
-import type { ApiResponse } from '@shared/api'
-import { socketClient } from '@shared/api/socket.ts'
+import { type ApiResponse, useSocket, useSocketEvent } from '@shared/api'
 import { FRIENDS_QUERY_KEY, USER_QUERY_KEY, second } from '@shared/config'
 import { updateItemToInfiniteQuery } from '@shared/lib'
 import { type InfiniteData, useQueryClient } from '@tanstack/react-query'
 import { debounce } from 'lodash'
-import { useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 export const useFriendsRealtime = () => {
 	const queryClient = useQueryClient()
+	const socket = useSocket()
 
 	const handleOnlineStatus = useMemo(
 		() =>
 			debounce(() => {
-				const socket = socketClient.getSocket()
-
 				if (!socket) return
 
 				if (document.hidden) {
@@ -25,15 +23,11 @@ export const useFriendsRealtime = () => {
 					socket.emit('user:online', { isOnline: true })
 				}
 			}, second * 2),
-		[]
+		[socket]
 	)
 
-	useEffect(() => {
-		const socket = socketClient.getSocket()
-
-		if (!socket) return
-
-		const handler = (data: FriendsOnlineStatusWebSocket) => {
+	const handleFriendsPresence = useCallback(
+		(data: FriendsOnlineStatusWebSocket) => {
 			const updatedUser = data.data
 
 			// Update friends list
@@ -49,15 +43,19 @@ export const useFriendsRealtime = () => {
 				{ queryKey: [USER_QUERY_KEY, updatedUser.id] },
 				old => old && { ...old, ...updatedUser }
 			)
-		}
+		},
+		[queryClient]
+	)
 
-		socket.on('friends:presence', handler)
-
+	useEffect(() => {
 		// change online status locally
 		window.addEventListener('visibilitychange', handleOnlineStatus)
 
 		return () => {
 			window.removeEventListener('visibilitychange', handleOnlineStatus)
+			handleOnlineStatus.cancel()
 		}
-	}, [])
+	}, [handleOnlineStatus])
+
+	useSocketEvent('friends:presence', handleFriendsPresence)
 }
