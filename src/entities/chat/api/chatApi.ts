@@ -29,6 +29,11 @@ export const getChatRoom = async (roomId: Id) => {
 	return res.data
 }
 
+export const getChatRoomByParticipant = async (participantId: Id) => {
+	const res = await apiClient.get<ChatRoom>(`/chats/roomByParticipant/${participantId}`)
+	return res.data
+}
+
 // MUTATION
 export const createDirectChatRoom = async (data: CreateDirectChatRoomBody) => {
 	const res = await apiClient.post<ChatRoom, CreateDirectChatRoomBody>(`/chats/rooms`, data)
