@@ -1,5 +1,5 @@
 import type { ChatRoom, Message, MessageReadWebSocket } from '@entities/chat'
-import { useMe } from '@entities/user'
+import { useCurrentUser } from '@entities/user'
 import { updateMessagesCount } from '@features/messages/lib/updateMessagesCounts.ts'
 import { type ApiResponse, socketClient } from '@shared/api'
 import { CHAT_ROOMS_QUERY_KEY } from '@shared/config'
@@ -10,7 +10,7 @@ import { throttle } from 'lodash'
 import { useEffect, useMemo } from 'react'
 
 export const useReadMessage = () => {
-	const { data: me } = useMe()
+	const currentUser = useCurrentUser()
 	const queryClient = useQueryClient()
 	const { selectedChatRoom } = useSelectedChatRoom()
 	const socket = socketClient.getSocket()
@@ -21,7 +21,7 @@ export const useReadMessage = () => {
 				const lastReadAt = selectedChatRoom?.readStates[0]?.lastReadAt
 				const isReadByTime =
 					!lastReadAt || (message.createdAt && new Date(lastReadAt).getTime() < new Date(message.createdAt).getTime())
-				const isNotMeTryToRead = message.senderId !== me!.data.id
+				const isNotMeTryToRead = message.senderId !== currentUser.id
 
 				if (isReadByTime && isNotMeTryToRead) {
 					socket?.emit('chats:read', {
@@ -30,7 +30,7 @@ export const useReadMessage = () => {
 					})
 				}
 			}, 2000),
-		[socket, selectedChatRoom?.id, selectedChatRoom?.readStates, me]
+		[socket, selectedChatRoom?.id, selectedChatRoom?.readStates, currentUser]
 	)
 
 	useEffect(() => {

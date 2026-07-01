@@ -1,5 +1,5 @@
 import { type ChatRoom, getChatRoomByParticipant } from '@entities/chat'
-import { type User, useMe } from '@entities/user'
+import { type User, useCurrentUser } from '@entities/user'
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined'
 import type { ApiResponse } from '@shared/api'
 import { CHAT_ROOMS_QUERY_KEY, CHAT_ROOM_ID_SEARCH_PARAM, routes } from '@shared/config'
@@ -10,8 +10,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router'
 
 export const MessageActionButton = ({ user }: { user: User }) => {
-	const { data } = useMe()
-	const me = data!.data
+	const currentUser = useCurrentUser()
 	const queryClient = useQueryClient()
 	const navigate = useNavigate()
 
@@ -37,7 +36,7 @@ export const MessageActionButton = ({ user }: { user: User }) => {
 					queryClient.setQueryData<ChatRoom>([CHAT_ROOMS_QUERY_KEY, 'new'], {
 						id: 'new',
 						name: user.fullName,
-						participants: [user, me],
+						participants: [user, currentUser],
 						type: 'direct',
 						createdAt: '',
 						updatedAt: '',
@@ -46,8 +45,8 @@ export const MessageActionButton = ({ user }: { user: User }) => {
 							id: 'new',
 							content: '',
 							chatRoomId: 'new',
-							sender: me,
-							senderId: me.id
+							sender: currentUser,
+							senderId: currentUser.id
 						},
 						unreadMessagesCount: 0
 					} as ChatRoom)

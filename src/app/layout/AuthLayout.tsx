@@ -1,6 +1,6 @@
 import { SocketProvider } from '@app/provider/SocketProvider.tsx'
 import { useAuthStore } from '@entities/auth'
-import { useMe } from '@entities/user'
+import { useMeQuery } from '@entities/user'
 import { Box, Stack } from '@mui/material'
 import { routes } from '@shared/config'
 import { LoaderScreen } from '@shared/ui'
@@ -12,7 +12,7 @@ const AuthLayout = () => {
 	const isAuthorized = !!token
 
 	// initiate user session
-	const { data, isLoading } = useMe()
+	const { data, isLoading } = useMeQuery()
 
 	// redirect to authSignIn if no token
 	if (!token) return <Navigate to={routes.authSignIn.path} />

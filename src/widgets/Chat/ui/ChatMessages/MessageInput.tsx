@@ -1,5 +1,5 @@
 import { type ChatRoom, type Message, createDirectChatRoom, sendMessage } from '@entities/chat'
-import { useMe } from '@entities/user'
+import { useCurrentUser } from '@entities/user'
 import SendIcon from '@mui/icons-material/Send'
 import { Box, IconButton, TextField } from '@mui/material'
 import type { ApiResponse } from '@shared/api'
@@ -13,13 +13,12 @@ import { useSearchParams } from 'react-router-dom'
 
 export const MessageInput = () => {
 	const [_, setSearchParams] = useSearchParams()
-	const { data } = useMe()
-	const me = data!.data
+	const currentUser = useCurrentUser()
 
 	const { chatRoomId } = useChatRoomId()
 	const { selectedChatRoom } = useSelectedChatRoom()
 
-	const sendTo = selectedChatRoom?.participants.find(({ id }) => id !== me.id)
+	const sendTo = selectedChatRoom?.participants.find(({ id }) => id !== currentUser.id)
 
 	const queryClient = useQueryClient()
 	const [newMessage, setNewMessage] = useState('')
@@ -33,8 +32,8 @@ export const MessageInput = () => {
 						id: 'new',
 						content: newMessage,
 						chatRoomId: chatRoomId,
-						senderId: me.id,
-						sender: me
+						senderId: currentUser.id,
+						sender: currentUser
 					},
 					old
 				)

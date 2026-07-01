@@ -1,4 +1,4 @@
-import { type User, useMe } from '@entities/user'
+import { type User, useCurrentUser } from '@entities/user'
 import { updateMe } from '@entities/user/api/userApi.ts'
 import { profileVisibilityOptions, whoCanMessageOptions } from '@features/settings/config/privacySettingOptions.ts'
 import { type PrivacyFormSchema, privacyFormSchema } from '@features/settings/model/privacyFormShema.ts'
@@ -6,7 +6,6 @@ import { SettingSection } from '@features/settings/ui/SettingSection.tsx'
 import { zodResolver } from '@hookform/resolvers/zod'
 import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined'
 import { Box, Button, MenuItem, Stack } from '@mui/material'
-import type { ApiResponse } from '@shared/api'
 import { USER_QUERY_KEY } from '@shared/config'
 import { setFormErrors } from '@shared/lib'
 import { DefaultTextField, SubmitButton } from '@shared/ui'
@@ -16,7 +15,7 @@ import { useForm } from 'react-hook-form'
 
 export const PrivacySettings = () => {
 	const queryClient = useQueryClient()
-	const { data: me } = useMe()
+	const currentUser = useCurrentUser()
 
 	const {
 		control,
@@ -26,19 +25,14 @@ export const PrivacySettings = () => {
 		reset
 	} = useForm<PrivacyFormSchema>({
 		resolver: zodResolver(privacyFormSchema),
-		defaultValues: privacyFormSchema.parse(me?.data)
+		defaultValues: privacyFormSchema.parse(currentUser)
 	})
 
 	const onSubmit = async () => {
 		const data = getValues()
 		try {
 			const res = await updateMe(data)
-			queryClient.setQueriesData<ApiResponse<User>>(
-				{ queryKey: [USER_QUERY_KEY] },
-				{
-					data: res
-				}
-			)
+			queryClient.setQueriesData<User>({ queryKey: [USER_QUERY_KEY] }, res)
 		} catch (error) {
 			console.log(error)
 			setFormErrors(setError, error as AxiosError)

@@ -1,5 +1,5 @@
 import { type Post, createPost } from '@entities/post'
-import { useMe } from '@entities/user'
+import { useCurrentUser } from '@entities/user'
 import { Box, Button, Card, CardContent, Divider, Stack, TextField } from '@mui/material'
 import type { ApiResponse } from '@shared/api'
 import { POST_QUERY_KEY } from '@shared/config'
@@ -12,7 +12,7 @@ export const CreatePostForm = () => {
 	const queryClient = useQueryClient()
 	const [text, setText] = useState('')
 
-	const { data: user } = useMe()
+	const user = useCurrentUser()
 	const { mutate, isPending } = useMutation({
 		mutationFn: createPost,
 		onSuccess: newPost => {
@@ -31,7 +31,7 @@ export const CreatePostForm = () => {
 		<Card>
 			<CardContent sx={{ p: { xs: 2, sm: 3 } }}>
 				<Stack gap={2} flexDirection="row">
-					<UserAvatar variant="circular" userName={user?.data?.username} />
+					<UserAvatar variant="circular" userName={user.username} />
 					<TextField
 						fullWidth
 						multiline

@@ -1,4 +1,4 @@
-import { getUser, useMe } from '@entities/user'
+import { getUser, useCurrentUser } from '@entities/user'
 import { CalendarTodayOutlined, Edit } from '@mui/icons-material'
 import { Box, Button, Card, CardContent, Divider, Stack, Typography } from '@mui/material'
 import { USER_QUERY_KEY, routes } from '@shared/config'
@@ -8,10 +8,10 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router'
 
 export const ProfileCard = () => {
-	const { data: me } = useMe()
+	const currentUser = useCurrentUser()
 	const navigate = useNavigate()
 	const profileId = useProfileId()
-	const isMe = me!.data.id === profileId
+	const isMe = currentUser.id === profileId
 
 	const { data: user } = useSuspenseQuery({
 		queryKey: [USER_QUERY_KEY, profileId],

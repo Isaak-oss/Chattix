@@ -1,8 +1,10 @@
-import type {Profile, User, UserUpdateBody} from '@entities/user'
+import type { Profile, User, UserUpdateBody } from '@entities/user'
 import { apiClient } from '@shared/api'
 
 export const getMe = async () => {
-	return await apiClient.get<User>('/user/me')
+	const res = await apiClient.get<User>('/user/me')
+
+	return res.data
 }
 
 export const getUser = async (id: Id) => {

@@ -1,4 +1,4 @@
-import { useMe } from '@entities/user'
+import { useCurrentUser } from '@entities/user'
 import { ArrowLeft } from '@mui/icons-material'
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import { ScrollProvider, formatFullLastSeenDate } from '@shared/lib'
@@ -15,14 +15,14 @@ import { MessageInput } from '@widgets/Chat/ui/ChatMessages/MessageInput.tsx'
 const estimateMessageSize = () => 70
 
 export const ChatMessages = () => {
-	const { data: me } = useMe()
+	const currentUser = useCurrentUser()
 	const { setSelectedChatRoomId, chatRoomId } = useChatRoomId()
 	const { selectedChatRoom } = useSelectedChatRoom()
 
 	const messagesQuery = useMessages()
 
 	const isDirectChat = selectedChatRoom?.type === 'direct'
-	const interlocutor = selectedChatRoom?.participants.find(participant => participant.id !== me?.data.id)
+	const interlocutor = selectedChatRoom?.participants.find(participant => participant.id !== currentUser.id)
 	const isInterlocutorOnline = isDirectChat ? interlocutor?.isOnline : false
 	const chatName = isDirectChat ? interlocutor?.fullName : selectedChatRoom?.name
 
@@ -87,7 +87,7 @@ export const ChatMessages = () => {
 				<InfinityDataList
 					query={messagesQuery}
 					renderItem={message => (
-						<MessageBubble message={message} currentUserId={me!.data.id} readStates={selectedChatRoom?.readStates} />
+						<MessageBubble message={message} currentUserId={currentUser.id} readStates={selectedChatRoom?.readStates} />
 					)}
 					reverse
 					autoScrollToEnd

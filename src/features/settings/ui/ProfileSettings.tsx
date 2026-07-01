@@ -1,4 +1,4 @@
-import { type User, useMe } from '@entities/user'
+import { type User, useCurrentUser } from '@entities/user'
 import { updateMe } from '@entities/user/api/userApi.ts'
 import { type ProfileFormShema, profileFormShema } from '@features/settings/model/profileFormShema.ts'
 import { SettingSection } from '@features/settings/ui/SettingSection.tsx'
@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined'
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined'
 import { Box, Button, Stack, Typography } from '@mui/material'
-import type { ApiResponse } from '@shared/api'
 import { USER_QUERY_KEY } from '@shared/config'
 import { setFormErrors } from '@shared/lib'
 import { DefaultTextField, SubmitButton } from '@shared/ui'
@@ -17,7 +16,7 @@ import { Controller, useForm } from 'react-hook-form'
 
 export const ProfileSettings = () => {
 	const queryClient = useQueryClient()
-	const { data: me } = useMe()
+	const currentUser = useCurrentUser()
 
 	const {
 		control,
@@ -27,19 +26,14 @@ export const ProfileSettings = () => {
 		reset
 	} = useForm<ProfileFormShema>({
 		resolver: zodResolver(profileFormShema),
-		defaultValues: profileFormShema.parse(me?.data)
+		defaultValues: profileFormShema.parse(currentUser)
 	})
 
 	const onSubmit = async () => {
 		const data = getValues()
 		try {
 			const res = await updateMe(data)
-			queryClient.setQueriesData<ApiResponse<User>>(
-				{ queryKey: [USER_QUERY_KEY] },
-				{
-					data: res
-				}
-			)
+			queryClient.setQueriesData<User>({ queryKey: [USER_QUERY_KEY] }, res)
 		} catch (error) {
 			console.log(error)
 			setFormErrors(setError, error as AxiosError)
@@ -54,7 +48,7 @@ export const ProfileSettings = () => {
 					name={'avatar'}
 					render={() => (
 						<Box sx={{ position: 'relative' }}>
-							<UserAvatar variant={'large'} userName={me!.data?.username} />
+							<UserAvatar variant={'large'} userName={currentUser.username} />
 							<Box
 								sx={{
 									position: 'absolute',

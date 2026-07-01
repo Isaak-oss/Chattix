@@ -1,5 +1,5 @@
 import type { ChatRoom } from '@entities/chat'
-import { useMe } from '@entities/user'
+import { useCurrentUser } from '@entities/user'
 import { Box, Chip, Stack, Typography } from '@mui/material'
 import { formatLastSeenDate } from '@shared/lib'
 import { formatCount } from '@shared/lib/formatCount.ts'
@@ -14,12 +14,12 @@ type ChatRoomItemProps = {
 
 export const ChatRoomItem = memo(({ chatRoom, isSelected }: ChatRoomItemProps) => {
 	const { setSelectedChatRoomId } = useChatRoomId()
-	const { data: me } = useMe()
+	const currentUser = useCurrentUser()
 
 	const isUnread = chatRoom.unreadMessagesCount > 0
 
 	const isDirectChat = chatRoom?.type === 'direct'
-	const interlocutor = chatRoom?.participants.find(participant => participant.id !== me?.data.id)
+	const interlocutor = chatRoom?.participants.find(participant => participant.id !== currentUser.id)
 	const isInterlocutorOnline = isDirectChat ? interlocutor?.isOnline : false
 	const chatName = isDirectChat ? interlocutor?.fullName : chatRoom?.name
 
