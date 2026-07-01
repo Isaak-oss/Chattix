@@ -3,48 +3,39 @@ import { SettingSection } from '@features/settings/ui/SettingSection.tsx'
 import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined'
 import {
 	Box,
-	FormControl,
-	InputLabel,
 	MenuItem,
 	type PaletteMode,
-	Select,
-	type SelectChangeEvent,
+	TextField,
 	useColorScheme
 } from '@mui/material'
-import { useState } from 'react'
+import { type ChangeEvent, useState } from 'react'
 
 export const AppearanceSetting = () => {
 	const { setMode, mode } = useColorScheme()
 
 	const [language, setLanguage] = useState('')
 
-	const handleChangeTheme = (event: SelectChangeEvent<PaletteMode | 'system'>) => {
-		setMode(event.target.value)
+	const handleChangeTheme = (event: ChangeEvent<HTMLInputElement>) => {
+		setMode(event.target.value as PaletteMode | 'system')
 	}
 
-	const handleChangeLanguage = (event: SelectChangeEvent) => {
+	const handleChangeLanguage = (event: ChangeEvent<HTMLInputElement>) => {
 		setLanguage(event.target.value)
 	}
 
 	return (
 		<SettingSection title="Appearance" description="Customize how the app looks" Icon={PaletteOutlinedIcon}>
 			<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 2 }}>
-				<FormControl size="small" variant="outlined">
-					<InputLabel id="theme">Theme</InputLabel>
-					<Select labelId="theme" id="theme" value={mode} onChange={handleChangeTheme} label="Theme">
-						{themeOptions.map(theme => (
-							<MenuItem value={theme.value}>{theme.label}</MenuItem>
-						))}
-					</Select>
-				</FormControl>
-				<FormControl size="small" variant="outlined">
-					<InputLabel id="Language">Language</InputLabel>
-					<Select labelId="Language" id="Language" value={language} onChange={handleChangeLanguage} label="Language">
-						{languagesOptions.map(theme => (
-							<MenuItem value={theme.value}>{theme.label}</MenuItem>
-						))}
-					</Select>
-				</FormControl>
+				<TextField size="small" select label={'Theme'} onChange={handleChangeTheme} value={mode}>
+					{themeOptions.map(theme => (
+						<MenuItem value={theme.value}>{theme.label}</MenuItem>
+					))}
+				</TextField>
+				<TextField size="small" select label={'Language'} onChange={handleChangeLanguage} value={language}>
+					{languagesOptions.map(language => (
+						<MenuItem value={language.value}>{language.label}</MenuItem>
+					))}
+				</TextField>
 			</Box>
 		</SettingSection>
 	)

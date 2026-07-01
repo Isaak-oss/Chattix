@@ -15,7 +15,7 @@ export const MessageActionButton = ({ user }: { user: User }) => {
 	const handleMessageButton = () => {
 		queryClient.setQueryData<ChatRoom>([CHAT_ROOMS_QUERY_KEY, 'new'], () => ({
 			id: 'new',
-			name: user.name,
+			name: user.fullName,
 			participants: [user, me],
 			type: 'direct',
 			createdAt: '',
@@ -42,11 +42,11 @@ export const MessageActionButton = ({ user }: { user: User }) => {
 			startIcon={<ModeCommentOutlinedIcon fontSize="small" />}
 			sx={{
 				fontWeight: 500,
-				borderColor: 'rgba(26,26,26,0.15)',
-				color: '#1a1a1a',
+				borderColor: 'divider',
+				color: 'text.primary',
 				py: 0.75,
 				'&:hover': {
-					borderColor: '#1a1a1a',
+					borderColor: 'text.primary',
 					bgcolor: 'transparent'
 				}
 			}}

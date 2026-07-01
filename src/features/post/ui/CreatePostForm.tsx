@@ -43,7 +43,7 @@ export const CreatePostForm = () => {
 						variant="filled"
 					/>
 				</Stack>
-				<Divider sx={{ borderColor: 'rgba(26,26,26,0.06)', my: 2 }} />
+				<Divider sx={{ borderColor: 'divider', my: 2 }} />
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
 					<Button
 						variant="contained"

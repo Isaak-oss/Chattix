@@ -20,7 +20,7 @@ export const NotificationsContent = ({ onClose }: NotificationsContentProps) => 
 				bgcolor: 'background.default',
 				overflow: 'hidden',
 				position: 'relative',
-				boxShadow: '0 2px 8px rgba(26, 26, 26, 0.15)'
+				boxShadow: theme => `0 2px 8px ${theme.palette.background.lowShadow}`
 			}}
 		>
 			<Box

@@ -33,9 +33,9 @@ export const MessageBubble = memo(({ message, currentUserId, readStates }: Messa
 					borderRadius: 2,
 					borderBottomRightRadius: isMe ? 0 : 16,
 					borderBottomLeftRadius: isMe ? 16 : 0,
-					bgcolor: isMe ? '#1a1a1a' : '#fefefe',
-					color: isMe ? '#f5f3ef' : '#1a1a1a',
-					boxShadow: isMe ? 'none' : '0 1px 2px rgba(26,26,26,0.04)',
+					bgcolor: isMe ? 'primary.main' : 'background.paper',
+					color: isMe ? 'primary.contrastText' : 'text.primary',
+					boxShadow: isMe ? 'none' : theme => `0 1px 2px ${theme.palette.background.lowShadow}`,
 					maxWidth: { xs: '88%', sm: '70%' },
 					minWidth: { xs: 0, sm: 150 },
 					overflowWrap: 'anywhere'
@@ -60,11 +60,11 @@ export const MessageBubble = memo(({ message, currentUserId, readStates }: Messa
 					{isMe && (
 						<Box>
 							{status === 'sending' ? (
-								<QueryBuilderIcon fontSize="small" sx={{ color: '' }} />
+								<QueryBuilderIcon fontSize="small" />
 							) : status === 'unread' ? (
-								<CheckIcon fontSize="small" sx={{ color: '' }} />
+								<CheckIcon fontSize="small" />
 							) : (
-								status === 'read' && <DoneAllIcon fontSize="small" sx={{ color: '' }} />
+								status === 'read' && <DoneAllIcon fontSize="small" />
 							)}
 						</Box>
 					)}

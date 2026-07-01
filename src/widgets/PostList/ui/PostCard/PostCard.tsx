@@ -67,7 +67,7 @@ export const PostCard = memo(({ post, canChangePosts }: PostCardType) => {
 						sx={{
 							maxHeight: 200,
 							overflow: 'auto',
-							border: '1px solid #000',
+							border: '1px solid',
 							borderColor: 'secondary.main',
 							borderRadius: 1,
 							minHeight: 100,

@@ -71,13 +71,13 @@ export const ChatMessages = () => {
 					</Typography>
 				</Box>
 				{/* TODO: Add action functions */}
-				{/*<IconButton size="small" sx={{ color: '#6b6b6b', '&:hover': { color: '#1a1a1a' } }}>*/}
+				{/*<IconButton size="small" sx={{ color: 'text.secondary', '&:hover': { color: 'text.primary' } }}>*/}
 				{/*	<Phone size={18} strokeWidth={1.5} />*/}
 				{/*</IconButton>*/}
-				{/*<IconButton size="small" sx={{ color: '#6b6b6b', '&:hover': { color: '#1a1a1a' } }}>*/}
+				{/*<IconButton size="small" sx={{ color: 'text.secondary', '&:hover': { color: 'text.primary' } }}>*/}
 				{/*	<Video size={18} strokeWidth={1.5} />*/}
 				{/*</IconButton>*/}
-				{/*<IconButton size="small" sx={{ color: '#6b6b6b', '&:hover': { color: '#1a1a1a' } }}>*/}
+				{/*<IconButton size="small" sx={{ color: 'text.secondary', '&:hover': { color: 'text.primary' } }}>*/}
 				{/*	<MoreVertical size={18} strokeWidth={1.5} />*/}
 				{/*</IconButton>*/}
 			</Stack>

@@ -18,16 +18,16 @@ export const SettingSection = ({ children, Icon, title, description }: SettingSe
 							width: 40,
 							height: 40,
 							borderRadius: 1.5,
-							bgcolor: 'primary.main',
+							bgcolor: 'button.main',
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'center'
 						}}
 					>
-						{<Icon fontSize="small" sx={{ color: 'background.default' }} />}
+						{<Icon fontSize="small" sx={{ color: 'primary.contrastText' }} />}
 					</Box>
 					<Box>
-						<Typography variant="body1" color="primary.main">
+						<Typography variant="body1" color="text.primary">
 							{title}
 						</Typography>
 						<Typography variant="caption" sx={{ color: 'text.secondary' }}>

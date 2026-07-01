@@ -30,18 +30,18 @@ export const SettingsTabs = ({ tab, setTab }: SettingTabsProps) => {
 				maxWidth: '100%',
 				mb: 2,
 				'& .MuiTabs-indicator': {
-					bgcolor: '#1a1a1a',
+					bgcolor: 'text.primary',
 					height: 2
 				},
 				'& .MuiTab-root': {
 					fontWeight: 500,
 					fontSize: 14,
-					color: '#6b6b6b',
+					color: 'text.secondary',
 					textTransform: 'none',
 					minHeight: 44,
 					px: { xs: 1, sm: 0 },
 					mr: { xs: 1, sm: 4 },
-					'&.Mui-selected': { color: '#1a1a1a' }
+					'&.Mui-selected': { color: 'text.primary' }
 				}
 			}}
 		>

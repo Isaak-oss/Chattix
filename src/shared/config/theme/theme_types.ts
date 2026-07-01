@@ -56,6 +56,10 @@ declare module '@mui/material/Avatar' {
 		large: true
 		medium: true
 	}
+	interface AvatarClasses {
+		large: string
+		medium: string
+	}
 }
 
 // Update the Button variant prop options
@@ -64,6 +68,10 @@ declare module '@mui/material/Button' {
 		success: true
 		error: true
 	}
+	interface ButtonClasses {
+		success: string
+		error: string
+	}
 }
 
 // Update the Badge variant prop options
@@ -71,11 +79,17 @@ declare module '@mui/material/Badge' {
 	interface BadgePropsVariantOverrides {
 		onlineStatus: true
 	}
+	interface BadgeClasses {
+		onlineStatus: string
+	}
 }
 
 // Update the Badge variant prop options
 declare module '@mui/material/Chip' {
 	interface ChipPropsVariantOverrides {
 		badge: true
+	}
+	interface ChipClasses {
+		badge: string
 	}
 }

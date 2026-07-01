@@ -92,11 +92,12 @@ export const MessageInput = () => {
 		<Box
 			sx={{
 				p: { xs: 1.5, sm: 2.5 },
-				borderTop: '1px solid rgba(26,26,26,0.06)',
+				borderTop: '1px solid',
+				borderColor: 'divider',
 				display: 'flex',
 				gap: { xs: 1, sm: 1.5 },
 				alignItems: 'center',
-				bgcolor: '#fefefe',
+				bgcolor: 'background.paper',
 				minWidth: 0
 			}}
 		>

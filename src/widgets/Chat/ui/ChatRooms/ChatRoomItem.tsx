@@ -57,7 +57,7 @@ export const ChatRoomItem = memo(({ chatRoom, isSelected }: ChatRoomItemProps) =
 								sx={{
 									flex: 1,
 									fontWeight: isUnread ? 400 : 500,
-									color: isUnread ? '#6b6b6b' : '#1a1a1a',
+									color: isUnread ? 'text.secondary' : 'text.primary',
 									fontSize: 12
 								}}
 							>

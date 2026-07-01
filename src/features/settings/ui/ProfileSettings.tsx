@@ -1,6 +1,6 @@
 import { type User, useMe } from '@entities/user'
 import { updateMe } from '@entities/user/api/userApi.ts'
-import { type ProfileFormShema, profileFormShema } from '@features/settings/model/ProfileFormShema.ts'
+import { type ProfileFormShema, profileFormShema } from '@features/settings/model/profileFormShema.ts'
 import { SettingSection } from '@features/settings/ui/SettingSection.tsx'
 import { zodResolver } from '@hookform/resolvers/zod'
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined'
@@ -72,7 +72,7 @@ export const ProfileSettings = () => {
 									borderColor: 'background.paper'
 								}}
 							>
-								<CameraAltOutlinedIcon fontSize="small" sx={{ color: 'background.default', width: 15, height: 15 }} />
+								<CameraAltOutlinedIcon fontSize="small" sx={{ color: 'primary.contrastText', width: 15, height: 15 }} />
 							</Box>
 						</Box>
 					)}

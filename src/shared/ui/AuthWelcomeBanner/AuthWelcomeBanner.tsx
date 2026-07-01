@@ -24,7 +24,9 @@ export const AuthWelcomeBanner = () => {
 					width: 500,
 					height: 500,
 					borderRadius: '50%',
-					border: '1px solid rgba(201,168,124,0.1)'
+					border: '1px solid',
+					borderColor: 'secondary.main',
+					opacity: 0.1
 				}}
 			/>
 			<Box
@@ -35,7 +37,9 @@ export const AuthWelcomeBanner = () => {
 					width: 300,
 					height: 300,
 					borderRadius: '50%',
-					border: '1px solid rgba(201,168,124,0.08)'
+					border: '1px solid',
+					borderColor: 'secondary.main',
+					opacity: 0.08
 				}}
 			/>
 
@@ -59,7 +63,7 @@ export const AuthWelcomeBanner = () => {
 					variant="subtitle1"
 					sx={{
 						maxWidth: 380,
-						color: 'rgba(245,243,239,0.6)'
+						color: 'text.contrastText'
 					}}
 				>
 					Join a thoughtful community of creators, thinkers, and innovators. Share perspectives, discover inspiration,
@@ -81,7 +85,8 @@ export const AuthWelcomeBanner = () => {
 						<Typography
 							variant="overline"
 							sx={{
-								color: 'rgba(245,243,239,0.4)'
+								color: 'text.contrastText',
+								opacity: 0.7
 							}}
 						>
 							{stat.label}

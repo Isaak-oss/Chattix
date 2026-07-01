@@ -80,18 +80,18 @@ export const FriendTabs = ({ tab, setTab }: FriendStatusTabsProps) => {
 				sx={{
 					maxWidth: '100%',
 					'& .MuiTabs-indicator': {
-						bgcolor: '#1a1a1a',
+						bgcolor: 'text.primary',
 						height: 2
 					},
 					'& .MuiTab-root': {
 						fontWeight: 500,
 						fontSize: 14,
-						color: '#6b6b6b',
+						color: 'text.secondary',
 						textTransform: 'none',
 						minHeight: 44,
 						px: { xs: 1, sm: 0 },
 						mr: { xs: 1, sm: 4 },
-						'&.Mui-selected': { color: '#1a1a1a' }
+						'&.Mui-selected': { color: 'text.primary' }
 					}
 				}}
 			>
@@ -110,8 +110,8 @@ export const FriendTabs = ({ tab, setTab }: FriendStatusTabsProps) => {
 											px: 0.75,
 											py: 0.25,
 											borderRadius: 1,
-											bgcolor: tab === tabItem.tab ? '#1a1a1a' : tabItem.countBoxParams.bgColor,
-											color: tab === tabItem.tab ? '#f5f3ef' : tabItem.countBoxParams.color,
+											bgcolor: tab === tabItem.tab ? 'text.primary' : tabItem.countBoxParams.bgColor,
+											color: tab === tabItem.tab ? 'primary.dark' : tabItem.countBoxParams.color,
 											fontSize: 11,
 											fontWeight: 600
 										}}
