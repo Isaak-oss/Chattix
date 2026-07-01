@@ -1,6 +1,5 @@
 import { Box } from '@mui/material'
-import { InfinityDataList } from '@shared/ui'
-import { InfinityDataListModes } from '@shared/ui/InfinityDataList/model/types.ts'
+import { InfinityDataList, InfinityDataListModes } from '@shared/ui'
 import { FriendTabs, FriendTabsEnum } from '@widgets/FriendsList'
 import { useFriends } from '@widgets/FriendsList/model/useFriends.ts'
 import { FriendCard } from '@widgets/FriendsList/ui/FriendCard.tsx'

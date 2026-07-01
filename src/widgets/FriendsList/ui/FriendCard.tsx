@@ -1,6 +1,10 @@
 import { type Friend, FriendStatus } from '@entities/friends'
-import { AcceptFriendActionButton, AddFriendActionButton, RejectFriendActionButton } from '@features/friends'
-import { MessageActionButton } from '@features/friends/ui/MessageActionButton.tsx'
+import {
+	AcceptFriendActionButton,
+	AddFriendActionButton,
+	MessageActionButton,
+	RejectFriendActionButton
+} from '@features/friends'
 import { Button, Card, CardContent, Stack, Typography } from '@mui/material'
 import { UserAvatar } from '@shared/ui/UserAvatar'
 import { memo } from 'react'

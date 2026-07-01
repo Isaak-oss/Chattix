@@ -1,1 +1,7 @@
 export { Chat } from './ui/Chat'
+export { ChatMessages } from './ui/ChatMessages/ChatMessages.tsx'
+export { ChatNotSelected } from './ui/ChatMessages/ChatNotSelected.tsx'
+export { MessageBubble } from './ui/ChatMessages/MessageBubble.tsx'
+export { MessageInput } from './ui/ChatMessages/MessageInput.tsx'
+export { ChatRoomItem } from './ui/ChatRooms/ChatRoomItem.tsx'
+export { ChatRooms } from './ui/ChatRooms/ChatRooms.tsx'

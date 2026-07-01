@@ -1,6 +1,6 @@
 import { useAuthStore } from '@entities/auth'
-import { useFriendsRealtime } from '@features/friends/model/useFriendsRealtime.ts'
-import { useMessagesRealtime } from '@features/messages/model/useMessagesRealtime.tsx'
+import { useFriendsRealtime } from '@features/friends'
+import { useMessagesRealtime } from '@features/messages'
 import { useNotificationsRealtime } from '@features/notifications'
 import { SocketContext, socketClient } from '@shared/api'
 import { type ReactNode, useEffect, useState } from 'react'

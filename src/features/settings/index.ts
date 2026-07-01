@@ -1,1 +1,6 @@
+export { AppearanceSetting } from './ui/AppearanceSetting.tsx'
+export { PrivacySettings } from './ui/PrivacySettings.tsx'
 export { ProfileSettings } from './ui/ProfileSettings.tsx'
+export { SettingSection } from './ui/SettingSection.tsx'
+export { SettingsTabs } from './ui/SettingsTabs.tsx'
+export * from './model/types.ts'
